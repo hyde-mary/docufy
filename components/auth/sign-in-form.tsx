@@ -18,9 +18,16 @@ import { Input } from "@/components/ui/input";
 
 import { Eye, EyeOff, Github, Mail } from "lucide-react";
 import { useState } from "react";
+import { useSignIn } from "@clerk/nextjs";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { signIn, isLoaded, setActive } = useSignIn();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -30,9 +37,28 @@ const SignInForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof signInSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof signInSchema>) => {
+    if (!isLoaded) return;
+
+    setLoading(true);
+
+    try {
+      const result = await signIn.create({
+        identifier: values.email,
+        password: values.password,
+      });
+
+      if (result.status === "complete") {
+        toast.success("Sign In Successful!");
+        await setActive({ session: signIn.createdSessionId });
+        router.replace("/");
+      }
+    } catch {
+      toast.error("Sign In Failed! Check your Credentials");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Form {...form}>
@@ -88,10 +114,14 @@ const SignInForm = () => {
 
         <Button
           type="submit"
-          className="hover:cursor-pointer mt-2 flex items-center"
+          className={cn(
+            "hover:cursor-pointer mt-2 flex items-center",
+            loading && "bg-gray-500"
+          )}
+          disabled={loading}
         >
           <Mail className="w-5 h-5" />
-          Sign in using Email
+          {loading ? "Signing in..." : "Sign in using Email"}
         </Button>
         <div className="flex items-center gap-4">
           <div className="h-px flex-1 bg-muted" />

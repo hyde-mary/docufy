@@ -1,13 +1,17 @@
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import Image from "next/image";
 
 const LandingPage = () => {
   return (
     <div className="flex flex-col items-center justify-start h-screen">
       {/* navbar */}
       <div className="w-full flex items-center justify-between p-4 border-b-2">
-        <div className="text-lg font-bold">Docufy</div>
+        <div className="text-lg font-bold flex items-center justify-center">
+          <Image src="/logo.png" alt="Docufy Logo" width={35} height={35} />
+          Docufy
+        </div>
         <div className="flex space-x-4">
           <ThemeToggle />
           <div className="flex space-x-4">

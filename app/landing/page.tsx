@@ -8,9 +8,15 @@ const LandingPage = () => {
     <div className="flex flex-col items-center justify-start h-screen">
       {/* navbar */}
       <div className="w-full flex items-center justify-between p-4 border-b-2">
-        <div className="text-lg font-bold flex items-center justify-center">
-          <Image src="/logo.png" alt="Docufy Logo" width={35} height={35} />
-          Docufy
+        <div className="text-lg font-bold flex items-center justify-center space-x-2">
+          <Image
+            src="/logo.png"
+            alt="Docufy Logo"
+            width={35}
+            height={35}
+            className="dark:invert"
+          />
+          <p>Docufy</p>
         </div>
         <div className="flex space-x-4">
           <ThemeToggle />

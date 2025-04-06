@@ -26,6 +26,9 @@ In your browser, open http://localhost:3000
 
 ## Folder structure
 `app/` - Application files
+
 `components/` - Component files 
+
 `components/ui` - ShadcnUI components
+
 `public/` - Public assets

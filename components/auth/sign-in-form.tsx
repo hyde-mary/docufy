@@ -45,7 +45,7 @@ const SignInForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-lg">Email</FormLabel>
               <FormControl>
                 <Input placeholder="hydemary@example.com" {...field} />
               </FormControl>

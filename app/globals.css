@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+body {
+  font-family: var(--font-roboto-sans);
+}
+
+code,
+pre {
+  font-family: var(--font-roboto-mono);
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

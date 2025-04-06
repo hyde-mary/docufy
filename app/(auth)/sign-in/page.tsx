@@ -22,7 +22,7 @@ const SignInPage = () => {
           <p className="text-muted-foreground">
             Enter your email and your password to sign in to your account.
             <br />
-            If you don&apos;t have one,{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/sign-up" className="underline">
               Create an account.
             </Link>

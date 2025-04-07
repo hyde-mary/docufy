@@ -1,9 +1,9 @@
-import DualSidebar from "@/components/app/dual-sidebar";
+import Sidebar from "@/components/app/sidebar";
 
 export default function Home() {
   return (
     <div className="flex h-screen">
-      <DualSidebar />
+      <Sidebar />
       <main></main>
     </div>
   );

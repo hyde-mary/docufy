@@ -19,17 +19,13 @@ import { useTheme } from "next-themes";
 
 import { UserResource, SignOut } from "@clerk/types";
 
-type FooterDropdownProps = {
+type SidebarHeader = {
   user: UserResource | null;
   openUserProfile: () => void;
   signOut: SignOut;
 };
 
-const FooterDropdown = ({
-  user,
-  openUserProfile,
-  signOut,
-}: FooterDropdownProps) => {
+const HeaderSidebar = ({ user, openUserProfile, signOut }: SidebarHeader) => {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -37,7 +33,7 @@ const FooterDropdown = ({
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center justify-between w-full px-3 py-5 hover:bg-accent/50 transition-all duration-200 border rounded-lg hover:cursor-pointer"
+          className="flex items-center justify-between w-full px-3 py-5 hover:bg-accent/50 transition-all duration-200 border hover:cursor-pointer border-muted-foreground/30!"
         >
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">{user?.username}</span>
@@ -74,8 +70,8 @@ const FooterDropdown = ({
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="px-2 py-1.5 rounded-md text-sm focus:bg-accent focus:text-accent-foreground transition-colors hover:cursor-pointer">
-            <Sun className="mr-2 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute mr-2 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <Sun className="mr-4 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute mr-4 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <span>Theme</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent className="rounded-lg">
@@ -121,4 +117,4 @@ const FooterDropdown = ({
   );
 };
 
-export default FooterDropdown;
+export default HeaderSidebar;

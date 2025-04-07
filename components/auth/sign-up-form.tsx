@@ -26,7 +26,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { createDefaultProject } from "@/convex/mutations/projects";
 
 const SignUpForm = () => {
   const { isLoaded, signUp, setActive } = useSignUp();

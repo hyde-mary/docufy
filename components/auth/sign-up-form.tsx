@@ -38,7 +38,7 @@ const SignUpForm = () => {
   const router = useRouter();
 
   const createDefaultProjectMutation = useMutation(
-    api.mutations.projects.createDefaultProject
+    api.projects.createDefaultProject
   );
 
   const signUpForm = useForm<z.infer<typeof signUpSchema>>({

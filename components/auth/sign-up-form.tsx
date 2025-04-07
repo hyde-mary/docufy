@@ -24,6 +24,9 @@ import { ArrowLeftCircle, Eye, EyeOff, Github, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { createDefaultProject } from "@/convex/mutations/projects";
 
 const SignUpForm = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -34,6 +37,10 @@ const SignUpForm = () => {
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+
+  const createDefaultProjectMutation = useMutation(
+    api.mutations.projects.createDefaultProject
+  );
 
   const signUpForm = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -89,6 +96,13 @@ const SignUpForm = () => {
       if (completeSignUp.status === "complete") {
         toast.success("Code Successfully Verified!");
         await setActive({ session: completeSignUp.createdSessionId });
+
+        const userId = completeSignUp.createdUserId;
+
+        if (!userId) return null;
+
+        createDefaultProjectMutation({ userId });
+
         router.push("/");
       } else {
         toast.error("Incorrect Verification Code");

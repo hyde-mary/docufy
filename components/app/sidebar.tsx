@@ -3,11 +3,20 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import HeaderSidebar from "./sidebar/sidebar-header";
 import SidebarContent from "./sidebar/sidebar-content";
 import SidebarFooter from "./sidebar/sidebar-footer";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function Sidebar() {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const { openUserProfile, signOut } = useClerk();
 
+  const projects = useQuery(
+    api.projects.getProjectsByUser,
+    user ? { userId: user.id } : "skip"
+  );
+
+  // Handle loading states
+  if (!isLoaded) return null;
   if (!user) return null;
 
   return (
@@ -23,7 +32,7 @@ export default function Sidebar() {
 
       {/* main sidebar content */}
       <div className="w-full flex flex-grow">
-        <SidebarContent />
+        <SidebarContent projects={projects ?? []} />
       </div>
 
       {/* footer */}

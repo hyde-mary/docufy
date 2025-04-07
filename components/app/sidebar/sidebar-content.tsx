@@ -3,7 +3,6 @@ import {
   FolderIcon,
   Globe,
   HomeIcon,
-  Rocket,
   Archive,
   TrashIcon,
   ChevronDown,
@@ -11,7 +10,16 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 
-const SidebarContent = () => {
+interface Project {
+  _id: string;
+  title: string;
+}
+
+interface SidebarContentProps {
+  projects: Project[];
+}
+
+const SidebarContent = ({ projects }: SidebarContentProps) => {
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
     {}
   );
@@ -26,11 +34,10 @@ const SidebarContent = () => {
       title: "Projects",
       icon: <FolderIcon size={18} />,
       subItems: [
-        {
-          title: "Getting Started",
-          icon: <Rocket size={18} />,
-          path: "/projects/getting-started",
-        },
+        ...projects.map((project) => ({
+          title: project.title,
+          path: `/projects/${project._id}`,
+        })),
       ],
     },
     {
@@ -99,9 +106,6 @@ const SidebarContent = () => {
                     href={subItem.path}
                     className="flex items-center justify-center space-x-3 p-2 text-sm rounded-md hover:bg-muted-foreground/15 transition-colors"
                   >
-                    <span className="text-gray-800 dark:text-gray-200">
-                      {subItem.icon}
-                    </span>
                     <span className="text-gray-800 dark:text-gray-200">
                       {subItem.title}
                     </span>

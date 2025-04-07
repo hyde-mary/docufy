@@ -4,7 +4,7 @@ import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import Link from "next/link";
-import { FileText, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { FileText, MoreVertical, Pencil, Trash2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,16 +28,26 @@ const ProjectsView = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 p-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-8">
+      <div className="border-2 border-dashed rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group h-full">
+        <div className="bg-muted/50 flex flex-col items-center justify-center gap-4 flex-grow">
+          <Plus className="h-12 w-12 text-muted-foreground group-hover:text-primary transition-colors" />
+          <h3 className="text-lg font-medium text-muted-foreground group-hover:text-primary transition-colors">
+            Create New Project
+          </h3>
+        </div>
+      </div>
+
+      {/* Existing Projects */}
       {projects.length === 0 ? (
         <div className="col-span-full text-center text-muted-foreground">
-          No projects found.
+          No projects found. Create your first project!
         </div>
       ) : (
         projects.map((project) => (
           <div
             key={project._id}
-            className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all flex flex-col w-full max-w-md" // Adjusted width
+            className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all flex flex-col"
           >
             <div className="bg-muted h-56 flex items-center justify-center">
               <FileText className="h-20 w-20 text-muted-foreground" />
@@ -48,7 +58,7 @@ const ProjectsView = () => {
                 {project.title}
               </h3>
               <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
-                Last edited: {formatTimestamp(project._creationTime)}
+                Created At: {formatTimestamp(project._creationTime)}
               </p>
             </div>
 

@@ -8,6 +8,8 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 interface Project {
@@ -23,12 +25,13 @@ const SidebarContent = ({ projects }: SidebarContentProps) => {
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
     {}
   );
+  const pathname = usePathname();
 
   const items = [
     {
       title: "Home",
       icon: <HomeIcon size={18} />,
-      path: "/home",
+      path: "/",
     },
     {
       title: "Projects",
@@ -69,6 +72,10 @@ const SidebarContent = ({ projects }: SidebarContentProps) => {
     }));
   };
 
+  // Function to check if a given path is active
+  const isActive = (path: string) =>
+    pathname === path || pathname.startsWith(path);
+
   return (
     <nav className="space-y-2 p-3 w-full">
       {items.map((item) => (
@@ -76,7 +83,7 @@ const SidebarContent = ({ projects }: SidebarContentProps) => {
           <div className="flex flex-col">
             <button
               onClick={() => item.subItems && toggleExpand(item.title)}
-              className={`flex items-center justify-between w-full p-2 rounded-md hover:bg-muted-foreground/15 transition-colors hover:cursor-pointer`}
+              className={`flex items-center justify-between w-full p-2 rounded-md hover:bg-muted-foreground/15 transition-colors hover:cursor-pointer ${isActive(item.path!) ? "bg-muted-foreground/20" : ""}`}
             >
               <div className="flex items-center space-x-3">
                 <span className="text-gray-800 dark:text-gray-200">
@@ -101,15 +108,15 @@ const SidebarContent = ({ projects }: SidebarContentProps) => {
             {item.subItems && expandedItems[item.title] && (
               <div className="mt-2">
                 {item.subItems.map((subItem) => (
-                  <a
+                  <Link
                     key={subItem.path}
                     href={subItem.path}
-                    className="flex items-center justify-center space-x-3 p-2 text-sm rounded-md hover:bg-muted-foreground/15 transition-colors"
+                    className={`flex items-center justify-center space-x-3 p-2 text-sm rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive(subItem.path) ? "bg-muted-foreground/20" : ""}`}
                   >
                     <span className="text-gray-800 dark:text-gray-200">
                       {subItem.title}
                     </span>
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}

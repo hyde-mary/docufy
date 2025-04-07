@@ -15,14 +15,13 @@ export default function Sidebar() {
     user ? { userId: user.id } : "skip"
   );
 
-  // Handle loading states
   if (!isLoaded) return null;
   if (!user) return null;
 
   return (
     <div className="flex flex-col h-screen w-64 border-r border-muted-foreground/30">
       {/* header */}
-      <div className="w-full p-2 border-b border-muted-foreground/30">
+      <div className="flex items-center w-full p-2 border-b border-muted-foreground/30 h-16 max-h-16">
         <HeaderSidebar
           user={user}
           openUserProfile={openUserProfile}

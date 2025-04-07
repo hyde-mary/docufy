@@ -1,3 +1,4 @@
+import Navbar from "@/components/app/navbar";
 import Sidebar from "@/components/app/sidebar";
 import { auth } from "@clerk/nextjs/server";
 
@@ -9,7 +10,9 @@ export default async function Home() {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main></main>
+      <main className="w-full">
+        <Navbar />
+      </main>
     </div>
   );
 }

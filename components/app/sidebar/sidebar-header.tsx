@@ -17,16 +17,15 @@ import {
 import { ArrowUpDown, Sun, Moon, LogOut, Settings, User2 } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import { UserResource, SignOut } from "@clerk/types";
+import { useClerk, useUser } from "@clerk/nextjs";
+import { Skeleton } from "@/components/ui/skeleton";
 
-type SidebarHeader = {
-  user: UserResource | null;
-  openUserProfile: () => void;
-  signOut: SignOut;
-};
-
-const HeaderSidebar = ({ user, openUserProfile, signOut }: SidebarHeader) => {
+const HeaderSidebar = () => {
   const { theme, setTheme } = useTheme();
+  const { user } = useUser();
+  const { openUserProfile, signOut } = useClerk();
+
+  if (!user) return <Skeleton className="w-full h-full" />;
 
   return (
     <DropdownMenu>

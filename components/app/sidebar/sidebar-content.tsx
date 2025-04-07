@@ -1,3 +1,7 @@
+import { Skeleton } from "@/components/ui/skeleton";
+import { api } from "@/convex/_generated/api";
+import { useUser } from "@clerk/nextjs";
+import { useQuery } from "convex/react";
 import {
   File,
   FolderIcon,
@@ -10,60 +14,20 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
-interface Project {
-  _id: string;
-  title: string;
-}
-
-interface SidebarContentProps {
-  projects: Project[];
-}
-
-const SidebarContent = ({ projects }: SidebarContentProps) => {
+const SidebarContent = () => {
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
     {}
   );
   const pathname = usePathname();
+  const { user } = useUser();
+  const projects = useQuery(
+    api.projects.getProjectsByUser,
+    user ? { userId: user.id } : "skip"
+  );
 
-  const items = [
-    {
-      title: "Home",
-      icon: <HomeIcon size={18} />,
-      path: "/",
-    },
-    {
-      title: "Projects",
-      icon: <FolderIcon size={18} />,
-      subItems: [
-        ...projects.map((project) => ({
-          title: project.title,
-          path: `/projects/${project._id}`,
-        })),
-      ],
-    },
-    {
-      title: "Drafts",
-      icon: <File size={18} />,
-      path: "/drafts",
-    },
-    {
-      title: "Trash",
-      icon: <TrashIcon size={18} />,
-      path: "/trash",
-    },
-    {
-      title: "Archive",
-      icon: <Archive size={18} />,
-      path: "/archive",
-    },
-    {
-      title: "Publish",
-      icon: <Globe size={18} />,
-      path: "/publish",
-    },
-  ];
+  const isLoading = projects === undefined;
 
   const toggleExpand = (title: string) => {
     setExpandedItems((prev) => ({
@@ -72,57 +36,113 @@ const SidebarContent = ({ projects }: SidebarContentProps) => {
     }));
   };
 
-  // Function to check if a given path is active
   const isActive = (path: string) =>
     pathname === path || pathname.startsWith(path);
 
   return (
     <nav className="space-y-2 p-3 w-full">
-      {items.map((item) => (
-        <div key={item.title} className="group">
-          <div className="flex flex-col">
-            <button
-              onClick={() => item.subItems && toggleExpand(item.title)}
-              className={`flex items-center justify-between w-full p-2 rounded-md hover:bg-muted-foreground/15 transition-colors hover:cursor-pointer ${isActive(item.path!) ? "bg-muted-foreground/20" : ""}`}
-            >
-              <div className="flex items-center space-x-3">
-                <span className="text-gray-800 dark:text-gray-200">
-                  {item.icon}
-                </span>
-                <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                  {item.title}
-                </span>
-              </div>
+      {/* Home */}
+      <Link
+        href="/"
+        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/") ? "bg-muted-foreground/20" : ""}`}
+      >
+        <HomeIcon size={18} className="text-gray-800 dark:text-gray-200" />
+        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+          Home
+        </span>
+      </Link>
 
-              {item.subItems && (
-                <span className="transition-transform duration-200">
-                  {expandedItems[item.title] ? (
-                    <ChevronDown size={16} />
-                  ) : (
-                    <ChevronRight size={16} />
-                  )}
-                </span>
-              )}
-            </button>
+      {/* Projects */}
+      <div className="flex flex-col">
+        <button
+          onClick={() => toggleExpand("Projects")}
+          className={`flex items-center justify-between w-full p-2 rounded-md hover:bg-muted-foreground/15 transition-colors hover:cursor-pointer ${isActive("/projects") ? "bg-muted-foreground/20" : ""}`}
+        >
+          <div className="flex items-center space-x-3">
+            <FolderIcon
+              size={18}
+              className="text-gray-800 dark:text-gray-200"
+            />
+            <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+              Projects
+            </span>
+          </div>
+          <span className="transition-transform duration-200">
+            {expandedItems["Projects"] ? (
+              <ChevronDown size={16} />
+            ) : (
+              <ChevronRight size={16} />
+            )}
+          </span>
+        </button>
 
-            {item.subItems && expandedItems[item.title] && (
-              <div className="mt-2">
-                {item.subItems.map((subItem) => (
+        {expandedItems["Projects"] && (
+          <div className="mt-2 space-y-2 text-center">
+            {isLoading
+              ? [1, 2, 3].map((i) => (
+                  <Skeleton
+                    key={i}
+                    className="h-6 w-full rounded-md bg-muted-foreground/30 dark:bg-muted-foreground/30"
+                  />
+                ))
+              : projects?.map((project) => (
                   <Link
-                    key={subItem.path}
-                    href={subItem.path}
-                    className={`flex items-center justify-center space-x-3 p-2 text-sm rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive(subItem.path) ? "bg-muted-foreground/20" : ""}`}
+                    key={project._id}
+                    href={`/projects/${project._id}`}
+                    className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive(`/projects/${project._id}`) ? "bg-muted-foreground/20" : ""}`}
                   >
                     <span className="text-gray-800 dark:text-gray-200">
-                      {subItem.title}
+                      {project.title}
                     </span>
                   </Link>
                 ))}
-              </div>
-            )}
           </div>
-        </div>
-      ))}
+        )}
+      </div>
+
+      {/* Drafts */}
+      <Link
+        href="/drafts"
+        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/drafts") ? "bg-muted-foreground/20" : ""}`}
+      >
+        <File size={18} className="text-gray-800 dark:text-gray-200" />
+        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+          Drafts
+        </span>
+      </Link>
+
+      {/* Trash */}
+      <Link
+        href="/trash"
+        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/trash") ? "bg-muted-foreground/20" : ""}`}
+      >
+        <TrashIcon size={18} className="text-gray-800 dark:text-gray-200" />
+        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+          Trash
+        </span>
+      </Link>
+
+      {/* Archive */}
+      <Link
+        href="/archive"
+        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/archive") ? "bg-muted-foreground/20" : ""}`}
+      >
+        <Archive size={18} className="text-gray-800 dark:text-gray-200" />
+        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+          Archive
+        </span>
+      </Link>
+
+      {/* Publish */}
+      <Link
+        href="/publish"
+        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/publish") ? "bg-muted-foreground/20" : ""}`}
+      >
+        <Globe size={18} className="text-gray-800 dark:text-gray-200" />
+        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+          Publish
+        </span>
+      </Link>
     </nav>
   );
 };

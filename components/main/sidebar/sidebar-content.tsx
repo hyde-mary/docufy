@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
-import { getLucideIcon } from "@/lib/components/getLucideIcon";
+import { getLucideIcon } from "@/utils/components/getLucideIcon";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import {

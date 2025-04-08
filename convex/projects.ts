@@ -30,3 +30,13 @@ export const getProjectsByUser = query({
     return projects;
   },
 });
+
+export const getProjectById = query({
+  args: {
+    id: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    const project = await ctx.db.get(args.id);
+    return project;
+  },
+});

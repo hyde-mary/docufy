@@ -19,6 +19,8 @@ import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 const NewProjectsForm = () => {
   const { user } = useUser();
@@ -66,6 +68,7 @@ const NewProjectsForm = () => {
         template: values.template,
       }).then((newId) => {
         toast.success("Successfully created the project!");
+        form.reset();
         setLoading(false);
         router.push(`/projects/${newId}/${values.slug}`);
       });
@@ -102,16 +105,38 @@ const NewProjectsForm = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button
-            type="submit"
-            className={cn(
-              "gap-2 hover:cursor-pointer",
-              loading && "bg-gray-500 text-gray-200"
-            )}
-            disabled={loading}
-          >
-            {loading ? "Creating Project..." : "Create Project"}
-          </Button>
+          <Card className="w-full">
+            <CardContent className="flex items-center justify-between">
+              <div>
+                <Link href="/">
+                  <Button
+                    variant={"outline"}
+                    size={"sm"}
+                    className="py-1! px-2! hover:cursor-pointer"
+                  >
+                    Cancel
+                  </Button>
+                </Link>
+              </div>
+              <div className="flex items-center justify-center gap-x-8">
+                <p className="text-xs text-muted-foreground">
+                  You can rename your project later
+                </p>
+                <Button
+                  type="submit"
+                  variant={"default"}
+                  size={"sm"}
+                  className={cn(
+                    "gap-2 hover:cursor-pointer py-1! px-2!",
+                    loading && "bg-gray-500 text-gray-200"
+                  )}
+                  disabled={loading}
+                >
+                  {loading ? "Creating Project..." : "Create Project"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </form>
     </Form>

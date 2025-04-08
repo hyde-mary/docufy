@@ -107,7 +107,7 @@ const SidebarContent = () => {
                     href={`/projects/${project._id}/${project.slug}`}
                     className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isProjectActive(project._id) ? "bg-muted-foreground/20" : ""}`}
                   >
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex gap-2 pl-4 truncate">
                       {getLucideIcon(project.iconName)}
                       <span>{project.title}</span>
                     </div>

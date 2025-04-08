@@ -89,7 +89,7 @@ const SidebarContent = () => {
               : projects?.map((project) => (
                   <Link
                     key={project._id}
-                    href={`/projects/${project._id}`}
+                    href={`/projects/${project._id}/${project.slug}`}
                     className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive(`/projects/${project._id}`) ? "bg-muted-foreground/20" : ""}`}
                   >
                     <div className="flex items-center justify-center gap-2">

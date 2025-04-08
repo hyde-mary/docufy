@@ -9,6 +9,8 @@ export const createDefaultProject = mutation({
     const projectId = await ctx.db.insert("projects", {
       title: "Getting Started",
       userId: args.userId,
+      icon: "Rocket",
+      slug: "Getting-Started",
     });
 
     return projectId;

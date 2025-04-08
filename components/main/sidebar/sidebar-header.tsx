@@ -25,7 +25,7 @@ const HeaderSidebar = () => {
   const { user } = useUser();
   const { openUserProfile, signOut } = useClerk();
 
-  if (!user) return <Skeleton className="w-full h-full" />;
+  if (!user) return <Skeleton className="w-full h-8" />;
 
   return (
     <DropdownMenu>

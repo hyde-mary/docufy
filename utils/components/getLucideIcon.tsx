@@ -11,11 +11,18 @@ type LucideIconsType = {
   [key: string]: LucideIconType;
 } & typeof LucideIcons;
 
-export const getLucideIcon = (iconName: string | undefined) => {
+export const getLucideIcon = (
+  iconName: string | undefined,
+  size?: number | undefined
+) => {
   if (!iconName) return fallbackIcon;
 
   const icons = LucideIcons as LucideIconsType;
   const IconComponent = icons[iconName];
 
-  return IconComponent ? <IconComponent size={16} /> : fallbackIcon;
+  return IconComponent ? (
+    <IconComponent size={size ? size : 16} />
+  ) : (
+    fallbackIcon
+  );
 };

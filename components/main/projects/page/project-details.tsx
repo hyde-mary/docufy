@@ -66,8 +66,15 @@ const ProjectDetails = () => {
             <h1 className="text-base font-medium text-muted-foreground">
               Project Description:
             </h1>
-            <p className="text-sm text-justify line-clamp-4">
-              {project.description}
+            <p
+              className={cn(
+                "text-sm text-justify line-clamp-4",
+                !project.description && "italic"
+              )}
+            >
+              {project.description
+                ? project.description
+                : "No Project Description"}
             </p>
           </CardContent>
           <Separator />

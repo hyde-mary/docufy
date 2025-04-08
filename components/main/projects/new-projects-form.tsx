@@ -96,7 +96,7 @@ const NewProjectsForm = () => {
                 control={form.control}
                 name="title"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-[150px_1fr] gap-4 items-start">
+                  <FormItem className="grid grid-cols-[250px_1fr] gap-4 items-start">
                     <FormLabel className="text-sm font-medium mt-2">
                       Project Title
                     </FormLabel>
@@ -118,7 +118,7 @@ const NewProjectsForm = () => {
                 control={form.control}
                 name="slug"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-[150px_1fr] gap-4 items-start">
+                  <FormItem className="grid grid-cols-[250px_1fr] gap-4 items-start">
                     <FormLabel className="text-sm font-medium mt-2">
                       Project Slug
                     </FormLabel>
@@ -147,7 +147,7 @@ const NewProjectsForm = () => {
                 control={form.control}
                 name="description"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-[150px_1fr] gap-4 items-start">
+                  <FormItem className="grid grid-cols-[250px_1fr] gap-4 items-start">
                     <FormLabel className="text-sm font-medium mt-2">
                       Description
                     </FormLabel>
@@ -182,17 +182,17 @@ const NewProjectsForm = () => {
                 control={form.control}
                 name="icon"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-[150px_1fr] gap-4 items-start">
+                  <FormItem className="grid grid-cols-[250px_1fr] gap-4 items-start">
                     <FormLabel className="text-sm font-medium mt-2">
                       Project Icon
                     </FormLabel>
-                    <div className="space-y-2">
+                    <div className="space-y-2 w-full">
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger className="w-[250px]">
+                          <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select an icon" />
                           </SelectTrigger>
                           <SelectContent>
@@ -246,7 +246,7 @@ const NewProjectsForm = () => {
                 control={form.control}
                 name="visibility"
                 render={({ field }) => (
-                  <FormItem className="grid grid-cols-[150px_1fr] gap-4 items-start">
+                  <FormItem className="grid grid-cols-[250px_1fr] gap-4 items-start">
                     <FormLabel className="text-sm font-medium mt-2">
                       Project Visibility
                     </FormLabel>

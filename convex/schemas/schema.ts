@@ -8,5 +8,6 @@ export default defineSchema({
     iconName: v.optional(v.string()),
     description: v.optional(v.string()),
     status: v.string(),
+    visibility: v.string(), // Public or Private
   }).index("by_userId", ["userId"]),
 });

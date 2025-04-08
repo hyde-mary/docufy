@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-start gap-2 px-6 h-16 max-h-16 border-b border-muted-foreground/30 w-full">
-      {project && getLucideIcon(project.icon)}
+      {project && getLucideIcon(project.iconName)}
       <h1 className="text-xl font-bold">{project?.title || "Loading..."}</h1>
     </div>
   );

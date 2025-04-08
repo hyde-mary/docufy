@@ -93,7 +93,7 @@ const SidebarContent = () => {
                     className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive(`/projects/${project._id}`) ? "bg-muted-foreground/20" : ""}`}
                   >
                     <div className="flex items-center justify-center gap-2">
-                      {getLucideIcon(project.icon)}
+                      {getLucideIcon(project.iconName)}
                       <span>{project.title}</span>
                     </div>
                   </Link>

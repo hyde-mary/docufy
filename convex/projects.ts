@@ -23,6 +23,7 @@ export const createProject = mutation({
   args: {
     title: v.string(),
     userId: v.string(),
+    slug: v.string(),
     iconName: v.optional(v.string()),
     description: v.optional(v.string()),
     visibility: v.union(v.literal("Public"), v.literal("Private")),
@@ -32,6 +33,7 @@ export const createProject = mutation({
     const newProjectId = await ctx.db.insert("projects", {
       title: args.title,
       userId: args.userId,
+      slug: args.slug,
       iconName: args.iconName,
       status: "Active",
       description: args.description,

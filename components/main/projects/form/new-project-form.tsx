@@ -52,14 +52,15 @@ const NewProjectsForm = () => {
   }, [title, form]);
 
   function onSubmit(values: z.infer<typeof newProjectSchema>) {
+    setLoading(true);
     try {
-      setLoading(true);
       if (!user) return;
 
       createProject({
         title: values.title,
         userId: user.id,
         iconName: values.iconName,
+        slug: values.slug,
         description: values.description,
         visibility: values.visibility,
         template: values.template,

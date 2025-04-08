@@ -17,7 +17,7 @@ export const newProjectSchema = z.object({
       message: "Title cannot be empty",
     }),
 
-  slug: z.string().min(1).describe("Auto-generated URL-friendly identifier"),
+  slug: z.string().min(0).describe("Auto-generated URL-friendly identifier"),
 
   description: shortString(0, 50)
     .describe("Brief project description")
@@ -27,7 +27,7 @@ export const newProjectSchema = z.object({
 
   iconName: z
     .string()
-    .min(1, { message: "Please select an icon" })
+    .min(0)
     .describe("Visual identifier for the project")
     .optional(),
 

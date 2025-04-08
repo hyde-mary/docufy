@@ -4,7 +4,7 @@ import React from "react";
 
 const NewProjectPage = () => {
   return (
-    <div className="p-6">
+    <div className="px-6 py-12">
       <div className="flex flex-col items-start justify-start space-y-6 max-w-3xl mx-auto">
         <h1 className="text-2xl font-bold">Create a new project</h1>
         <h2 className="text-sm font-medium text-muted-foreground">

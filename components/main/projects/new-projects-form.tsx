@@ -21,6 +21,7 @@ import {
   CheckSquare,
   FileText,
   Globe,
+  LayoutTemplate,
   Lock,
   Package,
   Rocket,
@@ -40,6 +41,7 @@ const newProjectFormSchema = z.object({
   description: z.string().min(2).max(50),
   visibility: z.enum(["Public", "Private"]),
   icon: z.string(),
+  template: z.enum(["Default"]),
 });
 
 const generateSlug = (title: string) => {
@@ -60,6 +62,7 @@ const NewProjectsForm = () => {
       description: "",
       visibility: "Private",
       icon: "",
+      template: "Default",
     },
   });
 
@@ -232,6 +235,41 @@ const NewProjectsForm = () => {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="template"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-[250px_1fr] gap-4 items-start">
+                    <FormLabel className="text-sm font-medium mt-2">
+                      Project Template
+                    </FormLabel>
+                    <div className="space-y-2 w-full">
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select a template" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Default">
+                              <div className="flex items-center gap-2">
+                                <LayoutTemplate className="h-4 w-4" /> Default
+                              </div>
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormDescription className="text-muted-foreground text-sm">
+                        Choose the template for your project.
+                      </FormDescription>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
             </CardContent>
           </Card>
 
@@ -299,7 +337,6 @@ const NewProjectsForm = () => {
 
         <div className="flex justify-end">
           <Button type="submit" className="gap-2">
-            <Rocket className="h-4 w-4" />
             Create Project
           </Button>
         </div>

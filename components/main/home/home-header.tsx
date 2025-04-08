@@ -9,13 +9,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Filter, Search } from "lucide-react";
+import Link from "next/link";
 
 const HomeHeader = () => {
   return (
     <div className="flex items-center justify-center space-x-4">
-      <Button variant={"outline"} size={"sm"} className="h-7">
-        <span className="text-xs">New project</span>
-      </Button>
+      <Link href={"/projects/new/"}>
+        <Button
+          variant={"outline"}
+          size={"sm"}
+          className="h-7 hover:cursor-pointer"
+        >
+          <span className="text-xs">New project</span>
+        </Button>
+      </Link>
       <div className="relative max-w-64 w-full">
         <Search
           size={16}

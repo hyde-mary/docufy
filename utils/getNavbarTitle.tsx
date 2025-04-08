@@ -1,22 +1,29 @@
-import { Home, FileArchive, Trash2, FolderOpen, Globe } from "lucide-react";
-import { getLucideIcon } from "@/utils/components/getLucideIcon";
+import { ChevronRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Project } from "@/types/project";
 
 export const getNavbarTitle = (pathname: string, project?: Project | null) => {
   if (pathname === "/") {
     return (
-      <div className="flex items-center justify-center space-x-2">
-        <Home size={18} />
+      <div className="flex items-center justify-center space-x-2 text-sm">
         <span>Home</span>
+      </div>
+    );
+  }
+
+  if (pathname === "/projects/new") {
+    return (
+      <div className="flex items-center justify-cnter space-x-2 text-sm">
+        <span>Projects</span>
+        <ChevronRight size={18} />
+        <span>Create a new project</span>
       </div>
     );
   }
 
   if (pathname.startsWith("/projects/")) {
     return (
-      <div className="flex items-center justify-center space-x-2">
-        {project?.iconName ? getLucideIcon(project.iconName) : null}
+      <div className="flex items-center justify-center space-x-2 text-sm">
         <span>{project?.title || <Skeleton className="w-64 h-8" />}</span>
       </div>
     );
@@ -24,8 +31,7 @@ export const getNavbarTitle = (pathname: string, project?: Project | null) => {
 
   if (pathname === "/drafts") {
     return (
-      <div className="flex items-center justify-center space-x-2">
-        <FileArchive size={18} />
+      <div className="flex items-center justify-center space-x-2 text-sm">
         <span>Drafts</span>
       </div>
     );
@@ -33,8 +39,7 @@ export const getNavbarTitle = (pathname: string, project?: Project | null) => {
 
   if (pathname === "/trash") {
     return (
-      <div className="flex items-center justify-center space-x-2">
-        <Trash2 size={18} />
+      <div className="flex items-center justify-center space-x-2 text-sm">
         <span>Trash</span>
       </div>
     );
@@ -42,8 +47,7 @@ export const getNavbarTitle = (pathname: string, project?: Project | null) => {
 
   if (pathname === "/archive") {
     return (
-      <div className="flex items-center justify-center space-x-2">
-        <FolderOpen size={18} />
+      <div className="flex items-center justify-center space-x-2 text-sm">
         <span>Archive</span>
       </div>
     );
@@ -51,15 +55,14 @@ export const getNavbarTitle = (pathname: string, project?: Project | null) => {
 
   if (pathname === "/publish") {
     return (
-      <div className="flex items-center justify-center space-x-2">
-        <Globe size={18} />
+      <div className="flex items-center justify-center space-x-2 text-sm">
         <span>Publish</span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center space-x-2">
+    <div className="flex items-center justify-center space-x-2 text-sm">
       <span>Unknown Page</span>
     </div>
   );

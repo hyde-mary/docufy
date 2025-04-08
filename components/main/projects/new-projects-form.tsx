@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { newProjectSchema } from "@/lib/schemas/projectSchema";
-import { generateSlug } from "@/lib/slugUtils";
+import { generateSlug } from "@/utils/generateSlug";
 
 const NewProjectsForm = () => {
   const form = useForm<z.infer<typeof newProjectSchema>>({

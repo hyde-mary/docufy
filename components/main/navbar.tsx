@@ -2,7 +2,6 @@
 import { useParams, usePathname } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { getLucideIcon } from "@/utils/components/getLucideIcon";
 import { Id } from "@/convex/_generated/dataModel";
 import { getNavbarTitle } from "@/utils/getNavbarTitle";
 

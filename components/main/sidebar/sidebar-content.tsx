@@ -4,14 +4,14 @@ import { getLucideIcon } from "@/utils/components/getLucideIcon";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import {
-  File,
   FolderIcon,
   Globe,
   HomeIcon,
-  Archive,
-  TrashIcon,
   ChevronDown,
   ChevronRight,
+  FileArchive,
+  Trash2,
+  FolderOpen,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -107,7 +107,7 @@ const SidebarContent = () => {
         href="/drafts"
         className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/drafts") ? "bg-muted-foreground/20" : ""}`}
       >
-        <File size={18} className="text-gray-800 dark:text-gray-200" />
+        <FileArchive size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
           Drafts
         </span>
@@ -118,7 +118,7 @@ const SidebarContent = () => {
         href="/trash"
         className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/trash") ? "bg-muted-foreground/20" : ""}`}
       >
-        <TrashIcon size={18} className="text-gray-800 dark:text-gray-200" />
+        <Trash2 size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
           Trash
         </span>
@@ -129,7 +129,7 @@ const SidebarContent = () => {
         href="/archive"
         className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/archive") ? "bg-muted-foreground/20" : ""}`}
       >
-        <Archive size={18} className="text-gray-800 dark:text-gray-200" />
+        <FolderOpen size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
           Archive
         </span>

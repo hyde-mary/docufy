@@ -7,12 +7,22 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <main className="w-full">
-        <Navbar />
-        {children}
-      </main>
+    <div className="flex h-screen overflow-hidden">
+      {/* Fixed Sidebar */}
+      <div className="fixed left-0 top-0 h-screen w-64 z-50">
+        <Sidebar />
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col ml-64 h-full">
+        {/* Fixed Navbar */}
+        <div className="fixed top-0 left-64 right-0 h-16 z-40">
+          <Navbar />
+        </div>
+
+        {/* Scrollable Content */}
+        <div className="flex-1 pt-16 overflow-auto">{children}</div>
+      </div>
     </div>
   );
 }

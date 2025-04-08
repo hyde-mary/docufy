@@ -4,8 +4,8 @@ import React from "react";
 
 const NewProjectPage = () => {
   return (
-    <div className="flex items-center justify-center p-10 space-y-4 overflow-auto">
-      <div className="flex flex-col items-start justify-start space-y-6 w-3xl max-w-3xl">
+    <div className="p-6">
+      <div className="flex flex-col items-start justify-start space-y-6 max-w-3xl mx-auto">
         <h1 className="text-2xl font-bold">Create a new project</h1>
         <h2 className="text-sm font-medium text-muted-foreground">
           A project is everything in Docufy. A project refers to a documentation

@@ -15,7 +15,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="flex items-center justify-start gap-2 px-6 h-16 max-h-16 border-b border-muted-foreground/30 w-full">
+    <div className="flex items-center justify-start gap-2 px-6 h-16 max-h-16 border-b border-muted-foreground/30 w-full bg-background">
       <h1 className="text-xl font-bold">{getNavbarTitle(pathname, project)}</h1>
     </div>
   );

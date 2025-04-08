@@ -2,15 +2,8 @@
 import HeaderSidebar from "./sidebar/sidebar-header";
 import SidebarContent from "./sidebar/sidebar-content";
 import SidebarFooter from "./sidebar/sidebar-footer";
-import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
-  const pathname = usePathname();
-
-  const projectSlugMatch = pathname.match(/^\/projects\/[^/]+\/([^/]+)/);
-  const projectSlug = projectSlugMatch ? projectSlugMatch[1] : null;
-  console.log(projectSlug);
-
   return (
     <div className="flex flex-col h-screen w-64 border-r border-muted-foreground/30">
       {/* header */}

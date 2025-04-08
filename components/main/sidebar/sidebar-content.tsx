@@ -1,3 +1,4 @@
+"use client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { getLucideIcon } from "@/utils/components/getLucideIcon";
@@ -15,7 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SidebarContent = () => {
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
@@ -28,6 +29,12 @@ const SidebarContent = () => {
     user ? { userId: user.id } : "skip"
   );
 
+  useEffect(() => {
+    if (pathname.startsWith("/projects")) {
+      setExpandedItems((prev) => ({ ...prev, Projects: true }));
+    }
+  }, [pathname]);
+
   const isLoading = projects === undefined;
 
   const toggleExpand = (title: string) => {
@@ -37,15 +44,23 @@ const SidebarContent = () => {
     }));
   };
 
-  const isActive = (path: string) =>
-    pathname === path || pathname.startsWith(path);
+  const isProjectActive = (projectId: string) => {
+    const regex = new RegExp(`^/projects/${projectId}(/.*)?$`);
+    return regex.test(pathname);
+  };
+
+  const isActive = (path: string, strict = false) => {
+    return strict ? pathname === path : pathname.startsWith(path);
+  };
 
   return (
     <nav className="space-y-2 p-3 w-full">
       {/* Home */}
       <Link
         href="/"
-        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/") ? "bg-muted-foreground/20" : ""}`}
+        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${
+          isActive("/", true) ? "bg-muted-foreground/20" : ""
+        }`}
       >
         <HomeIcon size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
@@ -57,7 +72,7 @@ const SidebarContent = () => {
       <div className="flex flex-col">
         <button
           onClick={() => toggleExpand("Projects")}
-          className={`flex items-center justify-between w-full p-2 rounded-md hover:bg-muted-foreground/15 transition-colors hover:cursor-pointer ${isActive("/projects") ? "bg-muted-foreground/20" : ""}`}
+          className={`flex items-center justify-between w-full p-2 rounded-md hover:bg-muted-foreground/15 transition-colors hover:cursor-pointer`}
         >
           <div className="flex items-center space-x-3">
             <FolderIcon
@@ -90,7 +105,7 @@ const SidebarContent = () => {
                   <Link
                     key={project._id}
                     href={`/projects/${project._id}/${project.slug}`}
-                    className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive(`/projects/${project._id}`) ? "bg-muted-foreground/20" : ""}`}
+                    className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isProjectActive(project._id) ? "bg-muted-foreground/20" : ""}`}
                   >
                     <div className="flex items-center justify-center gap-2">
                       {getLucideIcon(project.iconName)}

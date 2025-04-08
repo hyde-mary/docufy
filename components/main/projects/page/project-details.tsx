@@ -2,7 +2,12 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
@@ -167,6 +172,28 @@ const ProjectDetails = () => {
           </Card>
         </div>
       </div>
+      <Card>
+        <CardHeader className="flex items-center justify-start text-lg font-bold">
+          Project Content
+        </CardHeader>
+        <Separator />
+        <CardContent>
+          <CardDescription className="gap-y-8">
+            Docufy uses a <code className="rounded-sm">json</code> format to
+            store and display the content of your documentation. Below, you can
+            see the full content of your documentation, starting from the
+            different tabs, the headings, the links, and more.
+            <br />
+            <br />
+            You can edit this as you deemed fit. You can also upload your own{" "}
+            <code>json</code> file and it will be read by Docufy.
+            <br />
+            <br />
+            Just ensure that the <code>json</code> file follows Docufy&apos;s
+            own format!
+          </CardDescription>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
+import { getLucideIcon } from "@/lib/components/getLucideIcon";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import {
@@ -79,7 +80,7 @@ const SidebarContent = () => {
         {expandedItems["Projects"] && (
           <div className="mt-2 space-y-2 text-center">
             {isLoading
-              ? [1, 2, 3].map((i) => (
+              ? [1, 2, 3, 4, 5].map((i) => (
                   <Skeleton
                     key={i}
                     className="h-6 w-full rounded-md bg-muted-foreground/30 dark:bg-muted-foreground/30"
@@ -91,9 +92,10 @@ const SidebarContent = () => {
                     href={`/projects/${project._id}`}
                     className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive(`/projects/${project._id}`) ? "bg-muted-foreground/20" : ""}`}
                   >
-                    <span className="text-gray-800 dark:text-gray-200">
-                      {project.title}
-                    </span>
+                    <div className="flex items-center justify-center gap-2">
+                      {getLucideIcon(project.icon)}
+                      <span>{project.title}</span>
+                    </div>
                   </Link>
                 ))}
           </div>

@@ -34,28 +34,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-
-const newProjectFormSchema = z.object({
-  title: z.string().min(2).max(30),
-  slug: z.string().min(2).max(50),
-  description: z.string().min(2).max(50),
-  visibility: z.enum(["Public", "Private"]),
-  icon: z.string(),
-  template: z.enum(["Default"]),
-});
-
-const generateSlug = (title: string) => {
-  return title
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
-};
+import { newProjectSchema } from "@/lib/schemas/projectSchema";
+import { generateSlug } from "@/lib/slugUtils";
 
 const NewProjectsForm = () => {
-  const form = useForm<z.infer<typeof newProjectFormSchema>>({
-    resolver: zodResolver(newProjectFormSchema),
+  const form = useForm<z.infer<typeof newProjectSchema>>({
+    resolver: zodResolver(newProjectSchema),
     defaultValues: {
       title: "",
       slug: "",
@@ -79,7 +63,7 @@ const NewProjectsForm = () => {
     }
   }, [titleValue, form]);
 
-  function onSubmit(values: z.infer<typeof newProjectFormSchema>) {
+  function onSubmit(values: z.infer<typeof newProjectSchema>) {
     console.log(values);
   }
 

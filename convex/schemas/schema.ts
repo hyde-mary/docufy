@@ -7,7 +7,7 @@ export default defineSchema({
     userId: v.string(),
     iconName: v.optional(v.string()),
     description: v.optional(v.string()),
-    status: v.string(),
+    status: v.union(v.literal("Active"), v.literal("Paused")),
     visibility: v.union(v.literal("Public"), v.literal("Private")),
     template: v.union(v.literal("Default")),
   }).index("by_userId", ["userId"]),

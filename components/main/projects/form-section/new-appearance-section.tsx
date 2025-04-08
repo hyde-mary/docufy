@@ -14,14 +14,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useUser } from "@clerk/nextjs";
 import { Book, Code, LayoutTemplate, Rocket } from "lucide-react";
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
+import type { UserResource } from "@clerk/types";
 
 const NewProjectAppearanceSection = ({
   form,
   title,
+  user,
 }: {
   form: UseFormReturn<
     {
@@ -42,9 +43,8 @@ const NewProjectAppearanceSection = ({
     }
   >;
   title: string;
+  user: UserResource | null | undefined;
 }) => {
-  const { user } = useUser();
-
   return (
     <Card>
       <CardContent className="px-6 py-2 space-y-6">

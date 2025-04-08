@@ -11,7 +11,7 @@ export const VISIBILITY_OPTIONS = ["Public", "Private"] as const;
 export const TEMPLATE_OPTIONS = ["Default"] as const;
 
 export const newProjectSchema = z.object({
-  title: shortString(2, 30)
+  title: shortString(2, 20)
     .describe("The project's display name")
     .refine((val) => val.trim().length > 0, {
       message: "Title cannot be empty",

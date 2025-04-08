@@ -19,6 +19,30 @@ export const createDefaultProject = mutation({
   },
 });
 
+export const createProject = mutation({
+  args: {
+    title: v.string(),
+    userId: v.string(),
+    iconName: v.optional(v.string()),
+    description: v.optional(v.string()),
+    visibility: v.union(v.literal("Public"), v.literal("Private")),
+    template: v.union(v.literal("Default")),
+  },
+  handler: async (ctx, args) => {
+    const newProjectId = await ctx.db.insert("projects", {
+      title: args.title,
+      userId: args.userId,
+      iconName: args.iconName,
+      status: "Active",
+      description: args.description,
+      visibility: args.visibility,
+      template: args.template,
+    });
+
+    return newProjectId;
+  },
+});
+
 export const getProjectsByUser = query({
   args: {
     userId: v.string(),

@@ -19,13 +19,13 @@ export const newProjectSchema = z.object({
 
   slug: z.string().min(1).describe("Auto-generated URL-friendly identifier"),
 
-  description: shortString(2, 50)
+  description: shortString(0, 50)
     .describe("Brief project description")
     .optional(),
 
   visibility: z.enum(VISIBILITY_OPTIONS),
 
-  icon: z
+  iconName: z
     .string()
     .min(1, { message: "Please select an icon" })
     .describe("Visual identifier for the project")

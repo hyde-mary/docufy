@@ -45,7 +45,7 @@ const NewProjectsForm = () => {
       slug: "",
       description: "",
       visibility: "Private",
-      icon: "",
+      iconName: "",
       template: "Default",
     },
   });
@@ -136,7 +136,7 @@ const NewProjectsForm = () => {
                 render={({ field }) => (
                   <FormItem className="grid grid-cols-[250px_1fr] gap-4 items-start">
                     <FormLabel className="text-sm font-medium mt-2">
-                      Description
+                      Description (Optional)
                     </FormLabel>
                     <div className="space-y-2">
                       <FormControl>
@@ -167,7 +167,7 @@ const NewProjectsForm = () => {
               {/* Icon Option */}
               <FormField
                 control={form.control}
-                name="icon"
+                name="iconName"
                 render={({ field }) => (
                   <FormItem className="grid grid-cols-[250px_1fr] gap-4 items-start">
                     <FormLabel className="text-sm font-medium mt-2">

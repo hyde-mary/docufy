@@ -13,13 +13,14 @@ import {
 } from "@/components/ui/tooltip";
 import { getLucideIcon } from "@/utils/components/getLucideIcon";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { ChevronRight, InfoIcon } from "lucide-react";
+import { Bookmark, ChevronRight, InfoIcon, Lock } from "lucide-react";
 
 type ProjectCardProps = {
   title: string;
   description?: string;
   iconName?: string;
   status: string;
+  visibility: string;
   _creationTime: string;
 };
 
@@ -28,6 +29,7 @@ export const ProjectsViewCard = ({
   description,
   iconName,
   status,
+  visibility,
   _creationTime,
 }: ProjectCardProps) => {
   return (
@@ -48,22 +50,38 @@ export const ProjectsViewCard = ({
       </CardContent>
       <CardFooter className="flex items-center justify-between">
         {/* status */}
-        <div className="flex items-center gap-2 text-xs">
-          {status.toLowerCase() === "active" && (
-            <span className="w-2 h-2 rounded-full bg-green-500" />
-          )}
-          <p className="capitalize">{status}</p>
+        <div>
+          <span className="text-xs text-muted-foreground flex items-center justify-center gap-x-2">
+            {visibility.toLowerCase() === "private" ? (
+              <>
+                <Lock className="w-3 h-3" /> {visibility}
+              </>
+            ) : (
+              <>
+                <Bookmark className="w-3 h-3" /> {visibility}
+              </>
+            )}
+          </span>
         </div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger className="hover:cursor-pointer">
-              <InfoIcon size={14} />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{new Date(_creationTime).toLocaleString()}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <div className="flex items-center justify-center gap-x-2">
+          <div className="flex items-center gap-2 text-xs">
+            {status.toLowerCase() === "active" && (
+              <span className="w-2 h-2 rounded-full bg-green-500" />
+            )}
+            <p className="capitalize">{status}</p>
+          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="hover:cursor-pointer">
+                <InfoIcon size={14} />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="font-bold">Created Time:</p>
+                <p>{new Date(_creationTime).toLocaleString()}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </CardFooter>
     </Card>
   );

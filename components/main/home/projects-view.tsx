@@ -39,6 +39,7 @@ const ProjectsView = () => {
             title={project.title}
             status={project.status}
             description={project.description}
+            visibility={project.visibility}
             _creationTime={project._creationTime}
           />
         </Link>

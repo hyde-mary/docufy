@@ -17,7 +17,7 @@ const EditorPageHeader = () => {
   const { data } = useEditorStore();
 
   return (
-    <div className="w-full flex items-center justify-between px-6">
+    <div className="w-full flex items-center justify-between px-8">
       <div className="flex items-center justify-center gap-x-4">
         <h1 className="text-base font-bold">{data.title}</h1>
         {data.navLinks.map((link, index) => (

@@ -8,6 +8,7 @@ import { ThemeToggleClick } from "../theme-toggle-click";
 
 import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
 import { useState } from "react";
+import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
 
 const EditorSidebar = () => {
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(true);
@@ -32,7 +33,7 @@ const EditorSidebar = () => {
               variant="ghost"
               size="icon"
               onClick={() => setIsHeaderExpanded((prev) => !prev)}
-              className="w-full flex items-center justify-center"
+              className="w-full flex items-center justify-center hover:cursor-pointer"
             >
               <h2 className="text-sm font-semibold">Header Options</h2>
               {isHeaderExpanded ? (
@@ -46,11 +47,22 @@ const EditorSidebar = () => {
         </CardContent>
         <Separator />
         <CardContent>
-          <div className="flex flex-col gap-y-8">
-            <div className="flex flex-col gap-y-2">
-              <h1 className="text-base font-bold underline">Sidebar Options</h1>
-            </div>
+          <div className="flex items-center justify-start mb-4 w-full">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsSidebarExpanded((prev) => !prev)}
+              className="w-full flex items-center justify-center hover:cursor-pointer"
+            >
+              <h2 className="text-sm font-semibold">Sidebar Options</h2>
+              {isSidebarExpanded ? (
+                <ChevronDown className="w-4 h-4" />
+              ) : (
+                <ChevronRight className="w-4 h-4" />
+              )}
+            </Button>
           </div>
+          {isSidebarExpanded && <EditorToolbarSidebar />}
         </CardContent>
       </div>
 

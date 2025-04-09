@@ -1,5 +1,10 @@
 import { create } from "zustand";
 
+type Section = {
+  name: string;
+  href: string;
+};
+
 type Social = {
   platform: "github" | "facebook" | "twitter";
   href: string;
@@ -15,6 +20,7 @@ type EditorData = {
   navLinks: NavLink[];
   theme_toggle: boolean;
   socials: Social[];
+  sections: Section[];
 };
 
 type EditorStore = {
@@ -31,6 +37,10 @@ type EditorStore = {
   toggleThemeToggle: () => void;
 
   updateSocial: (platform: Social["platform"], href: string) => void;
+
+  addSection: () => void;
+  updateSection: (index: number, newSection: Section) => void;
+  removeSection: (index: number) => void;
 };
 
 export const useEditorStore = create<EditorStore>((set) => ({
@@ -43,6 +53,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
       { platform: "facebook", href: "" },
       { platform: "twitter", href: "" },
     ],
+    sections: [],
   },
   updateField: (key, value) =>
     set((state) => ({
@@ -103,6 +114,40 @@ export const useEditorStore = create<EditorStore>((set) => ({
         data: {
           ...state.data,
           socials: updatedSocials,
+        },
+      };
+    }),
+
+  addSection: () =>
+    set((state) => {
+      if (state.data.sections.length >= 20) return state;
+      return {
+        data: {
+          ...state.data,
+          sections: [...state.data.sections, { name: "", href: "" }],
+        },
+      };
+    }),
+
+  updateSection: (index, newLink) =>
+    set((state) => {
+      const updated = [...state.data.sections];
+      updated[index] = newLink;
+      return {
+        data: {
+          ...state.data,
+          sections: updated,
+        },
+      };
+    }),
+
+  removeSection: (index) =>
+    set((state) => {
+      const filtered = state.data.sections.filter((_, i) => i !== index);
+      return {
+        data: {
+          ...state.data,
+          sections: filtered,
         },
       };
     }),

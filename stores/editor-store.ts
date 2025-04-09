@@ -1,9 +1,23 @@
 import { create } from "zustand";
 
-type Section = {
+type TextSection = {
+  type: "text";
+  name: string;
+};
+
+type LinkSection = {
+  type: "link";
   name: string;
   href: string;
 };
+
+type DropdownSection = {
+  type: "dropdown";
+  name: string;
+  items: LinkSection[];
+};
+
+type Section = TextSection | LinkSection | DropdownSection;
 
 type Social = {
   platform: "github" | "facebook" | "twitter";
@@ -38,9 +52,9 @@ type EditorStore = {
 
   updateSocial: (platform: Social["platform"], href: string) => void;
 
-  addSection: () => void;
-  updateSection: (index: number, newSection: Section) => void;
-  removeSection: (index: number) => void;
+  addTextSection: () => void;
+  updateTextSection: (index: number, updated: Section) => void;
+  removeTextSection: (index: number) => void;
 };
 
 export const useEditorStore = create<EditorStore>((set) => ({
@@ -118,30 +132,31 @@ export const useEditorStore = create<EditorStore>((set) => ({
       };
     }),
 
-  addSection: () =>
+  addTextSection: () =>
     set((state) => {
       if (state.data.sections.length >= 20) return state;
+      const newSection: TextSection = { type: "text", name: "" };
       return {
         data: {
           ...state.data,
-          sections: [...state.data.sections, { name: "", href: "" }],
+          sections: [...state.data.sections, newSection],
         },
       };
     }),
 
-  updateSection: (index, newLink) =>
+  updateTextSection: (index, updated) =>
     set((state) => {
-      const updated = [...state.data.sections];
-      updated[index] = newLink;
+      const updatedSections = [...state.data.sections];
+      updatedSections[index] = updated;
       return {
         data: {
           ...state.data,
-          sections: updated,
+          sections: updatedSections,
         },
       };
     }),
 
-  removeSection: (index) =>
+  removeTextSection: (index) =>
     set((state) => {
       const filtered = state.data.sections.filter((_, i) => i !== index);
       return {

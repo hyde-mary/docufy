@@ -6,7 +6,8 @@ import { Plus, X } from "lucide-react";
 import React from "react";
 
 const EditorToolbarSidebar = () => {
-  const { data, addSection, updateSection, removeSection } = useEditorStore();
+  const { data, addTextSection, updateTextSection, removeTextSection } =
+    useEditorStore();
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -27,22 +28,13 @@ const EditorToolbarSidebar = () => {
               placeholder="Section Name"
               value={section.name}
               onChange={(e) =>
-                updateSection(index, { ...section, name: e.target.value })
+                updateTextSection(index, { ...section, name: e.target.value })
               }
-              className="flex-1"
-            />
-            <Input
-              placeholder="Section Link"
-              value={section.href}
-              onChange={(e) =>
-                updateSection(index, { ...section, href: e.target.value })
-              }
-              className="flex-1"
             />
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => removeSection(index)}
+              onClick={() => removeTextSection(index)}
             >
               <X className="w-4 h-4" />
             </Button>
@@ -51,19 +43,39 @@ const EditorToolbarSidebar = () => {
 
         {/* add section button */}
         {data.sections.length < 20 && (
-          <Button
-            variant="outline"
-            onClick={addSection}
-            size="sm"
-            className="flex items-center gap-2 w-full"
-          >
-            <Plus className="w-4 h-4" />
-            Add Section
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              onClick={addTextSection}
+              size="sm"
+              className="flex flex-1 items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Text
+            </Button>
+            <Button
+              variant="outline"
+              onClick={addTextSection}
+              size="sm"
+              className="flex flex-1 items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Link
+            </Button>
+            <Button
+              variant="outline"
+              onClick={addTextSection}
+              size="sm"
+              className="flex flex-1 items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Dropdown
+            </Button>
+          </div>
         )}
 
         <p className="text-xs text-muted-foreground">
-          Here you can add up to 20 sections for your documentation.
+          Here you can add sections for your documentation.
         </p>
       </div>
     </div>

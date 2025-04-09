@@ -12,7 +12,7 @@ const SignUpPage = () => {
               alt="Docufy Logo"
               width={35}
               height={35}
-              className="dark:invert"
+              className="light:invert"
             />
             <p>Docufy</p>
           </div>

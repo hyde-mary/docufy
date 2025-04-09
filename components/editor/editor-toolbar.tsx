@@ -10,7 +10,12 @@ import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
 import { useState } from "react";
 import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
 
-const EditorSidebar = () => {
+interface EditorSidebarProps {
+  isLeft: boolean;
+  setIsLeft: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const EditorSidebar = ({ isLeft, setIsLeft }: EditorSidebarProps) => {
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(true);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
@@ -78,7 +83,21 @@ const EditorSidebar = () => {
             Go Back
           </Button>
         </Link>
-        <ThemeToggleClick />
+        <div className="flex items-center justify-center gap-x-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsLeft(!isLeft)}
+            className="hover:cursor-pointer"
+          >
+            {isLeft ? (
+              <ChevronRight className="w-4 h-4" />
+            ) : (
+              <ChevronLeft className="w-4 h-4" />
+            )}
+          </Button>
+          <ThemeToggleClick />
+        </div>
       </CardFooter>
     </Card>
   );

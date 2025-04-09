@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import EditorSidebar from "@/components/editor/editor-sidebar";
+import EditorSidebar from "@/components/editor/editor-toolbar";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

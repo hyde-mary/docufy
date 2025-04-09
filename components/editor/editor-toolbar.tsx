@@ -6,11 +6,12 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { ThemeToggleClick } from "../theme-toggle-click";
 
-import EditorSidebarHeader from "./sidebar/editor-sidebar-header";
+import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
 import { useState } from "react";
 
 const EditorSidebar = () => {
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(true);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   return (
     <Card className="flex h-full w-full !rounded-none border border-muted-foreground/15">
@@ -41,19 +42,13 @@ const EditorSidebar = () => {
               )}
             </Button>
           </div>
-          {isHeaderExpanded && <EditorSidebarHeader />}
+          {isHeaderExpanded && <EditorToolbarHeader />}
         </CardContent>
         <Separator />
         <CardContent>
           <div className="flex flex-col gap-y-8">
             <div className="flex flex-col gap-y-2">
               <h1 className="text-base font-bold underline">Sidebar Options</h1>
-              <p className="text-xs text-muted-foreground">
-                Here you can edit the sidebar for you documentation. Your
-                sidebar is located at the{" "}
-                <span className="underline font-bold">left</span> and typically
-                contains all the tabs for your documentation
-              </p>
             </div>
           </div>
         </CardContent>

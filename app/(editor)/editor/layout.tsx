@@ -10,7 +10,7 @@ export default function EditorLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -25,7 +25,7 @@ export default function EditorLayout({
 
       {/* Sidebar */}
       {isOpen && (
-        <div className="fixed top-[90px] bottom-4 left-4 z-40 w-96 bg-background shadow-xl rounded-xl overflow-y-auto transition-all duration-300">
+        <div className="fixed top-[90px] bottom-4 left-4 z-40 w-96 bg-background overflow-y-auto transition-all duration-300">
           <EditorSidebar />
         </div>
       )}

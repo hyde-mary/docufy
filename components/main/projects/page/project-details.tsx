@@ -41,7 +41,7 @@ const ProjectDetails = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
           {getLucideIcon(project.iconName, 24)}
-          <h1 className="text-white text-3xl font-semibold">{project.title}</h1>
+          <h1 className="text-3xl font-semibold">{project.title}</h1>
         </div>
         <Link href={`/editor/${project._id}/${project.slug}`}>
           <Button

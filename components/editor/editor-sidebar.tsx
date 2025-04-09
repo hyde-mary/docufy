@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { ThemeToggleClick } from "../theme-toggle-click";
 
-import EditorHeader from "./sidebar/editor-header";
+import EditorHeader from "./sidebar/editor-sidebar-header";
 
 const EditorSidebar = () => {
   return (

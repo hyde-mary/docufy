@@ -3,11 +3,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEditorStore } from "@/stores/editor-store";
 import { Plus, X } from "lucide-react";
-import React from "react";
+import React, { Fragment } from "react";
 
 const EditorToolbarSidebar = () => {
-  const { data, addTextSection, updateTextSection, removeTextSection } =
-    useEditorStore();
+  const {
+    data,
+    addTextSection,
+    updateTextSection,
+    removeTextSection,
+    addLinkSection,
+    updateLinkSection,
+    removeLinkSection,
+  } = useEditorStore();
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -24,20 +31,61 @@ const EditorToolbarSidebar = () => {
         <Label className="font-medium text-sm">Sidebar Sections</Label>
         {data.sections.map((section, index) => (
           <div key={index} className="flex gap-2 items-center">
-            <Input
-              placeholder="Section Name"
-              value={section.name}
-              onChange={(e) =>
-                updateTextSection(index, { ...section, name: e.target.value })
-              }
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => removeTextSection(index)}
-            >
-              <X className="w-4 h-4" />
-            </Button>
+            {section.type === "text" && (
+              <Fragment>
+                <Input
+                  placeholder="Section Name"
+                  value={section.name}
+                  onChange={(e) =>
+                    updateTextSection(index, {
+                      ...section,
+                      name: e.target.value,
+                    })
+                  }
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeTextSection(index)}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </Fragment>
+            )}
+
+            {section.type === "link" && (
+              <Fragment>
+                <Input
+                  placeholder="Link Name"
+                  value={section.name}
+                  onChange={(e) =>
+                    updateLinkSection(index, {
+                      ...section,
+                      name: e.target.value,
+                    })
+                  }
+                  className="flex-1"
+                />
+                <Input
+                  placeholder="Link URL"
+                  value={section.href}
+                  onChange={(e) =>
+                    updateLinkSection(index, {
+                      ...section,
+                      href: e.target.value,
+                    })
+                  }
+                  className="flex-1"
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeLinkSection(index)}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </Fragment>
+            )}
           </div>
         ))}
 
@@ -55,7 +103,7 @@ const EditorToolbarSidebar = () => {
             </Button>
             <Button
               variant="outline"
-              onClick={addTextSection}
+              onClick={addLinkSection}
               size="sm"
               className="flex flex-1 items-center gap-2"
             >

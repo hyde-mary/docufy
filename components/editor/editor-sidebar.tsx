@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { ThemeToggleClick } from "../theme-toggle-click";
 
-import EditorHeader from "./sidebar/editor-sidebar-header";
+import EditorSidebarHeader from "./sidebar/editor-sidebar-header";
 import { useState } from "react";
 
 const EditorSidebar = () => {
@@ -41,7 +41,7 @@ const EditorSidebar = () => {
               )}
             </Button>
           </div>
-          {isHeaderExpanded && <EditorHeader />}
+          {isHeaderExpanded && <EditorSidebarHeader />}
         </CardContent>
         <Separator />
         <CardContent>

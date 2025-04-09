@@ -11,7 +11,7 @@ const socialsIcons = {
   twitter: <Twitter />,
 };
 
-const EditorHeader = () => {
+const EditorSidebarHeader = () => {
   const {
     data,
     updateField,
@@ -137,4 +137,4 @@ const EditorHeader = () => {
   );
 };
 
-export default EditorHeader;
+export default EditorSidebarHeader;

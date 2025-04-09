@@ -24,7 +24,14 @@ const EditorHeader = () => {
 
   return (
     <div className="flex flex-col gap-y-8">
-      <h1 className="text-base font-bold underline">Header Options</h1>
+      <div className="flex flex-col gap-y-2">
+        <p className="text-xs text-muted-foreground">
+          Here you can edit the sidebar for you documentation. Your header is
+          located at the <span className="underline font-bold">top</span> and
+          contains the title, links, and other necessities that you want to be
+          easily accessible.
+        </p>
+      </div>
 
       {/* title */}
       <div className="flex flex-col gap-y-4">

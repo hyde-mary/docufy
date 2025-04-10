@@ -62,34 +62,40 @@ const EditorPage = () => {
 
               if (section.type === "dropdown") {
                 const isOpen = openDropdowns.includes(index);
-                return (
-                  <div key={index} className="px-2 p-1 space-y-3 w-full">
-                    <button
-                      onClick={() => toggleDropdown(index)}
-                      className="flex items-center justify-between w-full text-base font-medium hover:underline hover:cursor-pointer"
-                    >
-                      <p>{section.name}</p>
-                      {isOpen ? (
-                        <ChevronDown className="w-4 h-4" />
-                      ) : (
-                        <ChevronRight className="w-4 h-4" />
+
+                if (section.name !== "") {
+                  return (
+                    <div key={index} className="px-2 p-1 space-y-3 w-full">
+                      <button
+                        onClick={() => toggleDropdown(index)}
+                        className="flex items-center justify-between w-full text-base font-medium hover:underline hover:cursor-pointer"
+                      >
+                        <p>{section.name}</p>
+                        {isOpen ? (
+                          <ChevronDown className="w-4 h-4" />
+                        ) : (
+                          <ChevronRight className="w-4 h-4" />
+                        )}
+                      </button>
+
+                      {isOpen && (
+                        <div className="space-y-3">
+                          {section.items.map((item, itemIndex) => (
+                            <a
+                              key={itemIndex}
+                              href={item.href}
+                              className="block text-base text-muted-foreground hover:underline"
+                            >
+                              {item.name}
+                            </a>
+                          ))}
+                        </div>
                       )}
-                    </button>
-                    {isOpen && (
-                      <div className="space-y-3">
-                        {section.items.map((item, itemIndex) => (
-                          <a
-                            key={itemIndex}
-                            href={item.href}
-                            className="block text-base text-muted-foreground hover:underline"
-                          >
-                            {item.name}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
+                    </div>
+                  );
+                }
+
+                return null;
               }
 
               return null;

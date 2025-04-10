@@ -38,35 +38,47 @@ type EditorData = {
 };
 
 type EditorStore = {
-  // this is the data itself
+  // data
   data: EditorData;
 
-  // update field
+  // update field used for title
   updateField: <K extends keyof EditorData>(
     key: K,
     value: EditorData[K]
   ) => void;
 
-  // nav link
+  // nav links
   addNavLink: () => void;
   updateNavLink: (index: number, newLink: NavLink) => void;
   removeNavLink: (index: number) => void;
 
-  // this toggles the theme
+  // theme toggle
   toggleThemeToggle: () => void;
 
-  // this toggles the socials
+  // socials
   updateSocial: (platform: Social["platform"], href: string) => void;
 
-  // this is for section where the section is a type of text
+  // text section
   addTextSection: () => void;
-  updateTextSection: (index: number, updated: Section) => void;
+  updateTextSection: (index: number, updated: TextSection) => void;
   removeTextSection: (index: number) => void;
 
-  // this is for section where the section is a type of link
+  // link section
   addLinkSection: () => void;
   updateLinkSection: (index: number, updated: LinkSection) => void;
   removeLinkSection: (index: number) => void;
+
+  // dropdown section
+  addDropdownSection: () => void;
+  updateDropdownSection: (index: number, updated: DropdownSection) => void;
+  removeDropdownSection: (index: number) => void;
+  addItemToDropdown: (index: number) => void;
+  updateItemInDropdown: (
+    sectionIndex: number,
+    itemIndex: number,
+    updatedItem: LinkSection
+  ) => void;
+  removeItemFromDropdown: (sectionIndex: number, itemIndex: number) => void;
 };
 
 export const useEditorStore = create<EditorStore>((set) => ({
@@ -187,7 +199,6 @@ export const useEditorStore = create<EditorStore>((set) => ({
         },
       };
     }),
-
   updateLinkSection: (index, updated) =>
     set((state) => {
       const updatedSections = [...state.data.sections];
@@ -199,7 +210,6 @@ export const useEditorStore = create<EditorStore>((set) => ({
         },
       };
     }),
-
   removeLinkSection: (index) =>
     set((state) => {
       const filtered = state.data.sections.filter((_, i) => i !== index);
@@ -207,6 +217,112 @@ export const useEditorStore = create<EditorStore>((set) => ({
         data: {
           ...state.data,
           sections: filtered,
+        },
+      };
+    }),
+
+  addDropdownSection: () =>
+    set((state) => {
+      if (state.data.sections.length >= 20) return state;
+      const newSection: DropdownSection = {
+        type: "dropdown",
+        name: "",
+        items: [],
+      };
+      return {
+        data: {
+          ...state.data,
+          sections: [...state.data.sections, newSection],
+        },
+      };
+    }),
+  updateDropdownSection: (index, updated) =>
+    set((state) => {
+      const updatedSections = [...state.data.sections];
+      updatedSections[index] = updated;
+      return {
+        data: {
+          ...state.data,
+          sections: updatedSections,
+        },
+      };
+    }),
+  removeDropdownSection: (index) =>
+    set((state) => {
+      const filtered = state.data.sections.filter((_, i) => i !== index);
+      return {
+        data: {
+          ...state.data,
+          sections: filtered,
+        },
+      };
+    }),
+  addItemToDropdown: (index: number) =>
+    set((state) => {
+      const section = state.data.sections[index];
+      if (!section || section.type !== "dropdown") return state;
+
+      const updatedDropdown: DropdownSection = {
+        ...section,
+        items: [...section.items, { name: "", href: "", type: "link" }],
+      };
+
+      const updatedSections = [...state.data.sections];
+      updatedSections[index] = updatedDropdown;
+
+      return {
+        data: {
+          ...state.data,
+          sections: updatedSections,
+        },
+      };
+    }),
+  updateItemInDropdown: (
+    sectionIndex: number,
+    itemIndex: number,
+    updatedItem: LinkSection
+  ) =>
+    set((state) => {
+      const section = state.data.sections[sectionIndex];
+      if (!section || section.type !== "dropdown") return state;
+
+      const updatedItems = [...section.items];
+      updatedItems[itemIndex] = updatedItem;
+
+      const updatedDropdown: DropdownSection = {
+        ...section,
+        items: updatedItems,
+      };
+
+      const updatedSections = [...state.data.sections];
+      updatedSections[sectionIndex] = updatedDropdown;
+
+      return {
+        data: {
+          ...state.data,
+          sections: updatedSections,
+        },
+      };
+    }),
+  removeItemFromDropdown: (sectionIndex: number, itemIndex: number) =>
+    set((state) => {
+      const section = state.data.sections[sectionIndex];
+      if (!section || section.type !== "dropdown") return state;
+
+      const updatedItems = section.items.filter((_, i) => i !== itemIndex);
+
+      const updatedDropdown: DropdownSection = {
+        ...section,
+        items: updatedItems,
+      };
+
+      const updatedSections = [...state.data.sections];
+      updatedSections[sectionIndex] = updatedDropdown;
+
+      return {
+        data: {
+          ...state.data,
+          sections: updatedSections,
         },
       };
     }),

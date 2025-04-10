@@ -54,6 +54,7 @@ const EditorToolbarSidebar = () => {
                   variant="ghost"
                   size="icon"
                   onClick={() => removeTextSection(index)}
+                  className="hover:cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -89,83 +90,12 @@ const EditorToolbarSidebar = () => {
                   variant="ghost"
                   size="icon"
                   onClick={() => removeLinkSection(index)}
+                  className="hover:cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </Button>
               </Fragment>
             )}
-
-            {/* DROPDOWN SECTION */}
-            {/* {section.type === "dropdown" && (
-              <Fragment>
-                <div className="flex items-center gap-2">
-                  <Input
-                    placeholder="Dropdown Name"
-                    value={section.name}
-                    onChange={(e) =>
-                      updateDropdownSection(index, {
-                        ...section,
-                        name: e.target.value,
-                      })
-                    }
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeDropdownSection(index)}
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  {section.items.map((item, itemIndex) => (
-                    <div
-                      key={itemIndex}
-                      className="flex flex-col sm:flex-row gap-2"
-                    >
-                      <Input
-                        placeholder="Item Name"
-                        value={item.name}
-                        onChange={(e) =>
-                          updateItemInDropdown(index, itemIndex, {
-                            ...item,
-                            name: e.target.value,
-                          })
-                        }
-                      />
-                      <Input
-                        placeholder="Item URL"
-                        value={item.href}
-                        onChange={(e) =>
-                          updateItemInDropdown(index, itemIndex, {
-                            ...item,
-                            href: e.target.value,
-                          })
-                        }
-                      />
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeItemFromDropdown(index, itemIndex)}
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => addItemToDropdown(index)}
-                  className="mt-2 flex items-center gap-2 self-start"
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Item
-                </Button>
-              </Fragment>
-            )} */}
 
             {section.type === "dropdown" && (
               <Fragment>
@@ -185,6 +115,7 @@ const EditorToolbarSidebar = () => {
                       variant="ghost"
                       size="icon"
                       onClick={() => removeDropdownSection(index)}
+                      className="hover:cursor-pointer"
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -222,6 +153,7 @@ const EditorToolbarSidebar = () => {
                           onClick={() =>
                             removeItemFromDropdown(index, itemIndex)
                           }
+                          className="hover:cursor-pointer"
                         >
                           <X className="w-4 h-4" />
                         </Button>
@@ -247,37 +179,35 @@ const EditorToolbarSidebar = () => {
         ))}
 
         {/* add section button */}
-        {data.sections.length < 20 && (
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant="outline"
-              onClick={addTextSection}
-              size="sm"
-              className="flex flex-1 items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              Text
-            </Button>
-            <Button
-              variant="outline"
-              onClick={addLinkSection}
-              size="sm"
-              className="flex flex-1 items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              Link
-            </Button>
-            <Button
-              variant="outline"
-              onClick={addDropdownSection}
-              size="sm"
-              className="flex flex-1 items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              Dropdown
-            </Button>
-          </div>
-        )}
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant="outline"
+            onClick={addTextSection}
+            size="sm"
+            className="flex flex-1 items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Text
+          </Button>
+          <Button
+            variant="outline"
+            onClick={addLinkSection}
+            size="sm"
+            className="flex flex-1 items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Link
+          </Button>
+          <Button
+            variant="outline"
+            onClick={addDropdownSection}
+            size="sm"
+            className="flex flex-1 items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Dropdown
+          </Button>
+        </div>
 
         <p className="text-xs text-muted-foreground">
           Here you can add sections for your documentation.

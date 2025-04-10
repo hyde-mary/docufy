@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useEditorStore } from "@/stores/editor-store";
 import { Facebook, Github, Twitter } from "lucide-react";
 import Link from "next/link";
-import { JSX } from "react";
+import { Fragment, JSX } from "react";
 
 const socialsIcons: Record<string, JSX.Element> = {
   github: <Github className="h-4 w-4" />,
@@ -17,7 +17,7 @@ const EditorPageHeader = () => {
   const { data } = useEditorStore();
 
   return (
-    <div className="w-full flex items-center justify-between px-8">
+    <Fragment>
       <div className="flex items-center justify-center gap-x-4">
         <h1 className="text-base font-bold">{data.title}</h1>
         {data.navLinks.map((link, index) => (
@@ -48,7 +48,7 @@ const EditorPageHeader = () => {
           ))}
         {data.theme_toggle && <ThemeToggleClick />}
       </div>
-    </div>
+    </Fragment>
   );
 };
 

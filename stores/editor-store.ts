@@ -157,7 +157,6 @@ export const useEditorStore = create<EditorStore>((set) => ({
 
   addTextSection: () =>
     set((state) => {
-      if (state.data.sections.length >= 20) return state;
       const newSection: TextSection = { type: "text", name: "" };
       return {
         data: {
@@ -190,7 +189,6 @@ export const useEditorStore = create<EditorStore>((set) => ({
 
   addLinkSection: () =>
     set((state) => {
-      if (state.data.sections.length >= 20) return state;
       const newSection: LinkSection = { type: "link", name: "", href: "" };
       return {
         data: {
@@ -223,7 +221,6 @@ export const useEditorStore = create<EditorStore>((set) => ({
 
   addDropdownSection: () =>
     set((state) => {
-      if (state.data.sections.length >= 20) return state;
       const newSection: DropdownSection = {
         type: "dropdown",
         name: "",

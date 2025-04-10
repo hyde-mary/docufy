@@ -17,22 +17,21 @@ const EditorPage = () => {
   };
 
   return (
-    <div className="h-full">
+    <div className="h-screen flex flex-col">
+      {/* Header */}
       <div className="h-18 border-b flex items-center justify-center">
         <div className="flex items-center justify-between h-full container w-full">
-          {/* left border */}
           <div className="border-r h-full" />
-
-          {/* header in the center */}
           <EditorPageHeader />
-
-          {/* right border */}
           <div className="border-l h-full" />
         </div>
       </div>
-      <div className="w-full flex items-center justify-center h-full">
-        <div className="container flex items-center justify-start h-full">
-          <div className="h-full w-64 border-l border-r p-6 flex flex-col items-start justify-start gap-y-2 truncate">
+
+      {/* Main content area */}
+      <div className="flex-1 flex justify-center">
+        {/* Sidebar */}
+        <div className="container">
+          <div className="w-64 border-l border-r p-6 flex flex-col items-start justify-start gap-y-2 overflow-y-auto h-full">
             {data.sections.map((section, index) => {
               if (section.type === "text") {
                 return (

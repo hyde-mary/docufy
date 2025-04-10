@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import EditorSidebar from "@/components/editor/editor-toolbar";
+import EditorToolbar from "@/components/editor/editor-toolbar";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -28,14 +28,14 @@ export default function EditorLayout({
         <Menu className="w-6 h-6" />
       </Button>
 
-      {/* Sidebar */}
+      {/* Toolbar */}
       {isOpen && (
         <div
           className={`fixed top-[90px] bottom-4 z-40 w-96 bg-background overflow-y-auto transition-all duration-300 ${
             isLeft ? "left-4" : "right-4"
           }`}
         >
-          <EditorSidebar setIsLeft={setIsLeft} isLeft={isLeft} />
+          <EditorToolbar setIsLeft={setIsLeft} isLeft={isLeft} />
         </div>
       )}
 

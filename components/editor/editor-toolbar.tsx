@@ -10,12 +10,12 @@ import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
 import { useState } from "react";
 import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
 
-interface EditorSidebarProps {
+interface EditorToolbarProps {
   isLeft: boolean;
   setIsLeft: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditorSidebar = ({ isLeft, setIsLeft }: EditorSidebarProps) => {
+const EditorToolbar = ({ isLeft, setIsLeft }: EditorToolbarProps) => {
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(true);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
@@ -103,4 +103,4 @@ const EditorSidebar = ({ isLeft, setIsLeft }: EditorSidebarProps) => {
   );
 };
 
-export default EditorSidebar;
+export default EditorToolbar;

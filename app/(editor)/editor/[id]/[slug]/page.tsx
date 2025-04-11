@@ -1,5 +1,6 @@
 "use client";
 
+import MarkdownPreview from "@/components/editor/markdown-preview";
 import { useEditorStore } from "@/stores/editor-store";
 import { useParams } from "next/navigation";
 import { Fragment, useEffect } from "react";
@@ -16,11 +17,8 @@ const EditorPageRoot = () => {
 
   return (
     <Fragment>
-      <div className="flex-1 px-40 py-24 flex-col space-y-2">
-        <h1 className="text-4xl font-bold">{data.rootPage.title}</h1>
-        <p className="text-base text-muted-foreground">
-          {data.rootPage.subtitle}
-        </p>
+      <div className="flex-1 px-40 py-24 flex-col space-y-2 overflow-auto">
+        <MarkdownPreview markdown={data.rootPage.markdown} />
       </div>
 
       <div className="w-64">

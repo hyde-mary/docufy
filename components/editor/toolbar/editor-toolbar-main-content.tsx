@@ -1,10 +1,9 @@
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useEditorStore } from "@/stores/editor-store";
 
 const EditorToolbarMainContent = () => {
-  const { data, updateRootPageTitle, updateRootPageSubtitle } =
-    useEditorStore();
+  const { data, updateRootPageMarkdown } = useEditorStore();
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -15,30 +14,19 @@ const EditorToolbarMainContent = () => {
         </p>
       </div>
 
-      {/* Title */}
+      {/* Markdown */}
       <div className="flex flex-col gap-y-4">
-        <Label className="font-medium text-sm">Main Page Title</Label>
-        <Input
-          placeholder="Hydemary's Documentation"
-          onChange={(e) => updateRootPageTitle(e.target.value)}
-          value={data.rootPage.title}
+        <Label className="font-medium text-sm">Main Page Markdown</Label>
+        <Textarea
+          value={data.rootPage.markdown}
+          onChange={(e) => updateRootPageMarkdown(e.target.value)}
+          placeholder="You can write your documentation here! This area supports markdown to make it easy for you!"
+          className="min-h-[200px]"
         />
         <p className="text-xs text-muted-foreground">
-          Enter the title of the main page for your documentation.
-        </p>
-      </div>
-
-      {/* subtitle */}
-      <div className="flex flex-col gap-y-4">
-        <Label className="font-medium text-sm">Subtitle Documentation</Label>
-        <Input
-          placeholder="Hydemary's Simple Documentation"
-          onChange={(e) => updateRootPageSubtitle(e.target.value)}
-          value={data.rootPage.subtitle}
-        />
-        <p className="text-xs text-muted-foreground">
-          Enter the subtitle which will appear below the title for your
-          documentation.
+          For the main page. Docufy uses markdown as the format. Why Markdown?
+          Markdown allows docufy to &apos;index&apos; your headings so it can
+          display it on the right.
         </p>
       </div>
     </div>

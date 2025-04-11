@@ -33,7 +33,7 @@ export default function EditorLayout({
       {/* Toolbar */}
       {isOpen && (
         <div
-          className={`fixed top-[90px] bottom-4 z-40 w-96 bg-background overflow-y-auto transition-all duration-300 ${
+          className={`fixed top-[90px] bottom-4 z-40 w-[400px] bg-background overflow-y-auto transition-all duration-300 ${
             isLeft ? "left-4" : "right-4"
           }`}
         >

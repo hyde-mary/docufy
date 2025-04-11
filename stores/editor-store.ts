@@ -1,9 +1,7 @@
 import { create } from "zustand";
 
 type RootPage = {
-  title: string;
-  subtitle: string;
-  content: string;
+  markdown: string;
 };
 
 type Params = {
@@ -99,8 +97,7 @@ type EditorStore = {
   removeItemFromDropdown: (sectionIndex: number, itemIndex: number) => void;
 
   // root page methods
-  updateRootPageTitle: (title: string) => void;
-  updateRootPageSubtitle: (subtitle: string) => void;
+  updateRootPageMarkdown: (markdown: string) => void;
 };
 
 export const useEditorStore = create<EditorStore>((set) => ({
@@ -119,9 +116,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
       slug: "",
     },
     rootPage: {
-      title: "",
-      subtitle: "",
-      content: "",
+      markdown: "",
     },
   },
 
@@ -401,25 +396,16 @@ export const useEditorStore = create<EditorStore>((set) => ({
       };
     }),
 
-  updateRootPageTitle: (title) =>
-    set((state) => ({
-      data: {
-        ...state.data,
-        rootPage: {
-          ...state.data.rootPage,
-          title,
+  updateRootPageMarkdown: (markdown) =>
+    set((state) => {
+      return {
+        data: {
+          ...state.data,
+          rootPage: {
+            ...state.data.rootPage,
+            markdown,
+          },
         },
-      },
-    })),
-
-  updateRootPageSubtitle: (subtitle) =>
-    set((state) => ({
-      data: {
-        ...state.data,
-        rootPage: {
-          ...state.data.rootPage,
-          subtitle,
-        },
-      },
-    })),
+      };
+    }),
 }));

@@ -8,15 +8,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAllEditorHrefs } from "@/hooks/useAllEditorHrefs";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { Label } from "@/components/ui/label";
 
 const EditorToolbarPathDropdown = () => {
   const hrefs = useAllEditorHrefs();
   const router = useRouter();
+  const pathname = usePathname();
 
-  const [selectedValue, setSelectedValue] = useState(hrefs[0]?.href || "");
+  const [selectedValue, setSelectedValue] = useState("");
+
+  useEffect(() => {
+    if (hrefs.length > 0) {
+      const matchingHref = hrefs.find((item) => item.href === pathname)?.href;
+      setSelectedValue(matchingHref || hrefs[0]?.href || "");
+    }
+  }, [hrefs, pathname]);
 
   const handleValueChange = (value: string) => {
     setSelectedValue(value);
@@ -42,7 +50,7 @@ const EditorToolbarPathDropdown = () => {
         </Select>
       </div>
       <p className="text-xs text-muted-foreground">
-        Here you can switch between different paths for your documentaiton
+        Here you can switch between different paths for your documentation
       </p>
     </div>
   );

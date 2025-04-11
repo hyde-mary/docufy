@@ -1,5 +1,10 @@
 import { create } from "zustand";
 
+type Params = {
+  id: string;
+  slug: string;
+};
+
 type TextSection = {
   type: "text";
   name: string;
@@ -37,10 +42,7 @@ type EditorData = {
   theme_toggle: boolean;
   socials: Social[];
   sections: Section[];
-  params: {
-    id: string;
-    slug: string;
-  };
+  params: Params;
 };
 
 type EditorStore = {

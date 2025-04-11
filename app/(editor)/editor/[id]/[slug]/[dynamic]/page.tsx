@@ -4,10 +4,10 @@ import EditorPageHeader from "@/components/editor/page/editor-page-header";
 import EditorPageSidebar from "@/components/editor/page/editor-page-sidebar";
 import { useEditorStore } from "@/stores/editor-store";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const EditorPageRoot = () => {
-  const params = useParams<{ id: string; slug: string }>();
+const EditorPageDynamic = () => {
+  const params = useParams<{ id: string; slug: string; dynamic: string }>();
   const { data, setParams } = useEditorStore();
 
   useEffect(() => {
@@ -29,8 +29,13 @@ const EditorPageRoot = () => {
           </div>
 
           <div className="flex-1 text-white p-4">
-            <h2>{"Root Section"}</h2>
-            <p>Root content for {params.slug}</p>
+            <h2>Dynamic Page</h2>
+            <p>id: {params.id}</p>
+            <p>slug: {params.slug}</p>
+            <p>dynamic segment: {params.dynamic}</p>
+            <p>
+              Full Path: /editor/{params.id}/{params.slug}/{params.dynamic}
+            </p>
           </div>
 
           <div className="w-64 text-white">
@@ -42,4 +47,4 @@ const EditorPageRoot = () => {
   );
 };
 
-export default EditorPageRoot;
+export default EditorPageDynamic;

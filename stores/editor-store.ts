@@ -142,7 +142,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
     set((state) => {
       const { id, slug } = state.data.params;
 
-      const computedHref = `/${id}/${slug}/${newLink.path.replace(/^\/+/, "")}`;
+      const computedHref = `/editor/${id}/${slug}/${newLink.path.replace(/^\/+/, "")}`;
 
       const updated = [...state.data.navLinks];
       updated[index] = {
@@ -240,7 +240,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
     set((state) => {
       const { id, slug } = state.data.params;
 
-      const computedHref = `/${id}/${slug}/${updated.path.replace(/^\/+/, "")}`;
+      const computedHref = `/editor/${id}/${slug}/${updated.path.replace(/^\/+/, "")}`;
 
       const updatedSections = [...state.data.sections];
       updatedSections[index] = {
@@ -335,7 +335,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
 
       const { id, slug } = state.data.params;
 
-      const computedHref = `/${id}/${slug}/${updatedItem.path.replace(/^\/+/, "")}`;
+      const computedHref = `/editor/${id}/${slug}/${updatedItem.path.replace(/^\/+/, "")}`;
 
       const updatedItemWithHref = {
         ...updatedItem,

@@ -10,9 +10,7 @@ import {
   HomeIcon,
   ChevronDown,
   ChevronRight,
-  FileArchive,
   Trash2,
-  FolderOpen,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -117,17 +115,6 @@ const SidebarContent = () => {
         )}
       </div>
 
-      {/* Drafts */}
-      <Link
-        href="/drafts"
-        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/drafts") ? "bg-muted-foreground/20" : ""}`}
-      >
-        <FileArchive size={18} className="text-gray-800 dark:text-gray-200" />
-        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-          Drafts
-        </span>
-      </Link>
-
       {/* Trash */}
       <Link
         href="/trash"
@@ -136,17 +123,6 @@ const SidebarContent = () => {
         <Trash2 size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
           Trash
-        </span>
-      </Link>
-
-      {/* Archive */}
-      <Link
-        href="/archive"
-        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/archive") ? "bg-muted-foreground/20" : ""}`}
-      >
-        <FolderOpen size={18} className="text-gray-800 dark:text-gray-200" />
-        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-          Archive
         </span>
       </Link>
 

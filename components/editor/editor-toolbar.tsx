@@ -10,6 +10,7 @@ import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
 import { useState } from "react";
 import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
 import EditorToolbarPathDropdown from "./toolbar/editor-toolbar-path-dropdown";
+import EditorToolbarMainContent from "./toolbar/editor-toolbar-main-content";
 
 interface EditorToolbarProps {
   isLeft: boolean;
@@ -17,8 +18,9 @@ interface EditorToolbarProps {
 }
 
 const EditorToolbar = ({ isLeft, setIsLeft }: EditorToolbarProps) => {
-  const [isHeaderExpanded, setIsHeaderExpanded] = useState(true);
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [isMainContentExpanded, setIsMainContentExpanded] = useState(false);
 
   return (
     <Card className="flex h-full w-full !rounded-none border border-muted-foreground/15">
@@ -73,6 +75,25 @@ const EditorToolbar = ({ isLeft, setIsLeft }: EditorToolbarProps) => {
             </Button>
           </div>
           {isSidebarExpanded && <EditorToolbarSidebar />}
+        </CardContent>
+        <Separator />
+        <CardContent>
+          <div className="flex items-center justify-start mb-4 w-full">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMainContentExpanded((prev) => !prev)}
+              className="w-full flex items-center justify-center hover:cursor-pointer"
+            >
+              <h2 className="text-sm font-semibold">Main Content</h2>
+              {isMainContentExpanded ? (
+                <ChevronDown className="w-4 h-4" />
+              ) : (
+                <ChevronRight className="w-4 h-4" />
+              )}
+            </Button>
+          </div>
+          {isMainContentExpanded && <EditorToolbarMainContent />}
         </CardContent>
       </div>
 

@@ -16,12 +16,14 @@ const EditorPageRoot = () => {
 
   return (
     <Fragment>
-      <div className="flex-1 text-white p-4">
-        <h2>{data.rootPage.title}</h2>
-        <p>{data.rootPage.content}</p>
+      <div className="flex-1 px-40 py-24 flex-col space-y-2">
+        <h1 className="text-4xl font-bold">{data.rootPage.title}</h1>
+        <p className="text-base text-muted-foreground">
+          {data.rootPage.subtitle}
+        </p>
       </div>
 
-      <div className="w-64 text-white">
+      <div className="w-64">
         <div className="p-4"></div>
       </div>
     </Fragment>

@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 type RootPage = {
   title: string;
+  subtitle: string;
   content: string;
 };
 
@@ -96,6 +97,10 @@ type EditorStore = {
     updatedItem: LinkSection
   ) => void;
   removeItemFromDropdown: (sectionIndex: number, itemIndex: number) => void;
+
+  // root page methods
+  updateRootPageTitle: (title: string) => void;
+  updateRootPageSubtitle: (subtitle: string) => void;
 };
 
 export const useEditorStore = create<EditorStore>((set) => ({
@@ -115,6 +120,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
     },
     rootPage: {
       title: "",
+      subtitle: "",
       content: "",
     },
   },
@@ -394,4 +400,26 @@ export const useEditorStore = create<EditorStore>((set) => ({
         },
       };
     }),
+
+  updateRootPageTitle: (title) =>
+    set((state) => ({
+      data: {
+        ...state.data,
+        rootPage: {
+          ...state.data.rootPage,
+          title,
+        },
+      },
+    })),
+
+  updateRootPageSubtitle: (subtitle) =>
+    set((state) => ({
+      data: {
+        ...state.data,
+        rootPage: {
+          ...state.data.rootPage,
+          subtitle,
+        },
+      },
+    })),
 }));

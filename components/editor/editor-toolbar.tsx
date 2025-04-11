@@ -9,6 +9,7 @@ import { ThemeToggleClick } from "../theme-toggle-click";
 import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
 import { useState } from "react";
 import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
+import EditorToolbarPathDropdown from "./toolbar/editor-toolbar-path-dropdown";
 
 interface EditorToolbarProps {
   isLeft: boolean;
@@ -32,6 +33,10 @@ const EditorToolbar = ({ isLeft, setIsLeft }: EditorToolbarProps) => {
 
       <Separator />
       <div className="flex flex-col flex-grow overflow-y-auto gap-y-4">
+        <CardContent>
+          <EditorToolbarPathDropdown />
+        </CardContent>
+        <Separator />
         <CardContent>
           <div className="flex items-center justify-start mb-4 w-full">
             <Button

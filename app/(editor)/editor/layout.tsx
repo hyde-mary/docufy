@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import EditorToolbar from "@/components/editor/editor-toolbar";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,13 +32,15 @@ export default function EditorLayout({
 
       {/* Toolbar */}
       {isOpen && (
-        <div
-          className={`fixed top-[90px] bottom-4 z-40 w-[400px] bg-background overflow-y-auto transition-all duration-300 ${
-            isLeft ? "left-4" : "right-4"
-          }`}
-        >
-          <EditorToolbar setIsLeft={setIsLeft} isLeft={isLeft} />
-        </div>
+        <Fragment>
+          <div
+            className={`fixed top-[90px] bottom-4 z-40 w-[450px] bg-background overflow-y-auto transition-all duration-300 ${
+              isLeft ? "left-4" : "right-4"
+            }`}
+          >
+            <EditorToolbar setIsLeft={setIsLeft} isLeft={isLeft} />
+          </div>
+        </Fragment>
       )}
 
       {/* The main content goes here */}

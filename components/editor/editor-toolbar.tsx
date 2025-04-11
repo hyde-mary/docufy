@@ -77,7 +77,7 @@ const EditorToolbar = ({ isLeft, setIsLeft }: EditorToolbarProps) => {
           {isSidebarExpanded && <EditorToolbarSidebar />}
         </CardContent>
         <Separator />
-        <CardContent>
+        <CardContent className="flex-grow min-h-0 flex flex-col">
           <div className="flex items-center justify-start mb-4 w-full">
             <Button
               variant="ghost"
@@ -93,7 +93,11 @@ const EditorToolbar = ({ isLeft, setIsLeft }: EditorToolbarProps) => {
               )}
             </Button>
           </div>
-          {isMainContentExpanded && <EditorToolbarMainContent />}
+          {isMainContentExpanded && (
+            <div className="flex-grow min-h-0">
+              <EditorToolbarMainContent />
+            </div>
+          )}
         </CardContent>
       </div>
 

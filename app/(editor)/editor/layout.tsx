@@ -5,6 +5,8 @@ import EditorToolbar from "@/components/editor/editor-toolbar";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import EditorPageHeader from "@/components/editor/page/editor-page-header";
+import EditorPageSidebar from "@/components/editor/page/editor-page-sidebar";
 
 export default function EditorLayout({
   children,
@@ -41,7 +43,21 @@ export default function EditorLayout({
 
       {/* The main content goes here */}
       <div className="h-full w-full">
-        <div className="h-full w-full overflow-auto">{children}</div>
+        <div className="h-full w-full overflow-auto">
+          <div className="h-full flex justify-center">
+            <div className="container flex flex-col border-l border-r">
+              <div className="h-16 border-b flex items-center justify-between px-8">
+                <EditorPageHeader />
+              </div>
+              <div className="flex flex-1 overflow-hidden">
+                <div className="w-64 border-r p-4 space-y-2 overflow-auto">
+                  <EditorPageSidebar />
+                </div>
+                {children}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

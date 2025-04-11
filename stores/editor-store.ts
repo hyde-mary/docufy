@@ -1,5 +1,10 @@
 import { create } from "zustand";
 
+type RootPage = {
+  title: string;
+  content: string;
+};
+
 type Params = {
   id: string;
   slug: string;
@@ -43,6 +48,7 @@ type EditorData = {
   socials: Social[];
   sections: Section[];
   params: Params;
+  rootPage: RootPage;
 };
 
 type EditorStore = {
@@ -106,6 +112,10 @@ export const useEditorStore = create<EditorStore>((set) => ({
     params: {
       id: "",
       slug: "",
+    },
+    rootPage: {
+      title: "",
+      content: "",
     },
   },
 

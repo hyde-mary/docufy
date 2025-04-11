@@ -17,8 +17,8 @@ const EditorPageRoot = () => {
   return (
     <Fragment>
       <div className="flex-1 text-white p-4">
-        <h2>{"Root Section"}</h2>
-        <p>Root content for {params.slug}</p>
+        <h2>{data.rootPage.title}</h2>
+        <p>{data.rootPage.content}</p>
       </div>
 
       <div className="w-64 text-white">

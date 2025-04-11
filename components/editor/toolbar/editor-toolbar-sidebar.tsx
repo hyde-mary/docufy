@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -77,11 +79,11 @@ const EditorToolbarSidebar = () => {
                 />
                 <Input
                   placeholder="Link URL"
-                  value={section.href}
+                  value={section.path}
                   onChange={(e) =>
                     updateLinkSection(index, {
                       ...section,
-                      href: e.target.value,
+                      path: e.target.value,
                     })
                   }
                   className="flex-1"
@@ -99,7 +101,7 @@ const EditorToolbarSidebar = () => {
 
             {section.type === "dropdown" && (
               <Fragment>
-                <div className="flex flex-col w-full gap-2">
+                <div className="flex flex-col w-full gap-y-2">
                   <div className="flex items-center w-full gap-2">
                     <Input
                       placeholder="Dropdown Name"
@@ -121,11 +123,11 @@ const EditorToolbarSidebar = () => {
                     </Button>
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-y-4">
                     {section.items.map((item, itemIndex) => (
                       <div
                         key={itemIndex}
-                        className="flex flex-col sm:flex-row gap-2"
+                        className="flex flex-col sm:flex-row gap-x-2"
                       >
                         <Input
                           placeholder="Item Name"
@@ -139,11 +141,11 @@ const EditorToolbarSidebar = () => {
                         />
                         <Input
                           placeholder="Item URL"
-                          value={item.href}
+                          value={item.path}
                           onChange={(e) =>
                             updateItemInDropdown(index, itemIndex, {
                               ...item,
-                              href: e.target.value,
+                              path: e.target.value,
                             })
                           }
                         />
@@ -166,7 +168,7 @@ const EditorToolbarSidebar = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => addItemToDropdown(index)}
-                      className="flex items-center gap-2 self-start"
+                      className="flex items-center gap-2 self-start hover:cursor-pointer"
                     >
                       <PlusCircle className="w-4 h-4" />
                       Add Item
@@ -184,7 +186,7 @@ const EditorToolbarSidebar = () => {
             variant="outline"
             onClick={addTextSection}
             size="sm"
-            className="flex flex-1 items-center gap-2"
+            className="flex flex-1 items-center gap-2 hover:cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Text
@@ -193,7 +195,7 @@ const EditorToolbarSidebar = () => {
             variant="outline"
             onClick={addLinkSection}
             size="sm"
-            className="flex flex-1 items-center gap-2"
+            className="flex flex-1 items-center gap-2 hover:cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Link
@@ -202,7 +204,7 @@ const EditorToolbarSidebar = () => {
             variant="outline"
             onClick={addDropdownSection}
             size="sm"
-            className="flex flex-1 items-center gap-2"
+            className="flex flex-1 items-center gap-2 hover:cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Dropdown

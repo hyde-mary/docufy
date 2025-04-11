@@ -61,9 +61,9 @@ const EditorToolbarHeader = () => {
             />
             <Input
               placeholder="Link"
-              value={link.href}
+              value={link.path}
               onChange={(e) =>
-                updateNavLink(index, { ...link, href: e.target.value })
+                updateNavLink(index, { ...link, path: e.target.value })
               }
               className="flex-1"
             />

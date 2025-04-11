@@ -47,7 +47,7 @@ const EditorPageSidebar = () => {
 
           if (section.name !== "") {
             return (
-              <div key={index} className="space-y-3 w-full">
+              <div key={index} className="px-4 space-y-2 w-full">
                 <button
                   onClick={() => toggleDropdown(index)}
                   className="flex items-center justify-between w-full text-base font-medium hover:underline hover:cursor-pointer"
@@ -61,12 +61,12 @@ const EditorPageSidebar = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {section.items.map((item, itemIndex) => (
                       <Link
                         key={itemIndex}
                         href={item.href}
-                        className="block text-base text-muted-foreground hover:underline px-4 py-1"
+                        className="block text-base text-muted-foreground hover:underline py-1"
                       >
                         {item.name}
                       </Link>

@@ -8,7 +8,8 @@ type TextSection = {
 type LinkSection = {
   type: "link";
   name: string;
-  href: string;
+  path: string; // user editable: for example /introduction
+  href: string; // auto-generated: /[id]/[...slug]/${path}
 };
 
 type DropdownSection = {
@@ -26,7 +27,8 @@ type Social = {
 
 type NavLink = {
   name: string;
-  href: string;
+  path: string; // user editable: for example /introduction
+  href: string; // auto-generated: /[id]/[...slug]/${path}
 };
 
 type EditorData = {
@@ -35,6 +37,10 @@ type EditorData = {
   theme_toggle: boolean;
   socials: Social[];
   sections: Section[];
+  params: {
+    id: string;
+    slug: string;
+  };
 };
 
 type EditorStore = {
@@ -46,6 +52,9 @@ type EditorStore = {
     key: K,
     value: EditorData[K]
   ) => void;
+
+  // set params, we store the params for dynamic routing
+  setParams: (id: string, slug: string) => void;
 
   // nav links
   addNavLink: () => void;
@@ -92,6 +101,10 @@ export const useEditorStore = create<EditorStore>((set) => ({
       { platform: "twitter", href: "" },
     ],
     sections: [],
+    params: {
+      id: "",
+      slug: "",
+    },
   },
 
   updateField: (key, value) =>
@@ -102,20 +115,41 @@ export const useEditorStore = create<EditorStore>((set) => ({
       },
     })),
 
+  setParams: (id: string, slug: string) =>
+    set((state) => ({
+      data: {
+        ...state.data,
+        params: {
+          id,
+          slug,
+        },
+      },
+    })),
+
   addNavLink: () =>
     set((state) => {
       if (state.data.navLinks.length >= 7) return state;
+
       return {
         data: {
           ...state.data,
-          navLinks: [...state.data.navLinks, { name: "", href: "" }],
+          navLinks: [...state.data.navLinks, { name: "", path: "", href: "" }],
         },
       };
     }),
+
   updateNavLink: (index, newLink) =>
     set((state) => {
+      const { id, slug } = state.data.params;
+
+      const computedHref = `/${id}/${slug}/${newLink.path.replace(/^\/+/, "")}`;
+
       const updated = [...state.data.navLinks];
-      updated[index] = newLink;
+      updated[index] = {
+        ...newLink,
+        href: computedHref,
+      };
+
       return {
         data: {
           ...state.data,
@@ -189,7 +223,12 @@ export const useEditorStore = create<EditorStore>((set) => ({
 
   addLinkSection: () =>
     set((state) => {
-      const newSection: LinkSection = { type: "link", name: "", href: "" };
+      const newSection: LinkSection = {
+        type: "link",
+        name: "",
+        path: "",
+        href: "",
+      };
       return {
         data: {
           ...state.data,
@@ -199,8 +238,16 @@ export const useEditorStore = create<EditorStore>((set) => ({
     }),
   updateLinkSection: (index, updated) =>
     set((state) => {
+      const { id, slug } = state.data.params;
+
+      const computedHref = `/${id}/${slug}/${updated.path.replace(/^\/+/, "")}`;
+
       const updatedSections = [...state.data.sections];
-      updatedSections[index] = updated;
+      updatedSections[index] = {
+        ...updated,
+        href: computedHref,
+      };
+
       return {
         data: {
           ...state.data,
@@ -261,7 +308,10 @@ export const useEditorStore = create<EditorStore>((set) => ({
 
       const updatedDropdown: DropdownSection = {
         ...section,
-        items: [...section.items, { name: "", href: "", type: "link" }],
+        items: [
+          ...section.items,
+          { name: "", href: "", path: "", type: "link" },
+        ],
       };
 
       const updatedSections = [...state.data.sections];
@@ -283,8 +333,17 @@ export const useEditorStore = create<EditorStore>((set) => ({
       const section = state.data.sections[sectionIndex];
       if (!section || section.type !== "dropdown") return state;
 
+      const { id, slug } = state.data.params;
+
+      const computedHref = `/${id}/${slug}/${updatedItem.path.replace(/^\/+/, "")}`;
+
+      const updatedItemWithHref = {
+        ...updatedItem,
+        href: computedHref,
+      };
+
       const updatedItems = [...section.items];
-      updatedItems[itemIndex] = updatedItem;
+      updatedItems[itemIndex] = updatedItemWithHref;
 
       const updatedDropdown: DropdownSection = {
         ...section,

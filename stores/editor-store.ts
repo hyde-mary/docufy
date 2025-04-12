@@ -106,6 +106,9 @@ type EditorStore = {
 
   // root page methods
   updateRootPageMarkdown: (markdown: string) => void;
+
+  // page methods
+  updatePageMarkdown: (href: string, markdown: string) => void;
 };
 
 export const useEditorStore = create<EditorStore>((set) => ({
@@ -762,6 +765,20 @@ export const useEditorStore = create<EditorStore>((set) => ({
             ...state.data.rootPage,
             markdown,
           },
+        },
+      };
+    }),
+
+  updatePageMarkdown: (href, markdown) =>
+    set((state) => {
+      const updatedPages = state.data.pages.map((page) =>
+        page.href === href ? { ...page, markdown } : page
+      );
+
+      return {
+        data: {
+          ...state.data,
+          pages: updatedPages,
         },
       };
     }),

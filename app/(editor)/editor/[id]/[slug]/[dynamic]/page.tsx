@@ -2,8 +2,10 @@
 
 import { useEditorStore } from "@/stores/editor-store";
 import { useParams, useRouter } from "next/navigation";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import { useAllEditorHrefs } from "@/hooks/useAllEditorHrefs";
+import { getMarkdownHeadings } from "@/utils/getMarkdownHeadings";
+import MarkdownPreview from "@/components/editor/markdown-preview";
 
 const EditorPageDynamic = () => {
   const params = useParams<{ id: string; slug: string; dynamic: string }>();
@@ -24,20 +26,37 @@ const EditorPageDynamic = () => {
     }
   }, [params, setParams, isValidPath, router]);
 
-  if (!isValidPath) return;
+  const page = useMemo(() => {
+    return data.pages.find((p) => p.href === fullPath);
+  }, [data.pages, fullPath]);
+
+  if (!isValidPath || !page) return null;
+
+  const headings = getMarkdownHeadings(page.markdown);
 
   return (
     <Fragment>
-      <div className="flex-1 text-white p-4">
-        <h2>Dynamic Page</h2>
-        <p>id: {params.id}</p>
-        <p>slug: {params.slug}</p>
-        <p>dynamic segment: {params.dynamic}</p>
-        <p>Full Path: {fullPath}</p>
+      <div className="flex-1 px-40 py-12 flex-col space-y-2 overflow-auto">
+        <MarkdownPreview markdown={page.markdown} />
       </div>
 
-      <div className="w-64 text-white">
-        <div className="p-4"></div>
+      {/* headings will go here */}
+      <div className="w-64">
+        <div className="px-4 py-12 flex flex-col space-y-4">
+          {headings.length > 0 && (
+            <p className="text-base font-medium">On This Page</p>
+          )}
+          {headings.map((heading, index) => (
+            <a
+              key={index}
+              href={`#${heading.text.toLowerCase().replace(/\s+/g, "-")}`}
+              style={{ paddingLeft: `${(heading.level - 1) * 16}px` }}
+              className="text-sm text-muted-foreground hover:underline"
+            >
+              {heading.text}
+            </a>
+          ))}
+        </div>
       </div>
     </Fragment>
   );

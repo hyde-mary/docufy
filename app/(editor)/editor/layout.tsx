@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import EditorPageHeader from "@/components/editor/page/editor-page-header";
 import EditorPageSidebar from "@/components/editor/page/editor-page-sidebar";
+import EditorJsonViewer from "@/components/editor/editor-json-viewer";
 
 export default function EditorLayout({
   children,
@@ -14,7 +15,8 @@ export default function EditorLayout({
   children: React.ReactNode;
 }>) {
   const [isOpen, setIsOpen] = useState(true);
-  const [isLeft, setIsLeft] = useState(false);
+  const [isToolbarLeft, setIsToolbarLeft] = useState(true);
+  const [isJsonOpen, setIsJsonOpen] = useState(false);
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -24,7 +26,7 @@ export default function EditorLayout({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "fixed top-4 z-50 bg-background p-2 rounded-md shadow-md hover:bg-muted transition hover:cursor-pointer",
-          isLeft ? "left-4" : "right-4"
+          isToolbarLeft ? "left-4" : "right-4"
         )}
       >
         <Menu className="w-6 h-6" />
@@ -35,10 +37,33 @@ export default function EditorLayout({
         <Fragment>
           <div
             className={`fixed top-[90px] bottom-4 z-40 w-[450px] bg-background overflow-y-auto transition-all duration-300 ${
-              isLeft ? "left-4" : "right-4"
+              isToolbarLeft ? "left-4" : "right-4"
             }`}
           >
-            <EditorToolbar setIsLeft={setIsLeft} isLeft={isLeft} />
+            <EditorToolbar
+              setIsToolbarLeft={setIsToolbarLeft}
+              isToolbarLeft={isToolbarLeft}
+              isJsonOpen={isJsonOpen}
+              setIsJsonOpen={setIsJsonOpen}
+            />
+          </div>
+        </Fragment>
+      )}
+
+      {isJsonOpen && (
+        <Fragment>
+          {/* if the toolbar is left, we put it on the right, else we put it on the left. They would be inverse of each other */}
+          <div
+            className={`fixed top-[90px] bottom-4 z-40 w-[450px] bg-background overflow-y-auto transition-all duration-300 ${
+              isToolbarLeft ? "right-4" : "left-4"
+            }`}
+          >
+            <EditorJsonViewer
+              setIsToolbarLeft={setIsToolbarLeft}
+              isToolbarLeft={isToolbarLeft}
+              isJsonOpen={isJsonOpen}
+              setIsJsonOpen={setIsJsonOpen}
+            />
           </div>
         </Fragment>
       )}

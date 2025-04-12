@@ -17,8 +17,6 @@ const EditorPageRoot = () => {
     }
   }, [params, setParams]);
 
-  console.log(headings);
-
   return (
     <Fragment>
       <div className="flex-1 px-40 py-12 flex-col space-y-2 overflow-auto">

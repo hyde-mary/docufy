@@ -13,11 +13,18 @@ import EditorToolbarPathDropdown from "./toolbar/editor-toolbar-path-dropdown";
 import EditorToolbarMainContent from "./toolbar/editor-toolbar-main-content";
 
 interface EditorToolbarProps {
-  isLeft: boolean;
-  setIsLeft: React.Dispatch<React.SetStateAction<boolean>>;
+  isToolbarLeft: boolean;
+  setIsToolbarLeft: React.Dispatch<React.SetStateAction<boolean>>;
+  isJsonOpen: boolean;
+  setIsJsonOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditorToolbar = ({ isLeft, setIsLeft }: EditorToolbarProps) => {
+const EditorToolbar = ({
+  isToolbarLeft,
+  setIsToolbarLeft,
+  isJsonOpen,
+  setIsJsonOpen,
+}: EditorToolbarProps) => {
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [isMainContentExpanded, setIsMainContentExpanded] = useState(false);
@@ -113,14 +120,22 @@ const EditorToolbar = ({ isLeft, setIsLeft }: EditorToolbarProps) => {
             Go Back
           </Button>
         </Link>
+        <Button
+          variant={"default"}
+          size={"sm"}
+          className="text-[12px]"
+          onClick={() => setIsJsonOpen(!isJsonOpen)}
+        >
+          JSON Editor
+        </Button>
         <div className="flex items-center justify-center gap-x-2">
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setIsLeft(!isLeft)}
+            onClick={() => setIsToolbarLeft(!isToolbarLeft)}
             className="hover:cursor-pointer"
           >
-            {isLeft ? (
+            {isToolbarLeft ? (
               <ChevronRight className="w-4 h-4" />
             ) : (
               <ChevronLeft className="w-4 h-4" />

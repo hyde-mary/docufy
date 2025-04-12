@@ -25,7 +25,9 @@ const EditorPageRoot = () => {
 
       <div className="w-64">
         <div className="px-4 py-12 flex flex-col space-y-4">
-          <p>On this Page</p>
+          {headings.length > 0 && (
+            <p className="text-base font-medium">On This Page</p>
+          )}
           {headings.map((heading, index) => (
             <a
               key={index}

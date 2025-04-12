@@ -22,7 +22,7 @@ const EditorPageDynamic = () => {
     }
 
     if (!isValidPath) {
-      router.push(fullPath);
+      router.push(`/editor/${params.id}/${params.slug}/`);
     }
   }, [params, setParams, isValidPath, router, fullPath]);
 

@@ -1,5 +1,5 @@
 "use client";
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Save } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
@@ -29,10 +29,16 @@ const EditorToolbar = ({
     <Card className="flex h-full w-full !rounded-none border border-muted-foreground/15">
       <CardHeader className="flex items-center justify-between text-lg font-bold">
         <div className="flex items-center justify-between gap-2 w-full">
-          <span>Docufy&apos;s Editor</span>
-          <span className="text-sm font-medium bg-muted-foreground/30 px-2 py-1 rounded-full">
-            BETA v.0
-          </span>
+          <div className="flex items-center justify-center gap-2">
+            <span>Docufy&apos;s Editor</span>
+            <span className="text-sm font-medium bg-muted-foreground/30 px-2 py-1 rounded-full">
+              BETA v.0
+            </span>
+          </div>
+          <Button size={"sm"} className="text-sm hover:cursor-pointer">
+            <Save className="w-4 h-4" />
+            Save
+          </Button>
         </div>
       </CardHeader>
 

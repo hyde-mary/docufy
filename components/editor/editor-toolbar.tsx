@@ -11,6 +11,13 @@ import { useState } from "react";
 import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
 import EditorToolbarPathDropdown from "./toolbar/editor-toolbar-path-dropdown";
 import EditorToolbarMainContent from "./toolbar/editor-toolbar-main-content";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useParams } from "next/navigation";
+import { useEditorStore } from "@/stores/editor-store";
+import { Id } from "@/convex/_generated/dataModel";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface EditorToolbarProps {
   isToolbarLeft: boolean;
@@ -21,9 +28,34 @@ const EditorToolbar = ({
   isToolbarLeft,
   setIsToolbarLeft,
 }: EditorToolbarProps) => {
+  const params = useParams<{ id: string }>();
+  const saveEditorData = useMutation(api.editor.saveEditorData);
+  const { data } = useEditorStore();
+
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [isMainContentExpanded, setIsMainContentExpanded] = useState(false);
+
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSave = () => {
+    setIsSaving(true);
+    try {
+      if (!params.id) return;
+
+      const projectId = params.id as Id<"projects">;
+
+      saveEditorData({ projectId, editorData: data });
+
+      toast("Data has been successfully saved!");
+    } catch (error) {
+      toast.error("Data saving has failed", {
+        description: error as string,
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <Card className="flex h-full w-full !rounded-none border border-muted-foreground/15">
@@ -35,9 +67,17 @@ const EditorToolbar = ({
               BETA v.0
             </span>
           </div>
-          <Button size={"sm"} className="text-sm hover:cursor-pointer">
+          <Button
+            size={"sm"}
+            className={cn(
+              "text-sm hover:cursor-pointer",
+              isSaving && "bg-gray-500"
+            )}
+            onClick={() => handleSave()}
+            disabled={isSaving}
+          >
             <Save className="w-4 h-4" />
-            Save
+            {isSaving ? "Saving" : "Save"}
           </Button>
         </div>
       </CardHeader>

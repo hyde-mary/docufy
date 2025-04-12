@@ -11,5 +11,6 @@ export default defineSchema({
     status: v.union(v.literal("Active"), v.literal("Paused")),
     visibility: v.union(v.literal("Public"), v.literal("Private")),
     template: v.union(v.literal("Default")),
+    data: v.optional(v.any()),
   }).index("by_userId", ["userId"]),
 });

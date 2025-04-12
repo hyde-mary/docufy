@@ -3,17 +3,26 @@ import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  BetweenVerticalEnd,
+  ChevronLeft,
+  ChevronRight,
+  SquareSplitHorizontal,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface EditorJsonViewerProps {
   isToolbarLeft: boolean;
   setIsToolbarLeft: React.Dispatch<React.SetStateAction<boolean>>;
+  isSplit: boolean;
+  setIsSplit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditorJsonViewer = ({
   isToolbarLeft,
   setIsToolbarLeft,
+  isSplit,
+  setIsSplit,
 }: EditorJsonViewerProps) => {
   const { data } = useEditorStore();
 
@@ -40,7 +49,8 @@ const EditorJsonViewer = ({
       <CardFooter
         className={cn(
           "flex items-center",
-          isToolbarLeft ? "justify-start" : "justify-end"
+          isToolbarLeft ? "justify-start" : "justify-end",
+          isSplit ? "justify-start" : "justify-end"
         )}
       >
         {/* here we just invert the icons */}
@@ -52,9 +62,25 @@ const EditorJsonViewer = ({
             className="hover:cursor-pointer"
           >
             {isToolbarLeft ? (
-              <ChevronLeft className="w-4 h-4" />
+              isSplit ? (
+                <ChevronLeft className="w-4 h-4" />
+              ) : (
+                <ChevronRight className="w-4 h-4" />
+              )
             ) : (
-              <ChevronRight className="w-4 h-4" />
+              <ChevronLeft className="w-4 h-4" />
+            )}
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsSplit(!isSplit)}
+            className="hover:cursor-pointer"
+          >
+            {isSplit ? (
+              <BetweenVerticalEnd className="w-4 h-4" />
+            ) : (
+              <SquareSplitHorizontal className="w-4 h-4" />
             )}
           </Button>
         </div>

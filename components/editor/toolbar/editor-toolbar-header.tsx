@@ -71,6 +71,7 @@ const EditorToolbarHeader = () => {
               variant="ghost"
               size="icon"
               onClick={() => removeNavLink(index)}
+              className="hover:cursor-pointer"
             >
               <X className="w-4 h-4" />
             </Button>
@@ -83,7 +84,7 @@ const EditorToolbarHeader = () => {
             variant="outline"
             onClick={addNavLink}
             size="sm"
-            className="flex items-center gap-2 w-full"
+            className="flex items-center gap-2 w-full hover:cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Add Nav Link

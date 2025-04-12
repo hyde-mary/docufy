@@ -16,7 +16,8 @@ export default function EditorLayout({
 }>) {
   const [isToolbarOpen, setIsToolbarOpen] = useState(true);
   const [isToolbarLeft, setIsToolbarLeft] = useState(true);
-  const [isJsonOpen, setIsJsonOpen] = useState(true);
+  const [isJsonOpen, setIsJsonOpen] = useState(false);
+  const [isSplit, setIsSplit] = useState(false);
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -60,15 +61,27 @@ export default function EditorLayout({
 
       {isJsonOpen && (
         <Fragment>
-          {/* if the toolbar is left, we put it on the right, else we put it on the left. They would be inverse of each other */}
           <div
-            className={`fixed top-[90px] bottom-4 z-40 w-[450px] bg-background overflow-y-auto transition-all duration-300 ${
-              isToolbarOpen ? (isToolbarLeft ? "right-4" : "left-4") : "left-4"
-            }`}
+            className={cn(
+              "fixed top-[90px] bottom-4 z-40 w-[450px] bg-background overflow-y-auto transition-all duration-300",
+              (() => {
+                if (isSplit) {
+                  return isToolbarLeft ? "right-4" : "left-4";
+                } else {
+                  if (!isToolbarOpen) {
+                    return isToolbarLeft ? "left-4" : "right-4";
+                  } else {
+                    return isToolbarLeft ? "left-[470px]" : "right-[470px]";
+                  }
+                }
+              })()
+            )}
           >
             <EditorJsonViewer
               setIsToolbarLeft={setIsToolbarLeft}
               isToolbarLeft={isToolbarLeft}
+              isSplit={isSplit}
+              setIsSplit={setIsSplit}
             />
           </div>
         </Fragment>

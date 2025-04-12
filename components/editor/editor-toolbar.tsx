@@ -97,7 +97,7 @@ const EditorToolbar = ({
             </Button>
           </div>
           {isMainContentExpanded && (
-            <div className="flex-grow min-h-0">
+            <div className="flex-grow">
               <EditorToolbarMainContent />
             </div>
           )}

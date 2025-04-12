@@ -22,9 +22,9 @@ const EditorPageDynamic = () => {
     }
 
     if (!isValidPath) {
-      router.push("/404");
+      router.push(fullPath);
     }
-  }, [params, setParams, isValidPath, router]);
+  }, [params, setParams, isValidPath, router, fullPath]);
 
   const page = useMemo(() => {
     return data.pages.find((p) => p.href === fullPath);

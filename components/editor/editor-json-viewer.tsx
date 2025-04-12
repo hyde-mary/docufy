@@ -2,23 +2,18 @@ import { useEditorStore } from "@/stores/editor-store";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
-import Link from "next/link";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ThemeToggleClick } from "../theme-toggle-click";
+import { cn } from "@/lib/utils";
 
 interface EditorJsonViewerProps {
   isToolbarLeft: boolean;
   setIsToolbarLeft: React.Dispatch<React.SetStateAction<boolean>>;
-  isJsonOpen: boolean;
-  setIsJsonOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditorJsonViewer = ({
   isToolbarLeft,
   setIsToolbarLeft,
-  isJsonOpen,
-  setIsJsonOpen,
 }: EditorJsonViewerProps) => {
   const { data } = useEditorStore();
 
@@ -42,25 +37,12 @@ const EditorJsonViewer = ({
           </pre>
         </CardContent>
       </div>
-      <CardFooter className="flex items-center justify-between">
-        <Link href="/">
-          <Button
-            variant={"ghost"}
-            className="hover:cursor-pointer"
-            size={"sm"}
-          >
-            <ChevronLeft />
-            Go Back
-          </Button>
-        </Link>
-        <Button
-          variant={"default"}
-          size={"sm"}
-          className="text-[12px]"
-          onClick={() => setIsJsonOpen(!isJsonOpen)}
-        >
-          JSON Editor
-        </Button>
+      <CardFooter
+        className={cn(
+          "flex items-center",
+          isToolbarLeft ? "justify-start" : "justify-end"
+        )}
+      >
         {/* here we just invert the icons */}
         <div className="flex items-center justify-center gap-x-2">
           <Button
@@ -75,7 +57,6 @@ const EditorJsonViewer = ({
               <ChevronRight className="w-4 h-4" />
             )}
           </Button>
-          <ThemeToggleClick />
         </div>
       </CardFooter>
     </Card>

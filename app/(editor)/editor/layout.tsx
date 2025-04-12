@@ -2,7 +2,7 @@
 
 import { Fragment, useState } from "react";
 import EditorToolbar from "@/components/editor/editor-toolbar";
-import { Menu } from "lucide-react";
+import { FileJson, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import EditorPageHeader from "@/components/editor/page/editor-page-header";
@@ -14,26 +14,36 @@ export default function EditorLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isToolbarOpen, setIsToolbarOpen] = useState(true);
   const [isToolbarLeft, setIsToolbarLeft] = useState(true);
   const [isJsonOpen, setIsJsonOpen] = useState(false);
 
   return (
     <div className="relative h-screen overflow-hidden">
       {/* hamburger */}
-      <Button
-        variant={"outline"}
-        onClick={() => setIsOpen(!isOpen)}
+      <div
         className={cn(
-          "fixed top-4 z-50 bg-background p-2 rounded-md shadow-md hover:bg-muted transition hover:cursor-pointer",
-          isToolbarLeft ? "left-4" : "right-4"
+          "fixed top-4 z-50 bg-background p-2 rounded-md flex gap-x-2 left-4"
         )}
       >
-        <Menu className="w-6 h-6" />
-      </Button>
+        <Button
+          variant={"outline"}
+          onClick={() => setIsToolbarOpen(!isToolbarOpen)}
+          className="rounded-md shadow-md hover:bg-muted transition hover:cursor-pointer"
+        >
+          <Menu className="w-6 h-6" />
+        </Button>
+        <Button
+          variant={"outline"}
+          onClick={() => setIsJsonOpen(!isJsonOpen)}
+          className="rounded-md shadow-md hover:bg-muted transition hover:cursor-pointer"
+        >
+          <FileJson className="w-6 h-6" />
+        </Button>
+      </div>
 
       {/* Toolbar */}
-      {isOpen && (
+      {isToolbarOpen && (
         <Fragment>
           <div
             className={`fixed top-[90px] bottom-4 z-40 w-[450px] bg-background overflow-y-auto transition-all duration-300 ${
@@ -43,8 +53,6 @@ export default function EditorLayout({
             <EditorToolbar
               setIsToolbarLeft={setIsToolbarLeft}
               isToolbarLeft={isToolbarLeft}
-              isJsonOpen={isJsonOpen}
-              setIsJsonOpen={setIsJsonOpen}
             />
           </div>
         </Fragment>
@@ -55,14 +63,12 @@ export default function EditorLayout({
           {/* if the toolbar is left, we put it on the right, else we put it on the left. They would be inverse of each other */}
           <div
             className={`fixed top-[90px] bottom-4 z-40 w-[450px] bg-background overflow-y-auto transition-all duration-300 ${
-              isToolbarLeft ? "right-4" : "left-4"
+              isToolbarOpen ? (isToolbarLeft ? "right-4" : "left-4") : "left-4"
             }`}
           >
             <EditorJsonViewer
               setIsToolbarLeft={setIsToolbarLeft}
               isToolbarLeft={isToolbarLeft}
-              isJsonOpen={isJsonOpen}
-              setIsJsonOpen={setIsJsonOpen}
             />
           </div>
         </Fragment>

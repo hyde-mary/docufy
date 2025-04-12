@@ -15,15 +15,11 @@ import EditorToolbarMainContent from "./toolbar/editor-toolbar-main-content";
 interface EditorToolbarProps {
   isToolbarLeft: boolean;
   setIsToolbarLeft: React.Dispatch<React.SetStateAction<boolean>>;
-  isJsonOpen: boolean;
-  setIsJsonOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditorToolbar = ({
   isToolbarLeft,
   setIsToolbarLeft,
-  isJsonOpen,
-  setIsJsonOpen,
 }: EditorToolbarProps) => {
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -120,14 +116,6 @@ const EditorToolbar = ({
             Go Back
           </Button>
         </Link>
-        <Button
-          variant={"default"}
-          size={"sm"}
-          className="text-[12px]"
-          onClick={() => setIsJsonOpen(!isJsonOpen)}
-        >
-          JSON Editor
-        </Button>
         <div className="flex items-center justify-center gap-x-2">
           <Button
             variant="outline"

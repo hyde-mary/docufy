@@ -52,7 +52,7 @@ export default function EditorLayout({
                 <EditorPageHeader />
               </div>
               <div className="flex flex-1 overflow-hidden">
-                <div className="w-64 border-r p-4 space-y-2 overflow-auto">
+                <div className="w-64 border-r px-4 py-12 space-y-2 overflow-auto">
                   <EditorPageSidebar />
                 </div>
                 {children}

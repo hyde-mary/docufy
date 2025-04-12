@@ -166,32 +166,79 @@ export const useEditorStore = create<EditorStore>((set) => ({
       const { id, slug } = state.data.params;
       const computedHref = `/editor/${id}/${slug}/${newLink.path.replace(/^\/+/, "")}`;
 
+      const originalLink = state.data.navLinks[index];
+      const originalHref = originalLink?.href || "";
+      const originalPath = originalLink?.path || "";
+
       const updatedNavLinks = [...state.data.navLinks];
       updatedNavLinks[index] = {
         ...newLink,
         href: computedHref,
       };
 
-      const originalHref = state.data.navLinks[index]?.href;
       const updatedPages = [...state.data.pages];
-      const pageIndex = updatedPages.findIndex(
+
+      const pathHasChanged = originalPath !== newLink.path;
+
+      const originalPageIndex = updatedPages.findIndex(
         (page) => page.href === originalHref
       );
+      const newPageIndex = updatedPages.findIndex(
+        (page) => page.href === computedHref
+      );
 
-      if (pageIndex !== -1) {
-        updatedPages[pageIndex] = {
-          ...updatedPages[pageIndex],
+      const otherNavLinksWithOriginalHref = state.data.navLinks.some(
+        (link, i) => i !== index && link.href === originalHref
+      );
+
+      const anySectionWithOriginalHref = state.data.sections.some(
+        (section) =>
+          (section.type === "link" && section.href === originalHref) ||
+          (section.type === "dropdown" &&
+            section.items.some((item) => item.href === originalHref))
+      );
+
+      const otherElementsUsingOriginalHref =
+        otherNavLinksWithOriginalHref || anySectionWithOriginalHref;
+
+      if (pathHasChanged && newLink.path.trim() !== "") {
+        if (newPageIndex === -1) {
+          if (originalPageIndex !== -1) {
+            if (!otherElementsUsingOriginalHref) {
+              updatedPages[originalPageIndex] = {
+                ...updatedPages[originalPageIndex],
+                name: newLink.name,
+                path: newLink.path,
+                href: computedHref,
+                markdown: updatedPages[originalPageIndex].markdown || "",
+              };
+            } else {
+              updatedPages.push({
+                name: newLink.name,
+                path: newLink.path,
+                href: computedHref,
+                markdown: "",
+              });
+            }
+          } else {
+            updatedPages.push({
+              name: newLink.name,
+              path: newLink.path,
+              href: computedHref,
+              markdown: "",
+            });
+          }
+        } else if (
+          originalPageIndex !== -1 &&
+          !otherElementsUsingOriginalHref
+        ) {
+          updatedPages.splice(originalPageIndex, 1);
+        }
+      } else if (originalPageIndex !== -1) {
+        updatedPages[originalPageIndex] = {
+          ...updatedPages[originalPageIndex],
           name: newLink.name,
-          path: newLink.path,
-          href: computedHref,
         };
-      } else if (newLink.path.trim() !== "") {
-        updatedPages.push({
-          name: newLink.name,
-          path: newLink.path,
-          href: computedHref,
-          markdown: "",
-        });
       }
 
       return {
@@ -204,13 +251,34 @@ export const useEditorStore = create<EditorStore>((set) => ({
     }),
   removeNavLink: (index) =>
     set((state) => {
-      const filteredNavLink = state.data.navLinks.filter((_, i) => i !== index);
-      const filteredPage = state.data.pages.filter((_, i) => i !== index);
+      const navLinkToRemove = state.data.navLinks[index];
+      const filteredNavLinks = state.data.navLinks.filter(
+        (_, i) => i !== index
+      );
+
+      const href = navLinkToRemove?.href;
+
+      const otherNavLinksUsingHref = filteredNavLinks.some(
+        (link) => link.href === href
+      );
+
+      const anySectionUsingHref = state.data.sections.some(
+        (section) =>
+          (section.type === "link" && section.href === href) ||
+          (section.type === "dropdown" &&
+            section.items.some((item) => item.href === href))
+      );
+
+      let updatedPages = [...state.data.pages];
+      if (!otherNavLinksUsingHref && !anySectionUsingHref && href) {
+        updatedPages = updatedPages.filter((page) => page.href !== href);
+      }
+
       return {
         data: {
           ...state.data,
-          navLinks: filteredNavLink,
-          pages: filteredPage,
+          navLinks: filteredNavLinks,
+          pages: updatedPages,
         },
       };
     }),
@@ -286,8 +354,13 @@ export const useEditorStore = create<EditorStore>((set) => ({
   updateLinkSection: (index, updated) =>
     set((state) => {
       const { id, slug } = state.data.params;
-
       const computedHref = `/editor/${id}/${slug}/${updated.path.replace(/^\/+/, "")}`;
+
+      const originalSection = state.data.sections[index];
+      const originalHref =
+        originalSection?.type === "link" ? originalSection.href : "";
+      const originalPath =
+        originalSection?.type === "link" ? originalSection.path : "";
 
       const updatedSections = [...state.data.sections];
       updatedSections[index] = {
@@ -295,20 +368,118 @@ export const useEditorStore = create<EditorStore>((set) => ({
         href: computedHref,
       };
 
+      const updatedPages = [...state.data.pages];
+
+      const pathHasChanged = originalPath !== updated.path;
+
+      const originalPageIndex = updatedPages.findIndex(
+        (page) => page.href === originalHref
+      );
+      const newPageIndex = updatedPages.findIndex(
+        (page) => page.href === computedHref
+      );
+
+      const otherSectionsWithOriginalHref = state.data.sections.some(
+        (section, i) =>
+          i !== index &&
+          ((section.type === "link" && section.href === originalHref) ||
+            (section.type === "dropdown" &&
+              section.items.some((item) => item.href === originalHref)))
+      );
+
+      const navLinksWithOriginalHref = state.data.navLinks.some(
+        (link) => link.href === originalHref
+      );
+
+      const otherElementsUsingOriginalHref =
+        otherSectionsWithOriginalHref || navLinksWithOriginalHref;
+
+      if (pathHasChanged && updated.path.trim() !== "") {
+        if (newPageIndex === -1) {
+          if (originalPageIndex !== -1) {
+            if (!otherElementsUsingOriginalHref) {
+              updatedPages[originalPageIndex] = {
+                ...updatedPages[originalPageIndex],
+                name: updated.name,
+                path: updated.path,
+                href: computedHref,
+                markdown: updatedPages[originalPageIndex].markdown || "",
+              };
+            } else {
+              updatedPages.push({
+                name: updated.name,
+                path: updated.path,
+                href: computedHref,
+                markdown: "",
+              });
+            }
+          } else {
+            updatedPages.push({
+              name: updated.name,
+              path: updated.path,
+              href: computedHref,
+              markdown: "",
+            });
+          }
+        } else if (
+          originalPageIndex !== -1 &&
+          !otherElementsUsingOriginalHref
+        ) {
+          updatedPages.splice(originalPageIndex, 1);
+        }
+      } else if (originalPageIndex !== -1) {
+        updatedPages[originalPageIndex] = {
+          ...updatedPages[originalPageIndex],
+          name: updated.name,
+        };
+      }
+
       return {
         data: {
           ...state.data,
           sections: updatedSections,
+          pages: updatedPages,
         },
       };
     }),
   removeLinkSection: (index) =>
     set((state) => {
-      const filtered = state.data.sections.filter((_, i) => i !== index);
+      const sectionToRemove = state.data.sections[index];
+      if (!sectionToRemove || sectionToRemove.type !== "link") {
+        return {
+          data: {
+            ...state.data,
+            sections: state.data.sections.filter((_, i) => i !== index),
+          },
+        };
+      }
+
+      const href = sectionToRemove.href;
+      const filteredSections = state.data.sections.filter(
+        (_, i) => i !== index
+      );
+
+      const otherSectionsUsingHref = filteredSections.some(
+        (section) =>
+          (section.type === "link" && section.href === href) ||
+          (section.type === "dropdown" &&
+            section.items.some((item) => item.href === href))
+      );
+
+      const anyNavLinkUsingHref = state.data.navLinks.some(
+        (link) => link.href === href
+      );
+
+      let updatedPages = [...state.data.pages];
+      if (!otherSectionsUsingHref && !anyNavLinkUsingHref && href) {
+        updatedPages = updatedPages.filter((page) => page.href !== href);
+      }
+
       return {
         data: {
           ...state.data,
-          sections: filtered,
+          sections: filteredSections,
+          pages: updatedPages,
         },
       };
     }),
@@ -340,11 +511,52 @@ export const useEditorStore = create<EditorStore>((set) => ({
     }),
   removeDropdownSection: (index) =>
     set((state) => {
-      const filtered = state.data.sections.filter((_, i) => i !== index);
+      const section = state.data.sections[index];
+
+      if (!section || section.type !== "dropdown") {
+        return {
+          data: {
+            ...state.data,
+            sections: state.data.sections.filter((_, i) => i !== index),
+          },
+        };
+      }
+
+      const itemHrefs =
+        section.type === "dropdown"
+          ? section.items.map((item) => item.href)
+          : [];
+
+      const filteredSections = state.data.sections.filter(
+        (_, i) => i !== index
+      );
+
+      let updatedPages = [...state.data.pages];
+
+      itemHrefs.forEach((href) => {
+        if (!href) return; // Skip empty hrefs
+
+        const otherSectionsUsingHref = filteredSections.some(
+          (section) =>
+            (section.type === "link" && section.href === href) ||
+            (section.type === "dropdown" &&
+              section.items.some((item) => item.href === href))
+        );
+
+        const anyNavLinkUsingHref = state.data.navLinks.some(
+          (link) => link.href === href
+        );
+
+        if (!otherSectionsUsingHref && !anyNavLinkUsingHref) {
+          updatedPages = updatedPages.filter((page) => page.href !== href);
+        }
+      });
+
       return {
         data: {
           ...state.data,
-          sections: filtered,
+          sections: filteredSections,
+          pages: updatedPages,
         },
       };
     }),
@@ -381,8 +593,11 @@ export const useEditorStore = create<EditorStore>((set) => ({
       if (!section || section.type !== "dropdown") return state;
 
       const { id, slug } = state.data.params;
-
       const computedHref = `/editor/${id}/${slug}/${updatedItem.path.replace(/^\/+/, "")}`;
+
+      const originalItem = section.items[itemIndex];
+      const originalHref = originalItem?.href || "";
+      const originalPath = originalItem?.path || "";
 
       const updatedItemWithHref = {
         ...updatedItem,
@@ -400,10 +615,86 @@ export const useEditorStore = create<EditorStore>((set) => ({
       const updatedSections = [...state.data.sections];
       updatedSections[sectionIndex] = updatedDropdown;
 
+      const updatedPages = [...state.data.pages];
+
+      const pathHasChanged = originalPath !== updatedItem.path;
+
+      const originalPageIndex = updatedPages.findIndex(
+        (page) => page.href === originalHref
+      );
+      const newPageIndex = updatedPages.findIndex(
+        (page) => page.href === computedHref
+      );
+
+      const otherDropdownItemsWithOriginalHref = state.data.sections.some(
+        (s) => {
+          if (s.type !== "dropdown") return false;
+
+          return s.items.some(
+            (item, i) =>
+              !(s === section && i === itemIndex) && item.href === originalHref
+          );
+        }
+      );
+
+      const linkSectionsWithOriginalHref = state.data.sections.some(
+        (s) => s.type === "link" && s.href === originalHref
+      );
+
+      const navLinksWithOriginalHref = state.data.navLinks.some(
+        (link) => link.href === originalHref
+      );
+
+      const otherElementsUsingOriginalHref =
+        otherDropdownItemsWithOriginalHref ||
+        linkSectionsWithOriginalHref ||
+        navLinksWithOriginalHref;
+
+      if (pathHasChanged && updatedItem.path.trim() !== "") {
+        if (newPageIndex === -1) {
+          if (originalPageIndex !== -1) {
+            if (!otherElementsUsingOriginalHref) {
+              updatedPages[originalPageIndex] = {
+                ...updatedPages[originalPageIndex],
+                name: updatedItem.name,
+                path: updatedItem.path,
+                href: computedHref,
+                markdown: updatedPages[originalPageIndex].markdown || "",
+              };
+            } else {
+              updatedPages.push({
+                name: updatedItem.name,
+                path: updatedItem.path,
+                href: computedHref,
+                markdown: "",
+              });
+            }
+          } else {
+            updatedPages.push({
+              name: updatedItem.name,
+              path: updatedItem.path,
+              href: computedHref,
+              markdown: "",
+            });
+          }
+        } else if (
+          originalPageIndex !== -1 &&
+          !otherElementsUsingOriginalHref
+        ) {
+          updatedPages.splice(originalPageIndex, 1);
+        }
+      } else if (originalPageIndex !== -1) {
+        updatedPages[originalPageIndex] = {
+          ...updatedPages[originalPageIndex],
+          name: updatedItem.name,
+        };
+      }
+
       return {
         data: {
           ...state.data,
           sections: updatedSections,
+          pages: updatedPages,
         },
       };
     }),
@@ -411,6 +702,9 @@ export const useEditorStore = create<EditorStore>((set) => ({
     set((state) => {
       const section = state.data.sections[sectionIndex];
       if (!section || section.type !== "dropdown") return state;
+
+      const itemToRemove = section.items[itemIndex];
+      const href = itemToRemove?.href;
 
       const updatedItems = section.items.filter((_, i) => i !== itemIndex);
 
@@ -422,10 +716,39 @@ export const useEditorStore = create<EditorStore>((set) => ({
       const updatedSections = [...state.data.sections];
       updatedSections[sectionIndex] = updatedDropdown;
 
+      const otherDropdownItemsUsingHref = state.data.sections.some((s) => {
+        if (s.type !== "dropdown") return false;
+
+        if (s === section) {
+          return updatedItems.some((item) => item.href === href);
+        } else {
+          return s.items.some((item) => item.href === href);
+        }
+      });
+
+      const anyLinkSectionUsingHref = state.data.sections.some(
+        (s) => s.type === "link" && s.href === href
+      );
+
+      const anyNavLinkUsingHref = state.data.navLinks.some(
+        (link) => link.href === href
+      );
+
+      let updatedPages = [...state.data.pages];
+      if (
+        !otherDropdownItemsUsingHref &&
+        !anyLinkSectionUsingHref &&
+        !anyNavLinkUsingHref &&
+        href
+      ) {
+        updatedPages = updatedPages.filter((page) => page.href !== href);
+      }
+
       return {
         data: {
           ...state.data,
           sections: updatedSections,
+          pages: updatedPages,
         },
       };
     }),

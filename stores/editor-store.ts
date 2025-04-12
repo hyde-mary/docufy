@@ -1,5 +1,12 @@
 import { create } from "zustand";
 
+type Page = {
+  name: string;
+  path: string;
+  href: string;
+  markdown: string;
+};
+
 type RootPage = {
   markdown: string;
 };
@@ -48,6 +55,7 @@ type EditorData = {
   sections: Section[];
   params: Params;
   rootPage: RootPage;
+  pages: Page[];
 };
 
 type EditorStore = {
@@ -118,6 +126,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
     rootPage: {
       markdown: "",
     },
+    pages: [],
   },
 
   updateField: (key, value) =>
@@ -143,40 +152,65 @@ export const useEditorStore = create<EditorStore>((set) => ({
     set((state) => {
       if (state.data.navLinks.length >= 7) return state;
 
+      const newNavLink: NavLink = { name: "", path: "", href: "" };
+
       return {
         data: {
           ...state.data,
-          navLinks: [...state.data.navLinks, { name: "", path: "", href: "" }],
+          navLinks: [...state.data.navLinks, newNavLink],
         },
       };
     }),
-
   updateNavLink: (index, newLink) =>
     set((state) => {
       const { id, slug } = state.data.params;
-
       const computedHref = `/editor/${id}/${slug}/${newLink.path.replace(/^\/+/, "")}`;
 
-      const updated = [...state.data.navLinks];
-      updated[index] = {
+      const updatedNavLinks = [...state.data.navLinks];
+      updatedNavLinks[index] = {
         ...newLink,
         href: computedHref,
       };
 
+      const originalHref = state.data.navLinks[index]?.href;
+      const updatedPages = [...state.data.pages];
+      const pageIndex = updatedPages.findIndex(
+        (page) => page.href === originalHref
+      );
+
+      if (pageIndex !== -1) {
+        updatedPages[pageIndex] = {
+          ...updatedPages[pageIndex],
+          name: newLink.name,
+          path: newLink.path,
+          href: computedHref,
+        };
+      } else if (newLink.path.trim() !== "") {
+        updatedPages.push({
+          name: newLink.name,
+          path: newLink.path,
+          href: computedHref,
+          markdown: "",
+        });
+      }
+
       return {
         data: {
           ...state.data,
-          navLinks: updated,
+          navLinks: updatedNavLinks,
+          pages: updatedPages,
         },
       };
     }),
   removeNavLink: (index) =>
     set((state) => {
-      const filtered = state.data.navLinks.filter((_, i) => i !== index);
+      const filteredNavLink = state.data.navLinks.filter((_, i) => i !== index);
+      const filteredPage = state.data.pages.filter((_, i) => i !== index);
       return {
         data: {
           ...state.data,
-          navLinks: filtered,
+          navLinks: filteredNavLink,
+          pages: filteredPage,
         },
       };
     }),

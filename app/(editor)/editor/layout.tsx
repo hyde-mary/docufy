@@ -16,7 +16,7 @@ export default function EditorLayout({
 }>) {
   const [isToolbarOpen, setIsToolbarOpen] = useState(true);
   const [isToolbarLeft, setIsToolbarLeft] = useState(true);
-  const [isJsonOpen, setIsJsonOpen] = useState(false);
+  const [isJsonOpen, setIsJsonOpen] = useState(true);
 
   return (
     <div className="relative h-screen overflow-hidden">

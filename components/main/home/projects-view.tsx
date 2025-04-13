@@ -14,7 +14,7 @@ const ProjectsView = () => {
   const { user } = useUser();
 
   const projects = useQuery(
-    api.projects.getProjectsByUser,
+    api.projects.getUserActiveProjects,
     user ? { userId: user.id } : "skip"
   ) as ProjectsData | undefined;
 

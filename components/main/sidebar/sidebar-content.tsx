@@ -17,13 +17,13 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const SidebarContent = () => {
-  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
-    {}
-  );
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({
+    Projects: true,
+  });
   const pathname = usePathname();
   const { user } = useUser();
   const projects = useQuery(
-    api.projects.getProjectsByUser,
+    api.projects.getUserActiveProjects,
     user ? { userId: user.id } : "skip"
   );
 
@@ -90,29 +90,34 @@ const SidebarContent = () => {
           </span>
         </button>
 
-        {expandedItems["Projects"] && (
-          <div className="mt-2 space-y-2 text-center">
-            {isLoading
-              ? [1, 2, 3, 4, 5].map((i) => (
-                  <Skeleton
-                    key={i}
-                    className="h-6 w-full rounded-md bg-muted-foreground/30 dark:bg-muted-foreground/30"
-                  />
-                ))
-              : projects?.map((project) => (
-                  <Link
-                    key={project._id}
-                    href={`/projects/${project._id}/${project.slug}`}
-                    className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isProjectActive(project._id) ? "bg-muted-foreground/20" : ""}`}
-                  >
-                    <div className="flex gap-2 pl-4 truncate">
-                      {getLucideIcon(project.iconName)}
-                      <span>{project.title}</span>
-                    </div>
-                  </Link>
-                ))}
-          </div>
-        )}
+        {expandedItems["Projects"] &&
+          (isLoading || (projects && projects.length > 0)) && (
+            <div className="mt-2 space-y-2 text-center">
+              {isLoading
+                ? [1, 2, 3, 4, 5].map((i) => (
+                    <Skeleton
+                      key={i}
+                      className="h-6 w-full rounded-md bg-muted-foreground/30 dark:bg-muted-foreground/30"
+                    />
+                  ))
+                : projects?.map((project) => (
+                    <Link
+                      key={project._id}
+                      href={`/projects/${project._id}/${project.slug}`}
+                      className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${
+                        isProjectActive(project._id)
+                          ? "bg-muted-foreground/20"
+                          : ""
+                      }`}
+                    >
+                      <div className="flex gap-2 pl-4 truncate">
+                        {getLucideIcon(project.iconName)}
+                        <span>{project.title}</span>
+                      </div>
+                    </Link>
+                  ))}
+            </div>
+          )}
       </div>
 
       {/* Trash */}

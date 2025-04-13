@@ -14,16 +14,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { getLucideIcon } from "@/utils/components/getLucideIcon";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { ArrowRight, Globe, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import ProjectDetailsContent from "../project-details/project-details-content";
 import ProjectDetailsInformation from "../project-details/project-details-information";
 import ProjectDetailsStatus from "../project-details/project-details-status";
 import ProjectDetailsVisibility from "../project-details/project-details-visibility";
 import ProjectDetailsTemplate from "../project-details/project-details-template";
 import ProjectDetailsTime from "../project-details/project-details-time";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -31,6 +34,17 @@ const ProjectDetails = () => {
     api.projects.getProjectById,
     id ? { id: id as Id<"projects"> } : "skip"
   );
+
+  const moveProjectToTrash = useMutation(api.projects.moveProjectToTrash);
+
+  const [isTrashing, setIsTrashing] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (project && project.status !== "Active") {
+      router.push("/");
+    }
+  }, [project, router]);
 
   if (!project) {
     return (
@@ -51,6 +65,21 @@ const ProjectDetails = () => {
     params: project.data.params,
     rootPage: project.data.rootPage,
     pages: project.data.pages,
+  };
+
+  const handleProjectToTrash = (projectId: Id<"projects">) => {
+    setIsTrashing(true);
+    try {
+      moveProjectToTrash({ projectId });
+      toast.success("Successfully moved the project to trash");
+      router.push("/");
+    } catch (error) {
+      toast.error("Error moving project to trash", {
+        description: error as string,
+      });
+    } finally {
+      setIsTrashing(false);
+    }
   };
 
   return (
@@ -74,9 +103,18 @@ const ProjectDetails = () => {
             <DropdownMenuContent className="w-56">
               <DropdownMenuLabel>Project Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="gap-x-4 hover:cursor-pointer">
+              <DropdownMenuItem
+                className={cn(
+                  "gap-x-4 hover:cursor-pointer",
+                  isTrashing && "bg-gray-500"
+                )}
+                onClick={() => handleProjectToTrash(project._id)}
+                disabled={isTrashing}
+              >
                 <Trash className="w-4 h-4" />
-                Move Project to Trash
+                {isTrashing
+                  ? "Moving Project to Trash"
+                  : "Move Project to Trash"}
               </DropdownMenuItem>
               <DropdownMenuItem className="gap-x-4 hover:cursor-pointer">
                 <Globe className="w-4 h-4" />

@@ -90,3 +90,33 @@ export const getProjectById = query({
     return project;
   },
 });
+
+export const getUserActiveProjects = query({
+  args: {
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const projects = await ctx.db
+      .query("projects")
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("status"), "Active"),
+          q.eq(q.field("userId"), args.userId)
+        )
+      )
+      .collect();
+
+    return projects;
+  },
+});
+
+export const moveProjectToTrash = mutation({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.projectId, {
+      status: "Trash",
+    });
+  },
+});

@@ -14,6 +14,7 @@ export default defineSchema({
       v.literal("Trash"),
       v.literal("Public")
     ),
+    visibility: v.union(v.literal("Private"), v.literal("Public")),
     data: v.optional(v.any()),
   }).index("by_userId", ["userId"]),
 });

@@ -31,7 +31,7 @@ export default function EditorLayout({
       >
         <Button
           variant={"outline"}
-          onClick={() => router.back()}
+          onClick={() => router.push("/")}
           className="rounded-md shadow-md hover:bg-muted transition hover:cursor-pointer"
         >
           <ChevronLeft className="w-6 h-6" />

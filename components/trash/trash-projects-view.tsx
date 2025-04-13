@@ -1,22 +1,20 @@
 "use client";
-
-import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
-import { ProjectsViewCard } from "./projects-view-card";
-import Link from "next/link";
 import { FunctionReturnType } from "convex/server";
+import { Skeleton } from "../ui/skeleton";
+import { TrashProjectsViewCard } from "./trash-projects-view-card";
 
 type ProjectsData = FunctionReturnType<
-  typeof api.projects.getUserActiveProjects
+  typeof api.projects.getUserTrashProjects
 >;
 
-const ProjectsView = () => {
+const TrashProjectsView = () => {
   const { user } = useUser();
 
   const projects = useQuery(
-    api.projects.getUserActiveProjects,
+    api.projects.getUserTrashProjects,
     user ? { userId: user.id } : "skip"
   ) as ProjectsData | undefined;
 
@@ -32,22 +30,18 @@ const ProjectsView = () => {
   return (
     <div className="flex flex-wrap items-start gap-6 py-4">
       {projects.map((project) => (
-        <Link
+        <TrashProjectsViewCard
           key={project._id}
-          href={`/projects/${project._id}/${project.slug}`}
-        >
-          <ProjectsViewCard
-            iconName={project.iconName}
-            title={project.title}
-            status={project.status}
-            description={project.description}
-            visibility={project.visibility}
-            _creationTime={project._creationTime}
-          />
-        </Link>
+          iconName={project.iconName}
+          title={project.title}
+          status={project.status}
+          description={project.description}
+          visibility={project.visibility}
+          _creationTime={project._creationTime}
+        />
       ))}
     </div>
   );
 };
 
-export default ProjectsView;
+export default TrashProjectsView;

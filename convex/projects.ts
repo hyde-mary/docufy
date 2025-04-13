@@ -110,6 +110,25 @@ export const getUserActiveProjects = query({
   },
 });
 
+export const getUserTrashProjects = query({
+  args: {
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const projects = await ctx.db
+      .query("projects")
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("status"), "Trash"),
+          q.eq(q.field("userId"), args.userId)
+        )
+      )
+      .collect();
+
+    return projects;
+  },
+});
+
 export const moveProjectToTrash = mutation({
   args: {
     projectId: v.id("projects"),

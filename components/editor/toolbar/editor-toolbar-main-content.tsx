@@ -54,6 +54,7 @@ const EditorToolbarMainContent = () => {
             value={markdown}
             onChange={handleMarkdownChange}
             height={700}
+            preview="edit"
           />
           <p className="text-xs text-muted-foreground pt-2">
             {isRootPage

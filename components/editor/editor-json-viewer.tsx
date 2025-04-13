@@ -5,6 +5,7 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { EditorData } from "@/types/editor";
 
 interface EditorJsonViewerProps {
   isToolbarOpen: boolean;
@@ -13,64 +14,6 @@ interface EditorJsonViewerProps {
   isSplit: boolean;
 }
 
-type Page = {
-  name: string;
-  path: string;
-  href: string;
-  markdown: string;
-};
-
-type RootPage = {
-  markdown: string;
-};
-
-type Params = {
-  id: string;
-  slug: string;
-};
-
-type TextSection = {
-  type: "text";
-  name: string;
-};
-
-type LinkSection = {
-  type: "link";
-  name: string;
-  path: string; // user editable: for example /introduction
-  href: string; // auto-generated: /[id]/[...slug]/${path}
-};
-
-type DropdownSection = {
-  type: "dropdown";
-  name: string;
-  items: LinkSection[];
-};
-
-type Section = TextSection | LinkSection | DropdownSection;
-
-type Social = {
-  platform: "github" | "facebook" | "twitter";
-  href: string;
-};
-
-type NavLink = {
-  name: string;
-  path: string; // user editable: for example /introduction
-  href: string; // auto-generated: /[id]/[...slug]/${path}
-};
-
-type ReorderData = {
-  title: string;
-  navLinks: NavLink[];
-  theme_toggle: boolean;
-  socials: Social[];
-  sections: Section[];
-  params: Params;
-  rootPage: RootPage;
-  pages: Page[];
-};
-
 const EditorJsonViewer = ({
   isToolbarOpen,
   isToolbarLeft,
@@ -78,7 +21,7 @@ const EditorJsonViewer = ({
   isSplit,
 }: EditorJsonViewerProps) => {
   const { data } = useEditorStore();
-  const reorderData: ReorderData = {
+  const reorderData: EditorData = {
     title: data.title,
     navLinks: data.navLinks,
     theme_toggle: data.theme_toggle,

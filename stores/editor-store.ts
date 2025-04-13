@@ -1,62 +1,13 @@
 import { create } from "zustand";
 
-type Page = {
-  name: string;
-  path: string;
-  href: string;
-  markdown: string;
-};
-
-type RootPage = {
-  markdown: string;
-};
-
-type Params = {
-  id: string;
-  slug: string;
-};
-
-type TextSection = {
-  type: "text";
-  name: string;
-};
-
-type LinkSection = {
-  type: "link";
-  name: string;
-  path: string; // user editable: for example /introduction
-  href: string; // auto-generated: /[id]/[...slug]/${path}
-};
-
-type DropdownSection = {
-  type: "dropdown";
-  name: string;
-  items: LinkSection[];
-};
-
-type Section = TextSection | LinkSection | DropdownSection;
-
-type Social = {
-  platform: "github" | "facebook" | "twitter";
-  href: string;
-};
-
-type NavLink = {
-  name: string;
-  path: string; // user editable: for example /introduction
-  href: string; // auto-generated: /[id]/[...slug]/${path}
-};
-
-type EditorData = {
-  title: string;
-  navLinks: NavLink[];
-  theme_toggle: boolean;
-  socials: Social[];
-  sections: Section[];
-  params: Params;
-  rootPage: RootPage;
-  pages: Page[];
-};
+import {
+  DropdownSection,
+  EditorData,
+  LinkSection,
+  NavLink,
+  Social,
+  TextSection,
+} from "@/types/editor";
 
 type EditorStore = {
   // data

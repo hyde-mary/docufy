@@ -15,7 +15,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { getLucideIcon } from "@/utils/components/getLucideIcon";
 import { useMutation, useQuery } from "convex/react";
-import { ArrowRight, Globe, MoreHorizontal, Trash } from "lucide-react";
+import { ArrowRight, Globe, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import ProjectDetailsContent from "./project-details/project-details-content";
@@ -103,6 +103,15 @@ const ProjectDetails = () => {
             <DropdownMenuContent className="w-56">
               <DropdownMenuLabel>Project Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="gap-x-4 hover:cursor-pointer"
+                onClick={() =>
+                  router.push(`/projects/edit/${project._id}/${project.slug}`)
+                }
+              >
+                <Pen className="w-4 h-4" />
+                Edit Project
+              </DropdownMenuItem>
               <DropdownMenuItem
                 className={cn(
                   "gap-x-4 hover:cursor-pointer",

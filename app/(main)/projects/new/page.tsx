@@ -1,4 +1,4 @@
-import NewProjectsForm from "@/components/main/projects/form/new-project-form";
+import NewProjectForm from "@/components/main/projects/form/new-project-form";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 
@@ -13,7 +13,7 @@ const NewProjectPage = () => {
         </h2>
         <Separator />
         <div className="w-full">
-          <NewProjectsForm />
+          <NewProjectForm />
         </div>
       </div>
     </div>

@@ -162,3 +162,21 @@ export const deleteProject = mutation({
     await ctx.db.delete(args.projectId);
   },
 });
+
+export const editProject = mutation({
+  args: {
+    projectId: v.id("projects"),
+    title: v.string(),
+    slug: v.string(),
+    iconName: v.optional(v.string()),
+    description: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.projectId, {
+      title: args.title,
+      slug: args.slug,
+      iconName: args.iconName,
+      description: args.description,
+    });
+  },
+});

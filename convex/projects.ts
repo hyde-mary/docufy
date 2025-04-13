@@ -36,7 +36,19 @@ export const createDefaultProject = mutation({
       template: "Default",
       status: "Active",
       visibility: "Private",
-      data: defaultData,
+      data: {},
+    });
+
+    const newData = {
+      ...defaultData,
+      params: {
+        id: projectId,
+        slug: "Getting-Started",
+      },
+    };
+
+    await ctx.db.patch(projectId, {
+      data: newData,
     });
 
     return projectId;
@@ -63,7 +75,19 @@ export const createProject = mutation({
       template: args.template,
       status: "Active",
       visibility: "Private",
-      data: defaultData,
+      data: {},
+    });
+
+    const newData = {
+      ...defaultData,
+      params: {
+        id: newProjectId,
+        slug: args.slug,
+      },
+    };
+
+    await ctx.db.patch(newProjectId, {
+      data: newData,
     });
 
     return newProjectId;
@@ -173,11 +197,22 @@ export const editProject = mutation({
     description: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const project = await ctx.db.get(args.projectId);
+
+    const updatedData = {
+      ...project.data,
+      params: {
+        ...project.data.params,
+        slug: args.slug,
+      },
+    };
+
     await ctx.db.patch(args.projectId, {
       title: args.title,
       slug: args.slug,
       iconName: args.iconName,
       description: args.description,
+      data: updatedData,
     });
   },
 });

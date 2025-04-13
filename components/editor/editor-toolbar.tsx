@@ -7,11 +7,11 @@ import { Button } from "../ui/button";
 import { ThemeToggleClick } from "../theme-toggle-click";
 
 import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
 import EditorToolbarPathDropdown from "./toolbar/editor-toolbar-path-dropdown";
 import EditorToolbarMainContent from "./toolbar/editor-toolbar-main-content";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
 import { useEditorStore } from "@/stores/editor-store";
@@ -29,14 +29,25 @@ const EditorToolbar = ({
   setIsToolbarLeft,
 }: EditorToolbarProps) => {
   const params = useParams<{ id: string }>();
-  const saveEditorData = useMutation(api.editor.saveEditorData);
-  const { data } = useEditorStore();
+  const { data, setData } = useEditorStore();
 
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [isMainContentExpanded, setIsMainContentExpanded] = useState(false);
 
   const [isSaving, setIsSaving] = useState(false);
+
+  const saveEditorData = useMutation(api.editor.saveEditorData);
+
+  const editorData = useQuery(api.editor.getEditorData, {
+    projectId: params.id as Id<"projects">,
+  });
+
+  useEffect(() => {
+    if (editorData) {
+      setData(editorData.data);
+    }
+  }, [editorData, setData]);
 
   const handleSave = () => {
     setIsSaving(true);

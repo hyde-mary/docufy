@@ -62,6 +62,9 @@ type EditorStore = {
   // data
   data: EditorData;
 
+  // set data method
+  setData: (editorData: EditorData) => void;
+
   // update field used for title
   updateField: <K extends keyof EditorData>(
     key: K,
@@ -131,6 +134,8 @@ export const useEditorStore = create<EditorStore>((set) => ({
     },
     pages: [],
   },
+
+  setData: (editorData: EditorData) => set({ data: editorData }),
 
   updateField: (key, value) =>
     set((state) => ({

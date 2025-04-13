@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const saveEditorData = mutation({
@@ -10,5 +10,16 @@ export const saveEditorData = mutation({
     await ctx.db.patch(args.projectId, {
       data: args.editorData,
     });
+  },
+});
+
+export const getEditorData = query({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    const data = await ctx.db.get(args.projectId);
+
+    return data;
   },
 });

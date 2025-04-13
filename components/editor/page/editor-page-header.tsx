@@ -19,7 +19,11 @@ const EditorPageHeader = () => {
   return (
     <Fragment>
       <div className="flex items-center justify-center gap-x-4">
-        <h1 className="text-base font-bold">{data.title}</h1>
+        <h1 className="text-base font-bold">
+          <Link href={`/editor/${data.params.id}/${data.params.slug}`}>
+            {data.title}
+          </Link>
+        </h1>
         {data.navLinks.map((link, index) => (
           <Link
             key={index}

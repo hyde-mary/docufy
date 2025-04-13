@@ -4,6 +4,7 @@ import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import "highlight.js/styles/github-dark-dimmed.css";
 import Image from "next/image";
+import rehypeRaw from "rehype-raw";
 
 type MarkdownPreviewProps = {
   markdown: string;
@@ -18,7 +19,7 @@ const MarkdownPreview = ({
     <div className={`markdown-preview ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
+        rehypePlugins={[rehypeHighlight, rehypeRaw]}
         components={{
           //headings
           h1: ({ ...props }) => {

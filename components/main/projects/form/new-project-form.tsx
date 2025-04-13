@@ -11,7 +11,6 @@ import { newProjectSchema } from "@/lib/schemas/projectSchema";
 import { generateSlug } from "@/utils/generateSlug";
 import NewProjectBasicSection from "../form-section/new-basic-section";
 import NewProjectAppearanceSection from "../form-section/new-appearance-section";
-import NewProjectVisibilitySection from "../form-section/new-visibility-section";
 import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMutation } from "convex/react";
@@ -99,9 +98,6 @@ const NewProjectsForm = () => {
 
           {/* Appearance Section */}
           <NewProjectAppearanceSection form={form} title={title} user={user} />
-
-          {/* Visibility Section */}
-          <NewProjectVisibilitySection form={form} />
         </div>
 
         <div className="flex justify-end">

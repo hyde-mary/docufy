@@ -13,6 +13,8 @@ export const createDefaultProject = mutation({
       slug: "Getting-Started",
       description:
         "Welcome to your first project! This space is designed to help you explore the features and workflow of the platform.",
+      template: "Default",
+      status: "Active",
     });
 
     return projectId;
@@ -30,15 +32,35 @@ export const createProject = mutation({
     template: v.union(v.literal("Default")),
   },
   handler: async (ctx, args) => {
+    const defaultData = {
+      title: "",
+      navLinks: [],
+      theme_toggle: false,
+      socials: [
+        { platform: "github", href: "" },
+        { platform: "facebook", href: "" },
+        { platform: "twitter", href: "" },
+      ],
+      sections: [],
+      params: {
+        id: "",
+        slug: "",
+      },
+      rootPage: {
+        markdown: "",
+      },
+      pages: [],
+    };
+
     const newProjectId = await ctx.db.insert("projects", {
       title: args.title,
       userId: args.userId,
       slug: args.slug,
       iconName: args.iconName,
-      status: "Active",
       description: args.description,
-      visibility: args.visibility,
       template: args.template,
+      status: "Active",
+      data: defaultData,
     });
 
     return newProjectId;

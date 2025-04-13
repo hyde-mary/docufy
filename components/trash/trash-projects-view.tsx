@@ -32,8 +32,10 @@ const TrashProjectsView = () => {
       {projects.map((project) => (
         <TrashProjectsViewCard
           key={project._id}
+          projectId={project._id}
           iconName={project.iconName}
           title={project.title}
+          slug={project.slug}
           status={project.status}
           description={project.description}
           visibility={project.visibility}

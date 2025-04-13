@@ -15,6 +15,7 @@ export const createDefaultProject = mutation({
         "Welcome to your first project! This space is designed to help you explore the features and workflow of the platform.",
       template: "Default",
       status: "Active",
+      visibility: "Private",
     });
 
     return projectId;
@@ -60,6 +61,7 @@ export const createProject = mutation({
       description: args.description,
       template: args.template,
       status: "Active",
+      visibility: "Private",
       data: defaultData,
     });
 
@@ -137,5 +139,26 @@ export const moveProjectToTrash = mutation({
     await ctx.db.patch(args.projectId, {
       status: "Trash",
     });
+  },
+});
+
+export const restoreProjectFromTrash = mutation({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.projectId, {
+      status: "Active",
+    });
+  },
+});
+
+// total deletion from the database
+export const deleteProject = mutation({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.projectId);
   },
 });

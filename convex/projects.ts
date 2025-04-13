@@ -1,6 +1,26 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
+const defaultData = {
+  title: "",
+  navLinks: [],
+  theme_toggle: false,
+  socials: [
+    { platform: "github", href: "" },
+    { platform: "facebook", href: "" },
+    { platform: "twitter", href: "" },
+  ],
+  sections: [],
+  params: {
+    id: "",
+    slug: "",
+  },
+  rootPage: {
+    markdown: "",
+  },
+  pages: [],
+};
+
 export const createDefaultProject = mutation({
   args: {
     userId: v.string(),
@@ -9,13 +29,14 @@ export const createDefaultProject = mutation({
     const projectId = await ctx.db.insert("projects", {
       title: "Getting Started",
       userId: args.userId,
-      icon: "Rocket",
+      iconName: "Rocket",
       slug: "Getting-Started",
       description:
         "Welcome to your first project! This space is designed to help you explore the features and workflow of the platform.",
       template: "Default",
       status: "Active",
       visibility: "Private",
+      data: defaultData,
     });
 
     return projectId;
@@ -33,26 +54,6 @@ export const createProject = mutation({
     template: v.union(v.literal("Default")),
   },
   handler: async (ctx, args) => {
-    const defaultData = {
-      title: "",
-      navLinks: [],
-      theme_toggle: false,
-      socials: [
-        { platform: "github", href: "" },
-        { platform: "facebook", href: "" },
-        { platform: "twitter", href: "" },
-      ],
-      sections: [],
-      params: {
-        id: "",
-        slug: "",
-      },
-      rootPage: {
-        markdown: "",
-      },
-      pages: [],
-    };
-
     const newProjectId = await ctx.db.insert("projects", {
       title: args.title,
       userId: args.userId,

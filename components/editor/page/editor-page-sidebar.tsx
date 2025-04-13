@@ -47,7 +47,7 @@ const EditorPageSidebar = () => {
 
           if (section.name !== "") {
             return (
-              <div key={index} className="px-4 space-y-2 w-full">
+              <div key={index} className="px-4 space-y-2 py-1 w-full">
                 <button
                   onClick={() => toggleDropdown(index)}
                   className="flex items-center justify-between w-full text-base font-medium hover:underline hover:cursor-pointer"

@@ -184,7 +184,7 @@ export const TrashProjectsViewCard = ({
         </div>
       </CardHeader>
       <CardContent className="flex flex-grow">
-        <p className="text-sm text-justify text-muted-foreground line-clamp-4">
+        <p className="text-sm text-muted-foreground line-clamp-4">
           {description || "No description available."}
         </p>
       </CardContent>

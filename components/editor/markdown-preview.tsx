@@ -3,8 +3,8 @@ import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import "highlight.js/styles/github-dark-dimmed.css";
-import Image from "next/image";
 import rehypeRaw from "rehype-raw";
+import { memo } from "react";
 
 type MarkdownPreviewProps = {
   markdown: string;
@@ -21,7 +21,7 @@ const MarkdownPreview = ({
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight, rehypeRaw]}
         components={{
-          //headings
+          // headings
           h1: ({ ...props }) => {
             const text = String(props.children);
             const id = text
@@ -176,14 +176,14 @@ const MarkdownPreview = ({
           ),
 
           // Images
-          img: ({ src, alt = "", width, height }) => (
-            <Image
+          img: ({ src, alt = "", ...props }) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={src || ""}
               alt={alt}
-              width={Number(width) || 800}
-              height={Number(height) || 400}
-              className="rounded-lg w-full h-auto"
+              className="rounded-lg max-w-full h-auto my-4"
               loading="lazy"
+              {...props}
             />
           ),
 
@@ -218,4 +218,8 @@ const MarkdownPreview = ({
   );
 };
 
-export default MarkdownPreview;
+// Memoize the component to avoid unnecessary re-renders
+export default memo(
+  MarkdownPreview,
+  (prevProps, nextProps) => prevProps.markdown === nextProps.markdown
+);

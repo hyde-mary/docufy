@@ -1,8 +1,7 @@
 "use client";
-
 import { useEditorStore } from "@/stores/editor-store";
 import { useParams, useRouter } from "next/navigation";
-import { Fragment, useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo, useRef } from "react";
 import { useAllEditorHrefs } from "@/hooks/useAllEditorHrefs";
 import { getMarkdownHeadings } from "@/utils/getMarkdownHeadings";
 import MarkdownPreview from "@/components/editor/markdown-preview";
@@ -13,22 +12,32 @@ const EditorPageDynamic = () => {
   const router = useRouter();
   const validHrefs = useAllEditorHrefs();
   const fullPath = `/editor/${params.id}/${params.slug}/${params.dynamic}`;
-
   const isValidPath = validHrefs.some(({ href }) => href === fullPath);
+  const prevPathRef = useRef(fullPath);
 
   useEffect(() => {
     if (params.id && params.slug) {
       setParams(params.id, params.slug);
     }
-
     if (!isValidPath) {
       router.push(`/editor/${params.id}/${params.slug}/`);
     }
   }, [params, setParams, isValidPath, router, fullPath]);
 
+  // Use memoization to prevent unnecessary re-renders
   const page = useMemo(() => {
     return data.pages.find((p) => p.href === fullPath);
   }, [data.pages, fullPath]);
+
+  // Check if only the path changed, not the content
+  const contentChanged = useMemo(() => {
+    return prevPathRef.current !== fullPath;
+  }, [fullPath]);
+
+  // Update path ref after checking
+  useEffect(() => {
+    prevPathRef.current = fullPath;
+  }, [fullPath]);
 
   if (!isValidPath || !page) return null;
 
@@ -37,10 +46,11 @@ const EditorPageDynamic = () => {
   return (
     <Fragment>
       <div className="flex-1 px-40 py-12 flex-col space-y-2 overflow-auto">
-        <MarkdownPreview markdown={page.markdown} />
+        <MarkdownPreview
+          markdown={page.markdown}
+          key={contentChanged ? fullPath : "static-preview"}
+        />
       </div>
-
-      {/* headings will go here */}
       <div className="w-64">
         <div className="px-4 py-12 flex flex-col space-y-4">
           {headings.length > 0 && (
@@ -49,7 +59,10 @@ const EditorPageDynamic = () => {
           {headings.map((heading, index) => (
             <a
               key={index}
-              href={`#${heading.text.toLowerCase().replace(/\s+/g, "-")}`}
+              href={`#${heading.text
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, "")
+                .replace(/\s+/g, "-")}`}
               style={{ paddingLeft: `${(heading.level - 1) * 16}px` }}
               className="text-sm text-muted-foreground hover:underline"
             >

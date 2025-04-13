@@ -1,13 +1,19 @@
 "use client";
-import { ChevronDown, ChevronLeft, ChevronRight, Save } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeftRight,
+  ChevronsRightLeft,
+  Save,
+} from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
-import Link from "next/link";
 import { Button } from "../ui/button";
 import { ThemeToggleClick } from "../theme-toggle-click";
 
 import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
 import EditorToolbarPathDropdown from "./toolbar/editor-toolbar-path-dropdown";
 import EditorToolbarMainContent from "./toolbar/editor-toolbar-main-content";
@@ -22,11 +28,15 @@ import { cn } from "@/lib/utils";
 interface EditorToolbarProps {
   isToolbarLeft: boolean;
   setIsToolbarLeft: React.Dispatch<React.SetStateAction<boolean>>;
+  isSplit: boolean;
+  setIsSplit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditorToolbar = ({
   isToolbarLeft,
   setIsToolbarLeft,
+  isSplit,
+  setIsSplit,
 }: EditorToolbarProps) => {
   const params = useParams<{ id: string }>();
   const { data, setData } = useEditorStore();
@@ -162,31 +172,65 @@ const EditorToolbar = ({
       </div>
 
       <Separator />
-      <CardFooter className="flex items-center justify-between">
-        <Link href="/">
-          <Button
-            variant={"ghost"}
-            className="hover:cursor-pointer"
-            size={"sm"}
-          >
-            <ChevronLeft />
-            Go Back
-          </Button>
-        </Link>
-        <div className="flex items-center justify-center gap-x-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setIsToolbarLeft(!isToolbarLeft)}
-            className="hover:cursor-pointer"
-          >
-            {isToolbarLeft ? (
-              <ChevronRight className="w-4 h-4" />
-            ) : (
-              <ChevronLeft className="w-4 h-4" />
-            )}
-          </Button>
-          <ThemeToggleClick />
+      <CardFooter className={cn("flex items-center")}>
+        <div className="flex items-center justify-center gap-x-2 w-full">
+          {isToolbarLeft ? (
+            <Fragment>
+              <div className="flex items-center justify-between gap-x-2 w-full">
+                <ThemeToggleClick />
+                <div className="flex items-center justify-center gap-x-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setIsSplit(!isSplit)}
+                    className="hover:cursor-pointer"
+                  >
+                    {isSplit ? (
+                      <ChevronsRightLeft className="w-4 h-4" />
+                    ) : (
+                      <ChevronsLeftRight className="w-4 h-4" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setIsToolbarLeft(!isToolbarLeft)}
+                    className="hover:cursor-pointer"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <div className="flex items-center justify-between gap-x-2 w-full">
+                <div className="flex items-center justify-center gap-x-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setIsToolbarLeft(!isToolbarLeft)}
+                    className="hover:cursor-pointer"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setIsSplit(!isSplit)}
+                    className="hover:cursor-pointer"
+                  >
+                    {isSplit ? (
+                      <ChevronsRightLeft className="w-4 h-4" />
+                    ) : (
+                      <ChevronsLeftRight className="w-4 h-4" />
+                    )}
+                  </Button>
+                </div>
+                <ThemeToggleClick />
+              </div>
+            </Fragment>
+          )}
         </div>
       </CardFooter>
     </Card>

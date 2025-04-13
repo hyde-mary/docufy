@@ -2,12 +2,13 @@
 
 import { Fragment, useState } from "react";
 import EditorToolbar from "@/components/editor/editor-toolbar";
-import { FileJson, Menu } from "lucide-react";
+import { ChevronLeft, FileJson, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import EditorPageHeader from "@/components/editor/page/editor-page-header";
 import EditorPageSidebar from "@/components/editor/page/editor-page-sidebar";
 import EditorJsonViewer from "@/components/editor/editor-json-viewer";
+import { useRouter } from "next/navigation";
 
 export default function EditorLayout({
   children,
@@ -18,6 +19,7 @@ export default function EditorLayout({
   const [isToolbarLeft, setIsToolbarLeft] = useState(true);
   const [isJsonOpen, setIsJsonOpen] = useState(false);
   const [isSplit, setIsSplit] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -27,6 +29,13 @@ export default function EditorLayout({
           "fixed top-4 z-50 bg-background p-2 rounded-md flex gap-x-2 left-4"
         )}
       >
+        <Button
+          variant={"outline"}
+          onClick={() => router.back()}
+          className="rounded-md shadow-md hover:bg-muted transition hover:cursor-pointer"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </Button>
         <Button
           variant={"outline"}
           onClick={() => setIsToolbarOpen(!isToolbarOpen)}
@@ -54,6 +63,8 @@ export default function EditorLayout({
             <EditorToolbar
               setIsToolbarLeft={setIsToolbarLeft}
               isToolbarLeft={isToolbarLeft}
+              isSplit={isSplit}
+              setIsSplit={setIsSplit}
             />
           </div>
         </Fragment>
@@ -78,10 +89,10 @@ export default function EditorLayout({
             )}
           >
             <EditorJsonViewer
+              isToolbarOpen={isToolbarOpen}
               setIsToolbarLeft={setIsToolbarLeft}
               isToolbarLeft={isToolbarLeft}
               isSplit={isSplit}
-              setIsSplit={setIsSplit}
             />
           </div>
         </Fragment>

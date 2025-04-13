@@ -1,18 +1,25 @@
-type MarkdownHeading = {
-  level: number;
-  text: string;
-};
+export function getMarkdownHeadings(
+  markdown: string
+): { text: string; level: number }[] {
+  const lines = markdown.split("\n");
+  const headings: { text: string; level: number }[] = [];
 
-export function getMarkdownHeadings(markdown: string): MarkdownHeading[] {
-  const headingRegex = /^(#{1,6})\s+(.*)$/gm;
-  const headings: MarkdownHeading[] = [];
+  let inCodeBlock = false;
 
-  let match;
-  while ((match = headingRegex.exec(markdown)) !== null) {
-    headings.push({
-      level: match[1].length,
-      text: match[2].trim(),
-    });
+  for (const line of lines) {
+    if (line.trim().startsWith("```")) {
+      inCodeBlock = !inCodeBlock;
+      continue;
+    }
+
+    if (inCodeBlock) continue;
+
+    const match = line.match(/^(#{1,6})\s+(.*)/);
+    if (match) {
+      const level = match[1].length;
+      const text = match[2].trim();
+      headings.push({ text, level });
+    }
   }
 
   return headings;

@@ -1,9 +1,13 @@
 "use client";
 
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { useEditorStore } from "@/stores/editor-store";
+import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
+
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
+  ssr: false,
+});
 
 const EditorToolbarMainContent = () => {
   const { data, updateRootPageMarkdown, updatePageMarkdown } = useEditorStore();
@@ -11,7 +15,6 @@ const EditorToolbarMainContent = () => {
   const params = useParams<{ id: string; slug: string; dynamic?: string }>();
   const fullPath = `/editor/${params.id}/${params.slug}${params.dynamic ? `/${params.dynamic}` : ""}`;
 
-  // Find current page from data.pages based on the fullPath
   const currentPage = data.pages.find((page) => page.href === fullPath);
   const isRootPage = !params.dynamic;
 
@@ -19,11 +22,11 @@ const EditorToolbarMainContent = () => {
     ? data.rootPage.markdown
     : currentPage?.markdown || "";
 
-  const handleMarkdownChange = (value: string) => {
+  const handleMarkdownChange = (value?: string) => {
     if (isRootPage) {
-      updateRootPageMarkdown(value);
+      updateRootPageMarkdown(value || "");
     } else if (currentPage) {
-      updatePageMarkdown(currentPage.href, value);
+      updatePageMarkdown(currentPage.href, value || "");
     }
   };
 
@@ -47,11 +50,10 @@ const EditorToolbarMainContent = () => {
           {isRootPage ? "Main Page Markdown" : "Page Markdown"}
         </Label>
         <div className="flex-grow min-h-0 flex flex-col">
-          <Textarea
+          <MDEditor
             value={markdown}
-            onChange={(e) => handleMarkdownChange(e.target.value)}
-            placeholder="You can write your documentation here! This area supports markdown to make it easy for you!"
-            className="flex-grow min-h-[500px]"
+            onChange={handleMarkdownChange}
+            height={700}
           />
           <p className="text-xs text-muted-foreground pt-2">
             {isRootPage

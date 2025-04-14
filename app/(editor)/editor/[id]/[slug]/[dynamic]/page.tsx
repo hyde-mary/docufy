@@ -14,6 +14,7 @@ const EditorPageDynamic = () => {
   const fullPath = `/editor/${params.id}/${params.slug}/${params.dynamic}`;
   const isValidPath = validHrefs.some(({ href }) => href === fullPath);
   const prevPathRef = useRef(fullPath);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (params.id && params.slug) {
@@ -24,20 +25,26 @@ const EditorPageDynamic = () => {
     }
   }, [params, setParams, isValidPath, router, fullPath]);
 
-  // Use memoization to prevent unnecessary re-renders
   const page = useMemo(() => {
     return data.pages.find((p) => p.href === fullPath);
   }, [data.pages, fullPath]);
 
-  // Check if only the path changed, not the content
   const contentChanged = useMemo(() => {
     return prevPathRef.current !== fullPath;
   }, [fullPath]);
 
-  // Update path ref after checking
   useEffect(() => {
     prevPathRef.current = fullPath;
   }, [fullPath]);
+
+  useEffect(() => {
+    if (previewRef.current) {
+      previewRef.current.scrollTo({
+        top: previewRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [page?.markdown]);
 
   if (!isValidPath || !page) return null;
 
@@ -45,7 +52,10 @@ const EditorPageDynamic = () => {
 
   return (
     <Fragment>
-      <div className="flex-1 px-40 py-12 flex-col space-y-2 overflow-auto">
+      <div
+        ref={previewRef}
+        className="flex-1 px-40 py-12 flex-col space-y-2 overflow-auto"
+      >
         <MarkdownPreview
           markdown={page.markdown}
           key={contentChanged ? fullPath : "static-preview"}

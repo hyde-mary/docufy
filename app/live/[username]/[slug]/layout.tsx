@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { useLiveStore } from "@/stores/live-store";
 import { LinkSection, LiveData, Page, Section } from "@/types/live";
 import { useQuery } from "convex/react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function LiveLayout({
@@ -17,6 +17,7 @@ export default function LiveLayout({
 }>) {
   const params = useParams();
   const { setData } = useLiveStore();
+  const router = useRouter();
 
   const project = useQuery(api.projects.getProjectByUsernameAndSlug, {
     username: params.username as string,
@@ -32,7 +33,7 @@ export default function LiveLayout({
       );
       setData(updatedData);
     }
-  }, [project, setData, params.username, params.slug]);
+  }, [project, setData, params.username, params.slug, router]);
 
   function updateHrefs(data: LiveData, username: string, slug: string) {
     const basePath = `/live/${username}/${slug}`;
@@ -82,7 +83,8 @@ export default function LiveLayout({
     return newData;
   }
 
-  if (!project) return <Loader />;
+  if (project === null) router.push("/404");
+  if (!project?.data) return <Loader />;
 
   return (
     <div className="relative h-screen overflow-hidden">

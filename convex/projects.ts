@@ -118,14 +118,11 @@ export const getProjectByUsernameAndSlug = query({
       .filter((q) =>
         q.and(
           q.eq(q.field("username"), args.username),
-          q.eq(q.field("slug"), args.slug)
+          q.eq(q.field("slug"), args.slug),
+          q.eq(q.field("status"), "Publish")
         )
       )
       .first();
-
-    if (!project) {
-      throw new Error("Project not found");
-    }
 
     return project;
   },

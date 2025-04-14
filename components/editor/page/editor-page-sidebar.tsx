@@ -1,7 +1,7 @@
 import { useEditorStore } from "@/stores/editor-store";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 const EditorPageSidebar = () => {
   const { data } = useEditorStore();
@@ -12,6 +12,14 @@ const EditorPageSidebar = () => {
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
+
+  useEffect(() => {
+    const allDropdownIndices = data.sections
+      .map((section, index) => (section.type === "dropdown" ? index : null))
+      .filter((i): i is number => i !== null);
+
+    setOpenDropdowns(allDropdownIndices);
+  }, [data]);
 
   return (
     <Fragment>

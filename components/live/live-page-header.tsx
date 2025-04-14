@@ -42,7 +42,7 @@ const LivePageHeader = () => {
         )}
       </button>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center gap-x-4">
         <h1 className="text-base font-bold truncate flex-1 md:flex-none">
           <Link href={`/live/${params.username}/${params.slug}`}>
             {data.title}

@@ -99,10 +99,10 @@ export default function LiveLayout({
         <div className="h-full w-full overflow-auto">
           <div className="h-full flex justify-center">
             <div className="container flex flex-col border-l border-r w-full">
-              <div className="h-16 border-b flex items-center justify-between px-4 md:px-8">
+              <div className="h-16 border-b flex items-center justify-between px-4 md:px-8 gap-x-2">
                 <LivePageHeader />
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="icon"
                   onClick={toggleSidebar}
                   className="md:hidden"

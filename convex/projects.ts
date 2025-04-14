@@ -32,7 +32,8 @@ export const createDefaultProject = mutation({
       userId: args.userId,
       iconName: "Rocket",
       slug: "getting-started",
-      description: "Welcome to your first project! ...",
+      description:
+        "Welcome to your first project! This space is designed to help you explore the features and workflow of the platform.",
       template: "Default",
       status: "Active",
       visibility: "Private",

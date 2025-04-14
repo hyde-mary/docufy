@@ -5,6 +5,7 @@ export default defineSchema({
   projects: defineTable({
     title: v.string(),
     userId: v.string(),
+    username: v.string(),
     slug: v.string(),
     iconName: v.optional(v.string()),
     description: v.optional(v.string()),

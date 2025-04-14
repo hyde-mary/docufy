@@ -1,11 +1,13 @@
-import { useEditorStore } from "@/stores/editor-store";
+import { useLiveStore } from "@/stores/live-store";
+import { Section } from "@/types/live";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
-const EditorPageSidebar = () => {
-  const { data } = useEditorStore();
+const LivePageSidebar = () => {
   const [openDropdowns, setOpenDropdowns] = useState<number[]>([]);
+  const { data } = useLiveStore();
 
   const toggleDropdown = (index: number) => {
     setOpenDropdowns((prev) =>
@@ -14,16 +16,27 @@ const EditorPageSidebar = () => {
   };
 
   useEffect(() => {
+    if (!data || !data.sections) return;
+
     const allDropdownIndices = data.sections
-      .map((section, index) => (section.type === "dropdown" ? index : null))
+      .map((section: Section, index: number) =>
+        section.type === "dropdown" ? index : null
+      )
       .filter((i): i is number => i !== null);
 
     setOpenDropdowns(allDropdownIndices);
   }, [data]);
 
+  if (!data)
+    return (
+      <div className="px-4 space-y-4 w-full h-full">
+        <Skeleton className="w-full h-full" />
+      </div>
+    );
+
   return (
     <Fragment>
-      {data.sections.map((section, index) => {
+      {data.sections.map((section: Section, index: number) => {
         if (section.type === "text") {
           return (
             <p
@@ -96,4 +109,4 @@ const EditorPageSidebar = () => {
   );
 };
 
-export default EditorPageSidebar;
+export default LivePageSidebar;

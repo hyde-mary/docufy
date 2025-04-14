@@ -118,7 +118,7 @@ const PublishProjectDetails = () => {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-          <Link href={`/publish/${user?.username}/${project.slug}`}>
+          <Link href={`/live/${user?.username}/${project.slug}`}>
             <Button
               variant="outline"
               className="hover:cursor-pointer px-4! py-0! h-7! text-xs"

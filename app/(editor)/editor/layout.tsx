@@ -5,8 +5,8 @@ import EditorToolbar from "@/components/editor/editor-toolbar";
 import { ChevronLeft, FileJson, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import EditorPageHeader from "@/components/editor/page/editor-page-header";
-import EditorPageSidebar from "@/components/editor/page/editor-page-sidebar";
+import LivePageHeader from "@/components/live/live-page-header";
+import LivePageSidebar from "@/components/live/live-page-sidebar";
 import EditorJsonViewer from "@/components/editor/editor-json-viewer";
 import { useRouter } from "next/navigation";
 
@@ -104,11 +104,11 @@ export default function EditorLayout({
           <div className="h-full flex justify-center">
             <div className="container flex flex-col border-l border-r">
               <div className="h-16 border-b flex items-center justify-between px-8">
-                <EditorPageHeader />
+                <LivePageHeader />
               </div>
               <div className="flex flex-1 overflow-hidden">
                 <div className="w-64 border-r px-4 py-12 space-y-2 overflow-auto">
-                  <EditorPageSidebar />
+                  <LivePageSidebar />
                 </div>
                 {children}
               </div>

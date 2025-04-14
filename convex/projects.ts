@@ -107,6 +107,30 @@ export const getProjectsByUser = query({
   },
 });
 
+export const getProjectByUsernameAndSlug = query({
+  args: {
+    username: v.string(),
+    slug: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const project = await ctx.db
+      .query("projects")
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("username"), args.username),
+          q.eq(q.field("slug"), args.slug)
+        )
+      )
+      .first();
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    return project;
+  },
+});
+
 export const getProjectById = query({
   args: {
     id: v.id("projects"),

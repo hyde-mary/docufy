@@ -7,7 +7,7 @@ const isPublicRouteForSignedOut = createRouteMatcher([
   "/sign-up(.*)",
 ]);
 
-const isPublishRoute = createRouteMatcher(["/publish/[username]/[slug]"]);
+const isPublishRoute = createRouteMatcher(["/live/[username]/[slug]"]);
 
 export default clerkMiddleware(async (auth, request) => {
   const { userId } = await auth();

@@ -24,6 +24,7 @@ const defaultData = {
 export const createDefaultProject = mutation({
   args: {
     userId: v.string(),
+    data: v.any(), // set to any so we don't need to define the object data as this might change
   },
   handler: async (ctx, args) => {
     const projectId = await ctx.db.insert("projects", {
@@ -36,11 +37,11 @@ export const createDefaultProject = mutation({
       template: "Default",
       status: "Active",
       visibility: "Private",
-      data: {},
+      data: args.data,
     });
 
     const newData = {
-      ...defaultData,
+      ...args.data,
       params: {
         id: projectId,
         slug: "Getting-Started",

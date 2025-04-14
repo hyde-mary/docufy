@@ -26,6 +26,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { gettingStartedData } from "@/lib/getting-started-data";
 
 const SignUpForm = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -100,7 +101,7 @@ const SignUpForm = () => {
 
         if (!userId) return null;
 
-        createDefaultProjectMutation({ userId });
+        createDefaultProjectMutation({ userId, data: gettingStartedData });
 
         router.push("/");
       } else {

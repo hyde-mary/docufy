@@ -1,0 +1,11 @@
+import PublishProjectDetails from "@/components/main/publish/publish-project-details";
+
+export default function PublishDetailsPage() {
+  return (
+    <div className="flex justify-center p-4 min-h-screen">
+      <div className="container pt-48 pb-24">
+        <PublishProjectDetails />
+      </div>
+    </div>
+  );
+}

@@ -197,6 +197,18 @@ export const publishProject = mutation({
   },
 });
 
+export const unpublishProject = mutation({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.projectId, {
+      status: "Active",
+      visibility: "Private",
+    });
+  },
+});
+
 export const restoreProjectFromTrash = mutation({
   args: {
     projectId: v.id("projects"),

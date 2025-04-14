@@ -35,7 +35,7 @@ const EditorPageSidebar = () => {
               href={section.href}
               className="w-full text-base block"
             >
-              <p className="hover:bg-muted-foreground/10 text-gray-300 rounded-sm px-4 py-1">
+              <p className="hover:bg-muted-foreground/10 text-muted-foreground rounded-sm px-4 py-1">
                 {section.name}
               </p>
             </Link>

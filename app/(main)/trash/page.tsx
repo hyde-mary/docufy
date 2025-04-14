@@ -1,5 +1,5 @@
-import TrashHeader from "@/components/trash/trash-header";
-import TrashProjectsView from "@/components/trash/trash-projects-view";
+import TrashHeader from "@/components/main/trash/trash-header";
+import TrashProjectsView from "@/components/main/trash/trash-projects-view";
 
 export default function TrashPage() {
   return (

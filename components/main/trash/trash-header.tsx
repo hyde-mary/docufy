@@ -1,5 +1,4 @@
 import { Filter, Search } from "lucide-react";
-import { Input } from "../ui/input";
 import {
   DropdownMenuContent,
   DropdownMenu,
@@ -9,7 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const TrashHeader = () => {
   return (

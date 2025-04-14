@@ -21,7 +21,7 @@ import {
   RotateCcw,
   Trash,
 } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,8 +29,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -46,7 +46,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogDescription,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 
 type ProjectCardProps = {
   projectId: string;

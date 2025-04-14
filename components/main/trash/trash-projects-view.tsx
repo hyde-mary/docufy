@@ -3,8 +3,8 @@ import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { FunctionReturnType } from "convex/server";
-import { Skeleton } from "../ui/skeleton";
 import { TrashProjectsViewCard } from "./trash-projects-view-card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type ProjectsData = FunctionReturnType<
   typeof api.projects.getUserTrashProjects

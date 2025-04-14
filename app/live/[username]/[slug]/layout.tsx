@@ -8,7 +8,9 @@ import { useLiveStore } from "@/stores/live-store";
 import { LinkSection, LiveData, Page, Section } from "@/types/live";
 import { useQuery } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function LiveLayout({
   children,
@@ -18,6 +20,7 @@ export default function LiveLayout({
   const params = useParams();
   const { setData } = useLiveStore();
   const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const project = useQuery(api.projects.getProjectByUsernameAndSlug, {
     username: params.username as string,
@@ -86,20 +89,45 @@ export default function LiveLayout({
   if (project === null) router.push("/404");
   if (!project?.data) return <Loader />;
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
     <div className="relative h-screen overflow-hidden">
-      {/* The main content goes here */}
       <div className="h-full w-full">
         <div className="h-full w-full overflow-auto">
           <div className="h-full flex justify-center">
-            <div className="container flex flex-col border-l border-r">
-              <div className="h-16 border-b flex items-center justify-between px-8">
+            <div className="container flex flex-col border-l border-r w-full">
+              <div className="h-16 border-b flex items-center justify-between px-4 md:px-8">
                 <LivePageHeader />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleSidebar}
+                  className="md:hidden"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
               </div>
-              <div className="flex flex-1 overflow-hidden">
-                <div className="w-64 border-r px-4 py-12 space-y-2 overflow-auto">
-                  <LivePageSidebar />
+              <div className="flex flex-1 overflow-hidden relative">
+                <div
+                  className={`fixed inset-0 bg-black/50 z-40 md:hidden ${
+                    sidebarOpen ? "block" : "hidden"
+                  }`}
+                  onClick={toggleSidebar}
+                />
+
+                <div
+                  className={`absolute md:relative w-64 border-r bg-background md:bg-transparent z-50 h-full md:translate-x-0 transition-transform duration-300 ${
+                    sidebarOpen ? "translate-x-0" : "-translate-x-full"
+                  }`}
+                >
+                  <div className="px-4 py-12 space-y-2 overflow-auto h-full">
+                    <LivePageSidebar />
+                  </div>
                 </div>
+
                 {children}
               </div>
             </div>

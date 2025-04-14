@@ -17,7 +17,7 @@ const MarkdownPreview = ({
   className = "",
 }: MarkdownPreviewProps) => {
   return (
-    <div className={`markdown-preview ${className}`}>
+    <div className={`markdown-preview w-full ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight, rehypeRaw, rehypeSlug]}
@@ -25,23 +25,32 @@ const MarkdownPreview = ({
           // headings
           h1: ({ ...props }) => {
             return (
-              <h1 className="text-5xl font-bold my-6 scroll-mt-20" {...props} />
+              <h1
+                className="text-4xl md:text-5xl font-bold my-4 md:my-6 scroll-mt-20"
+                {...props}
+              />
             );
           },
           h2: ({ ...props }) => {
             return (
-              <h2 className="text-4xl font-bold my-6 scroll-mt-20" {...props} />
+              <h2
+                className="text-3xl md:text-4xl font-bold my-4 md:my-6 scroll-mt-20"
+                {...props}
+              />
             );
           },
           h3: ({ ...props }) => {
             return (
-              <h3 className="text-3xl font-bold my-6 scroll-mt-20" {...props} />
+              <h3
+                className="text-2xl md:text-3xl font-bold my-4 md:my-6 scroll-mt-20"
+                {...props}
+              />
             );
           },
           h4: ({ ...props }) => {
             return (
               <h4
-                className="text-2xl font-semibold my-6 scroll-mt-20"
+                className="text-xl md:text-2xl font-semibold my-4 md:my-6 scroll-mt-20"
                 {...props}
               />
             );
@@ -49,7 +58,7 @@ const MarkdownPreview = ({
           h5: ({ ...props }) => {
             return (
               <h5
-                className="text-xl font-semibold my-6 scroll-mt-20"
+                className="text-lg md:text-xl font-semibold my-4 md:my-6 scroll-mt-20"
                 {...props}
               />
             );
@@ -57,7 +66,7 @@ const MarkdownPreview = ({
           h6: ({ ...props }) => {
             return (
               <h6
-                className="text-lg font-semibold my-6 scroll-mt-20"
+                className="text-base md:text-lg font-semibold my-4 md:my-6 scroll-mt-20"
                 {...props}
               />
             );
@@ -65,21 +74,24 @@ const MarkdownPreview = ({
 
           // paragraphs
           p: ({ children, ...props }) => (
-            <p className="text-base leading-relaxed my-4" {...props}>
+            <p
+              className="text-base leading-relaxed my-4 break-words"
+              {...props}
+            >
               {children}
             </p>
           ),
 
           // ul
           ul: ({ children, ...props }) => (
-            <ul className="my-4 pl-6 list-disc" {...props}>
+            <ul className="my-4 pl-4 md:pl-6 list-disc" {...props}>
               {children}
             </ul>
           ),
 
           // ol
           ol: ({ children, ...props }) => (
-            <ol className="my-4 pl-6 list-decimal" {...props}>
+            <ol className="my-4 pl-4 md:pl-6 list-decimal" {...props}>
               {children}
             </ol>
           ),
@@ -95,7 +107,7 @@ const MarkdownPreview = ({
           code: ({ children, ...props }) => {
             return (
               <code
-                className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono"
+                className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono break-words"
                 {...props}
               >
                 {children}
@@ -105,15 +117,21 @@ const MarkdownPreview = ({
 
           // Block Code
           pre: ({ children, ...props }) => (
-            <pre className="bg-gray-900 p-4 overflow-x-auto" {...props}>
-              {children}
-            </pre>
+            <div className="max-w-full overflow-hidden">
+              <pre
+                className="bg-gray-900 p-2 md:p-4 overflow-x-auto max-w-full"
+                style={{ WebkitOverflowScrolling: "touch" }}
+                {...props}
+              >
+                {children}
+              </pre>
+            </div>
           ),
 
           // Links
           a: ({ ...props }) => (
             <a
-              className="text-blue-500 hover:text-blue-600 hover:underline underline-offset-4 transition-colors"
+              className="text-blue-500 hover:text-blue-600 hover:underline underline-offset-4 transition-colors break-words"
               target="_blank"
               rel="noopener noreferrer"
               {...props}
@@ -144,16 +162,21 @@ const MarkdownPreview = ({
 
           // Tables
           table: ({ children, ...props }) => (
-            <div className="overflow-x-auto my-4">
-              <table className="min-w-full border-collapse" {...props}>
-                {children}
-              </table>
+            <div className="max-w-full overflow-hidden my-4">
+              <div
+                className="overflow-x-auto"
+                style={{ WebkitOverflowScrolling: "touch" }}
+              >
+                <table className="min-w-full border-collapse" {...props}>
+                  {children}
+                </table>
+              </div>
             </div>
           ),
 
           th: ({ children, ...props }) => (
             <th
-              className="border px-4 py-2 text-left bg-gray-100 dark:bg-gray-800"
+              className="border px-2 py-1 md:px-4 md:py-2 text-left bg-gray-100 dark:bg-gray-800"
               {...props}
             >
               {children}
@@ -161,7 +184,7 @@ const MarkdownPreview = ({
           ),
 
           td: ({ children, ...props }) => (
-            <td className="border px-4 py-2" {...props}>
+            <td className="border px-2 py-1 md:px-4 md:py-2" {...props}>
               {children}
             </td>
           ),
@@ -173,7 +196,6 @@ const MarkdownPreview = ({
   );
 };
 
-// Memoize the component to avoid unnecessary re-renders
 export default memo(
   MarkdownPreview,
   (prevProps, nextProps) => prevProps.markdown === nextProps.markdown

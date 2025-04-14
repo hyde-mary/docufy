@@ -36,8 +36,10 @@ const ProjectDetails = () => {
   );
 
   const moveProjectToTrash = useMutation(api.projects.moveProjectToTrash);
+  const publishProject = useMutation(api.projects.publishProject);
 
   const [isTrashing, setIsTrashing] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -82,6 +84,21 @@ const ProjectDetails = () => {
     }
   };
 
+  const handlePublishProject = (projectId: Id<"projects">) => {
+    setIsPublishing(true);
+    try {
+      publishProject({ projectId });
+      toast.success("Successfully published the project");
+      router.push("/publish");
+    } catch (error) {
+      toast.error("Error publishing your project", {
+        description: error as string,
+      });
+    } finally {
+      setIsPublishing(true);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-y-6">
       {/* Header Section */}
@@ -118,16 +135,22 @@ const ProjectDetails = () => {
                   isTrashing && "bg-gray-500"
                 )}
                 onClick={() => handleProjectToTrash(project._id)}
-                disabled={isTrashing}
+                disabled={isTrashing || isPublishing}
               >
                 <Trash className="w-4 h-4" />
-                {isTrashing
+                {isTrashing || isPublishing
                   ? "Moving Project to Trash"
                   : "Move Project to Trash"}
               </DropdownMenuItem>
-              <DropdownMenuItem className="gap-x-4 hover:cursor-pointer">
+              <DropdownMenuItem
+                className="gap-x-4 hover:cursor-pointer"
+                onClick={() => handlePublishProject(project._id)}
+                disabled={isTrashing || isPublishing}
+              >
                 <Globe className="w-4 h-4" />
-                Publish Project
+                {isTrashing || isPublishing
+                  ? "Publishing Project"
+                  : "Publish Project"}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

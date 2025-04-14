@@ -155,6 +155,25 @@ export const getUserTrashProjects = query({
   },
 });
 
+export const getUserPublishProjects = query({
+  args: {
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const projects = await ctx.db
+      .query("projects")
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("status"), "Publish"),
+          q.eq(q.field("userId"), args.userId)
+        )
+      )
+      .collect();
+
+    return projects;
+  },
+});
+
 export const moveProjectToTrash = mutation({
   args: {
     projectId: v.id("projects"),
@@ -162,6 +181,18 @@ export const moveProjectToTrash = mutation({
   handler: async (ctx, args) => {
     await ctx.db.patch(args.projectId, {
       status: "Trash",
+    });
+  },
+});
+
+export const publishProject = mutation({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.projectId, {
+      status: "Publish",
+      visibility: "Public",
     });
   },
 });

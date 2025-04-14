@@ -4,11 +4,13 @@ import MarkdownPreview from "@/components/editor/markdown-preview";
 import { useEditorStore } from "@/stores/editor-store";
 import { getMarkdownHeadings } from "@/utils/getMarkdownHeadings";
 import { useParams } from "next/navigation";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useRef } from "react";
 
 const EditorPageRoot = () => {
   const params = useParams<{ id: string; slug: string }>();
   const { data, setParams } = useEditorStore();
+  const previewRef = useRef<HTMLDivElement>(null);
+
   const headings = getMarkdownHeadings(data.rootPage.markdown);
 
   useEffect(() => {
@@ -17,9 +19,21 @@ const EditorPageRoot = () => {
     }
   }, [params, setParams]);
 
+  useEffect(() => {
+    if (previewRef.current) {
+      previewRef.current.scrollTo({
+        top: previewRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [data.rootPage.markdown]);
+
   return (
     <Fragment>
-      <div className="flex-1 px-40 py-12 flex-col space-y-2 overflow-auto">
+      <div
+        ref={previewRef}
+        className="flex-1 px-40 py-12 flex-col space-y-2 overflow-auto"
+      >
         <MarkdownPreview markdown={data.rootPage.markdown} />
       </div>
 

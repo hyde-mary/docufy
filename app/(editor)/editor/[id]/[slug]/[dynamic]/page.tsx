@@ -1,7 +1,7 @@
 "use client";
 import { useEditorStore } from "@/stores/editor-store";
 import { useParams, useRouter } from "next/navigation";
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useAllEditorHrefs } from "@/hooks/useAllEditorHrefs";
 import { getMarkdownHeadings } from "@/utils/getMarkdownHeadings";
 import MarkdownPreview from "@/components/editor/markdown-preview";
@@ -15,6 +15,17 @@ const EditorPageDynamic = () => {
   const isValidPath = validHrefs.some(({ href }) => href === fullPath);
   const prevPathRef = useRef(fullPath);
   const previewRef = useRef<HTMLDivElement>(null);
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  const page = useMemo(() => {
+    return data.pages.find((p) => p.href === fullPath);
+  }, [data.pages, fullPath]);
+
+  const contentChanged = useMemo(() => {
+    return prevPathRef.current !== fullPath;
+  }, [fullPath]);
+
+  const prevMarkdownLength = useRef(page?.markdown?.length || 0);
 
   useEffect(() => {
     if (params.id && params.slug) {
@@ -25,26 +36,25 @@ const EditorPageDynamic = () => {
     }
   }, [params, setParams, isValidPath, router, fullPath]);
 
-  const page = useMemo(() => {
-    return data.pages.find((p) => p.href === fullPath);
-  }, [data.pages, fullPath]);
-
-  const contentChanged = useMemo(() => {
-    return prevPathRef.current !== fullPath;
-  }, [fullPath]);
-
   useEffect(() => {
     prevPathRef.current = fullPath;
   }, [fullPath]);
 
   useEffect(() => {
-    if (previewRef.current) {
+    if (initialLoad) {
+      setInitialLoad(false);
+      return;
+    }
+
+    const currentLength = page?.markdown.length || 0;
+    if (currentLength > prevMarkdownLength.current && previewRef.current) {
       previewRef.current.scrollTo({
         top: previewRef.current.scrollHeight,
         behavior: "smooth",
       });
     }
-  }, [page?.markdown]);
+    prevMarkdownLength.current = currentLength;
+  }, [page?.markdown, initialLoad]);
 
   if (!isValidPath || !page) return null;
 

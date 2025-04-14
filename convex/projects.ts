@@ -24,32 +24,29 @@ const defaultData = {
 export const createDefaultProject = mutation({
   args: {
     userId: v.string(),
-    data: v.any(), // set to any so we don't need to define the object data as this might change
+    data: v.any(),
   },
   handler: async (ctx, args) => {
     const projectId = await ctx.db.insert("projects", {
       title: "Getting Started",
       userId: args.userId,
       iconName: "Rocket",
-      slug: "Getting-Started",
-      description:
-        "Welcome to your first project! This space is designed to help you explore the features and workflow of the platform.",
+      slug: "getting-started",
+      description: "Welcome to your first project! ...",
       template: "Default",
       status: "Active",
       visibility: "Private",
-      data: args.data,
+      data: {},
     });
 
-    const newData = {
-      ...args.data,
-      params: {
-        id: projectId,
-        slug: "Getting-Started",
-      },
-    };
+    const processedData = processTemplateData(
+      args.data,
+      projectId,
+      "getting-started"
+    );
 
     await ctx.db.patch(projectId, {
-      data: newData,
+      data: processedData,
     });
 
     return projectId;
@@ -217,3 +214,57 @@ export const editProject = mutation({
     });
   },
 });
+
+// helper functions:
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function processTemplateData(data: any, id: string, slug: string) {
+  const basePath = `/editor/${id}/${slug}`;
+
+  const newData = JSON.parse(JSON.stringify(data));
+
+  newData.params = {
+    id,
+    slug,
+  };
+
+  if (newData.navLinks) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    newData.navLinks = newData.navLinks.map((link: any) => ({
+      ...link,
+      href: `${basePath}${link.path}`,
+    }));
+  }
+
+  if (newData.pages) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    newData.pages = newData.pages.map((page: any) => ({
+      ...page,
+      href: `${basePath}${page.path}`,
+    }));
+  }
+
+  if (newData.sections) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    newData.sections = newData.sections.map((section: any) => {
+      if (section.type === "link") {
+        return {
+          ...section,
+          href: `${basePath}${section.path}`,
+        };
+      }
+      if (section.type === "dropdown" && section.items) {
+        return {
+          ...section,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          items: section.items.map((item: any) => ({
+            ...item,
+            href: `${basePath}${item.path}`,
+          })),
+        };
+      }
+      return section;
+    });
+  }
+
+  return newData;
+}

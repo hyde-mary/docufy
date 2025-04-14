@@ -4,12 +4,14 @@ import MarkdownPreview from "@/components/editor/markdown-preview";
 import { useEditorStore } from "@/stores/editor-store";
 import { getMarkdownHeadings } from "@/utils/getMarkdownHeadings";
 import { useParams } from "next/navigation";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 const EditorPageRoot = () => {
   const params = useParams<{ id: string; slug: string }>();
   const { data, setParams } = useEditorStore();
   const previewRef = useRef<HTMLDivElement>(null);
+  const [initialLoad, setInitialLoad] = useState(true);
+  const prevMarkdownLength = useRef(data.rootPage.markdown?.length || 0);
 
   const headings = getMarkdownHeadings(data.rootPage.markdown);
 
@@ -20,13 +22,20 @@ const EditorPageRoot = () => {
   }, [params, setParams]);
 
   useEffect(() => {
-    if (previewRef.current) {
+    if (initialLoad) {
+      setInitialLoad(false);
+      return;
+    }
+
+    const currentLength = data.rootPage.markdown?.length || 0;
+    if (currentLength > prevMarkdownLength.current && previewRef.current) {
       previewRef.current.scrollTo({
         top: previewRef.current.scrollHeight,
         behavior: "smooth",
       });
     }
-  }, [data.rootPage.markdown]);
+    prevMarkdownLength.current = currentLength;
+  }, [data.rootPage.markdown, initialLoad]);
 
   return (
     <Fragment>

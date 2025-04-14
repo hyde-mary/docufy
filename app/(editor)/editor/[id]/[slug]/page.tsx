@@ -31,7 +31,7 @@ const EditorPageRoot = () => {
           {headings.map((heading, index) => (
             <a
               key={index}
-              href={`#${heading.text.toLowerCase().replace(/\s+/g, "-")}`}
+              href={`#${heading.id}`}
               style={{ paddingLeft: `${(heading.level - 1) * 16}px` }}
               className="text-sm text-muted-foreground hover:underline"
             >

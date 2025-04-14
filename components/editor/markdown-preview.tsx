@@ -4,6 +4,7 @@ import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import "highlight.js/styles/github-dark-dimmed.css";
 import rehypeRaw from "rehype-raw";
+import rehypeSlug from "rehype-slug";
 import { memo } from "react";
 
 type MarkdownPreviewProps = {
@@ -19,89 +20,43 @@ const MarkdownPreview = ({
     <div className={`markdown-preview ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight, rehypeRaw]}
+        rehypePlugins={[rehypeHighlight, rehypeRaw, rehypeSlug]}
         components={{
           // headings
           h1: ({ ...props }) => {
-            const text = String(props.children);
-            const id = text
-              .toLowerCase()
-              .replace(/[^\w\s-]/g, "")
-              .replace(/\s+/g, "-");
-
             return (
-              <h1
-                id={id}
-                className="text-5xl font-bold my-6 scroll-mt-20"
-                {...props}
-              />
+              <h1 className="text-5xl font-bold my-6 scroll-mt-20" {...props} />
             );
           },
           h2: ({ ...props }) => {
-            const text = String(props.children);
-            const id = text
-              .toLowerCase()
-              .replace(/[^\w\s-]/g, "")
-              .replace(/\s+/g, "-");
             return (
-              <h2
-                id={id}
-                className="text-4xl font-bold my-6 scroll-mt-20"
-                {...props}
-              />
+              <h2 className="text-4xl font-bold my-6 scroll-mt-20" {...props} />
             );
           },
           h3: ({ ...props }) => {
-            const text = String(props.children);
-            const id = text
-              .toLowerCase()
-              .replace(/[^\w\s-]/g, "")
-              .replace(/\s+/g, "-");
             return (
-              <h3
-                id={id}
-                className="text-3xl font-bold my-6 scroll-mt-20"
-                {...props}
-              />
+              <h3 className="text-3xl font-bold my-6 scroll-mt-20" {...props} />
             );
           },
           h4: ({ ...props }) => {
-            const text = String(props.children);
-            const id = text
-              .toLowerCase()
-              .replace(/[^\w\s-]/g, "")
-              .replace(/\s+/g, "-");
             return (
               <h4
-                id={id}
                 className="text-2xl font-semibold my-6 scroll-mt-20"
                 {...props}
               />
             );
           },
           h5: ({ ...props }) => {
-            const text = String(props.children);
-            const id = text
-              .toLowerCase()
-              .replace(/[^\w\s-]/g, "")
-              .replace(/\s+/g, "-");
             return (
               <h5
-                id={id}
                 className="text-xl font-semibold my-6 scroll-mt-20"
                 {...props}
               />
             );
           },
           h6: ({ ...props }) => {
-            const text = String(props.children);
-            const id = text
-              .toLowerCase()
-              .replace(/[^\w\s-]/g, "")
-              .replace(/\s+/g, "-");
             return (
               <h6
-                id={id}
                 className="text-lg font-semibold my-6 scroll-mt-20"
                 {...props}
               />

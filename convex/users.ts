@@ -1,6 +1,8 @@
 import { internalMutation, query, QueryCtx } from "./_generated/server";
 import { UserJSON } from "@clerk/backend";
 import { v, Validator } from "convex/values";
+import { internal } from "./_generated/api";
+import { gettingStartedData } from "./data/default";
 
 export const current = query({
   args: {},
@@ -25,6 +27,12 @@ export const upsertFromClerk = internalMutation({
     const user = await userByExternalId(ctx, data.id);
     if (user === null) {
       await ctx.db.insert("users", userAttributes);
+
+      await ctx.runMutation(internal.projects.createDefaultProject, {
+        userId: data.id,
+        username: data.username!,
+        data: gettingStartedData,
+      });
     } else {
       await ctx.db.patch(user._id, userAttributes);
     }
@@ -37,6 +45,17 @@ export const deleteFromClerk = internalMutation({
     const user = await userByExternalId(ctx, clerkUserId);
 
     if (user !== null) {
+      // let use delete user's projects
+      const projects = await ctx.db
+        .query("projects")
+        .withIndex("by_userId", (q) => q.eq("userId", user._id))
+        .collect();
+
+      for (const project of projects) {
+        await ctx.db.delete(project._id);
+      }
+
+      // lastly, delete user
       await ctx.db.delete(user._id);
     } else {
       console.warn(

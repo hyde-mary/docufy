@@ -2,8 +2,6 @@
 
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { OAuthStrategy } from "@clerk/types";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { useSignIn, useSignUp } from "@clerk/nextjs";
 
 import { signUpSchema, verifySchema } from "@/lib/schemas/authSchema";
@@ -32,7 +30,6 @@ import { ArrowLeftCircle, Eye, EyeOff, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { gettingStartedData } from "@/lib/getting-started-data";
 import { FaGithub } from "react-icons/fa";
 
 const SignUpForm = () => {
@@ -43,10 +40,6 @@ const SignUpForm = () => {
   const [verifying, setVerifying] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const createDefaultProjectMutation = useMutation(
-    api.projects.createDefaultProject
-  );
 
   const signUpForm = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -107,8 +100,6 @@ const SignUpForm = () => {
         const userId = completeSignUp.createdUserId;
 
         if (!userId) return null;
-
-        createDefaultProjectMutation({ userId, data: gettingStartedData });
 
         router.push("/");
       } else {

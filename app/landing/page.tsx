@@ -1,9 +1,22 @@
+"use client";
+
+import { useConvexAuth } from "convex/react";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
+
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import { Loader } from "@/components/loader";
+
+import { ChevronRight } from "lucide-react";
+
 import Image from "next/image";
+import Link from "next/link";
 
 const LandingPage = () => {
+  const { isAuthenticated, isLoading } = useConvexAuth();
+
+  if (isLoading) return <Loader />;
+
   return (
     <div className="flex flex-col items-center justify-start h-screen">
       {/* navbar */}
@@ -19,24 +32,43 @@ const LandingPage = () => {
           <p>Docufy</p>
         </div>
         <div className="flex space-x-4">
-          <ThemeToggle />
           <div className="flex space-x-4">
-            <SignInButton>
-              <Button
-                variant="ghost"
-                className="px-3 text-sm hover:cursor-pointer font-medium"
-              >
-                Sign In
-              </Button>
-            </SignInButton>
-            <SignUpButton>
-              <Button className="px-3 text-sm hover:cursor-pointer font-medium">
-                Get Started
-              </Button>
-            </SignUpButton>
+            {/* not authenticated and is done loading */}
+            {!isAuthenticated && !isLoading && (
+              <>
+                <SignInButton>
+                  <Button
+                    variant="ghost"
+                    className="px-3 text-sm hover:cursor-pointer font-medium"
+                  >
+                    Sign In
+                  </Button>
+                </SignInButton>
+                <SignUpButton>
+                  <Button className="px-3 text-sm hover:cursor-pointer font-medium">
+                    Get Started
+                  </Button>
+                </SignUpButton>
+              </>
+            )}
+
+            {/* is auth and is done loading */}
+            {isAuthenticated && !isLoading && (
+              <Link href={"/"}>
+                <Button
+                  variant={"default"}
+                  className="flex items-center justify-center font-bold hover:cursor-pointer"
+                >
+                  Go to Dashboard
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            )}
           </div>
+          <ThemeToggle />
         </div>
       </div>
+
       {/* main content goes here */}
       <div className="h-screen w-full flex items-center justify-center px-4 bg-gradient-to-br from-background to-muted/10">
         <div className="max-w-4xl text-center space-y-8">
@@ -64,11 +96,11 @@ const LandingPage = () => {
             >
               Live Demo
             </Button>
-            <SignUpButton>
+            <Link href={"/"}>
               <Button size="lg" className="px-8 hover:cursor-pointer">
                 Get Started
               </Button>
-            </SignUpButton>
+            </Link>
           </div>
         </div>
       </div>

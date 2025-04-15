@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
-import { ConvexClientProvider } from "@/components/providers/ConvexClientProvider";
+import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
 
 const robotoSans = Roboto({
   variable: "--font-roboto-sans",
@@ -29,22 +28,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${robotoSans.variable} ${robotoMono.variable} antialiased`}
-        >
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${robotoSans.variable} ${robotoMono.variable} antialiased`}
+      >
+        <ConvexClientProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            <ConvexClientProvider>{children}</ConvexClientProvider>
+            {children}
           </ThemeProvider>
           <Toaster />
-        </body>
-      </html>
-    </ClerkProvider>
+        </ConvexClientProvider>
+      </body>
+    </html>
   );
 }

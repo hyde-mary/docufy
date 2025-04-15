@@ -27,11 +27,18 @@ export const createDefaultProject = mutation({
     data: v.any(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated!");
+    }
+
     const projectId = await ctx.db.insert("projects", {
       title: "Getting Started",
       userId: args.userId,
       iconName: "Rocket",
       slug: "getting-started",
+      username: identity.nickname!,
       description:
         "Welcome to your first project! This space is designed to help you explore the features and workflow of the platform.",
       template: "Default",
@@ -65,11 +72,18 @@ export const createProject = mutation({
     template: v.union(v.literal("Default")),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+
     const newProjectId = await ctx.db.insert("projects", {
       title: args.title,
       userId: args.userId,
       slug: args.slug,
       iconName: args.iconName,
+      username: identity.nickname!,
       description: args.description,
       template: args.template,
       status: "Active",
@@ -212,7 +226,7 @@ export const publishProject = mutation({
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.projectId, {
-      status: "Publish",
+      status: "Public",
       visibility: "Public",
     });
   },
@@ -263,9 +277,9 @@ export const editProject = mutation({
     const project = await ctx.db.get(args.projectId);
 
     const updatedData = {
-      ...project.data,
+      ...project?.data,
       params: {
-        ...project.data.params,
+        ...project?.data.params,
         slug: args.slug,
       },
     };

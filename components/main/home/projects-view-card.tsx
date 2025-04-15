@@ -22,7 +22,7 @@ type ProjectCardProps = {
   iconName?: string;
   status: string;
   visibility: string;
-  _creationTime: string;
+  _creationTime: number;
 };
 
 export const ProjectsViewCard = ({

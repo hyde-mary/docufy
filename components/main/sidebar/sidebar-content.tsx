@@ -2,8 +2,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { getLucideIcon } from "@/utils/components/getLucideIcon";
-import { useUser } from "@clerk/nextjs";
-import { useQuery } from "convex/react";
+import { useConvexAuth, useQuery } from "convex/react";
 import {
   FolderIcon,
   Globe,
@@ -13,19 +12,16 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const SidebarContent = () => {
+  const { isLoading, isAuthenticated } = useConvexAuth();
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({
     Projects: true,
   });
   const pathname = usePathname();
-  const { user } = useUser();
-  const projects = useQuery(
-    api.projects.getUserActiveProjects,
-    user ? { userId: user.id } : "skip"
-  );
+  const router = useRouter();
 
   useEffect(() => {
     if (pathname.startsWith("/projects")) {
@@ -33,7 +29,7 @@ const SidebarContent = () => {
     }
   }, [pathname]);
 
-  const isLoading = projects === undefined;
+  const projects = useQuery(api.projects_queries.getActiveProjects);
 
   const toggleExpand = (title: string) => {
     setExpandedItems((prev) => ({
@@ -50,6 +46,10 @@ const SidebarContent = () => {
   const isActive = (path: string, strict = false) => {
     return strict ? pathname === path : pathname.startsWith(path);
   };
+
+  if (isLoading) return null;
+
+  if (!isAuthenticated && !isLoading) router.push("/landing");
 
   return (
     <nav className="space-y-2 p-3 w-full">

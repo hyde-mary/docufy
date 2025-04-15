@@ -1,28 +1,24 @@
-"use client";
-
-import { Skeleton } from "@/components/ui/skeleton";
-import { api } from "@/convex/_generated/api";
-import { useUser } from "@clerk/nextjs";
-import { useQuery } from "convex/react";
 import { ProjectsViewCard } from "./projects-view-card";
 import Link from "next/link";
-import { FunctionReturnType } from "convex/server";
+import { Doc } from "@/convex/_generated/dataModel";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 
-type ProjectsData = FunctionReturnType<
-  typeof api.projects.getUserActiveProjects
->;
+interface ProjectsViewProps {
+  projects: Doc<"projects">[];
+}
 
-const ProjectsView = () => {
-  const { user } = useUser();
-
-  const projects = useQuery(
-    api.projects.getUserActiveProjects,
-    user ? { userId: user.id } : "skip"
-  ) as ProjectsData | undefined;
-
-  if (!user || !projects)
+const ProjectsView = ({ projects }: ProjectsViewProps) => {
+  if (!projects)
     return (
-      <div className="flex items-center justify-start py-4 gap-8">
+      <div className="flex items-center justify-start py-4 gap-8 flex-wrap">
+        <Skeleton className="w-96 h-64" />
+        <Skeleton className="w-96 h-64" />
+        <Skeleton className="w-96 h-64" />
+        <Skeleton className="w-96 h-64" />
+        <Skeleton className="w-96 h-64" />
+        <Skeleton className="w-96 h-64" />
+        <Separator />
         <Skeleton className="w-96 h-64" />
         <Skeleton className="w-96 h-64" />
         <Skeleton className="w-96 h-64" />

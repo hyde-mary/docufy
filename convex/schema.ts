@@ -17,11 +17,7 @@ export default defineSchema({
     iconName: v.optional(v.string()),
     description: v.optional(v.string()),
     template: v.union(v.literal("Default")),
-    status: v.union(
-      v.literal("Active"),
-      v.literal("Trash"),
-      v.literal("Public")
-    ),
+    status: v.union(v.literal("Active"), v.literal("Inactive")), // let us define it like this.
     visibility: v.union(v.literal("Private"), v.literal("Public")),
     data: v.optional(v.any()),
   }).index("by_userId", ["userId"]),

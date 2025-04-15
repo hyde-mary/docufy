@@ -21,9 +21,10 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const HeaderSidebar = () => {
-  const { theme, setTheme } = useTheme();
-  const { user } = useUser();
   const { openUserProfile, signOut } = useClerk();
+  const { user } = useUser();
+
+  const { theme, setTheme } = useTheme();
 
   if (!user) return <Skeleton className="w-full h-8" />;
 

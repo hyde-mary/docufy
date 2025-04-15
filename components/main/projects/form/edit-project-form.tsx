@@ -27,10 +27,7 @@ import EditProjectAppearanceSection from "../form-section/edit-appearance-sectio
 const EditProjectForm = () => {
   const { user } = useUser();
   const { id } = useParams();
-  const project = useQuery(
-    api.projects.getProjectById,
-    id ? { id: id as Id<"projects"> } : "skip"
-  );
+  const project = null;
   const editProject = useMutation(api.projects.editProject);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();

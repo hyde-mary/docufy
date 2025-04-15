@@ -16,7 +16,7 @@ import {
 
 import { getLucideIcon } from "@/utils/components/getLucideIcon";
 
-import { Bookmark, ChevronRight, InfoIcon, Lock } from "lucide-react";
+import { ChevronRight, Globe, InfoIcon, Lock } from "lucide-react";
 
 type ProjectCardProps = {
   title: string;
@@ -61,7 +61,7 @@ export const ProjectsCard = ({
               </>
             ) : (
               <>
-                <Bookmark className="w-3 h-3" /> {visibility}
+                <Globe className="w-3 h-3" /> {visibility}
               </>
             )}
           </span>

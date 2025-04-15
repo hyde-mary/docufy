@@ -9,7 +9,7 @@ import {
   HomeIcon,
   ChevronDown,
   ChevronRight,
-  Trash2,
+  Archive,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -56,7 +56,7 @@ const SidebarContent = () => {
       >
         <HomeIcon size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-          Home
+          Home Page
         </span>
       </Link>
 
@@ -72,7 +72,7 @@ const SidebarContent = () => {
               className="text-gray-800 dark:text-gray-200"
             />
             <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-              Projects
+              Active Projects
             </span>
           </div>
           <span className="transition-transform duration-200">
@@ -94,8 +94,8 @@ const SidebarContent = () => {
                 />
               ))
             ) : projects.length === 0 ? (
-              <div className="text-sm text-muted-foreground">
-                No projects found.
+              <div className="text-sm text-muted-foreground py-2">
+                No active projects found.
               </div>
             ) : (
               projects.map((project) => (
@@ -119,12 +119,12 @@ const SidebarContent = () => {
 
       {/* Trash */}
       <Link
-        href="/trash"
+        href="/archive"
         className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/trash") ? "bg-muted-foreground/20" : ""}`}
       >
-        <Trash2 size={18} className="text-gray-800 dark:text-gray-200" />
+        <Archive size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-          Trash
+          Archived Projects
         </span>
       </Link>
 
@@ -135,7 +135,7 @@ const SidebarContent = () => {
       >
         <Globe size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-          Publish
+          Published Projects
         </span>
       </Link>
     </nav>

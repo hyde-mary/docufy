@@ -31,10 +31,7 @@ import { toast } from "sonner";
 const PublishProjectDetails = () => {
   const { user } = useUser();
   const { id } = useParams();
-  const project = useQuery(
-    api.projects.getProjectById,
-    id ? { id: id as Id<"projects"> } : "skip"
-  );
+  const project = null;
   const router = useRouter();
   const unpublishProject = useMutation(api.projects.unpublishProject);
   const [isUnpublishing, setIsUnpublishing] = useState(false);

@@ -21,13 +21,7 @@ const SignUpPage = () => {
       <div className="bg-[#18181b] text-[#f0f0f0] border-r flex flex-col p-8 px-12">
         <div className="flex-grow text-xl font-bold">
           <div className="flex items-center space-x-4">
-            <Image
-              src="/logo.png"
-              alt="Docufy Logo"
-              width={35}
-              height={35}
-              className="light:invert"
-            />
+            <Image src="/logo.png" alt="Docufy Logo" width={35} height={35} />
             <p>Docufy</p>
           </div>
         </div>

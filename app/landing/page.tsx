@@ -27,7 +27,7 @@ const LandingPage = () => {
             alt="Docufy Logo"
             width={35}
             height={35}
-            className="light:invert"
+            className="invert dark:invert-0"
           />
           <p>Docufy</p>
         </div>

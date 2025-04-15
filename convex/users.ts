@@ -28,11 +28,14 @@ export const upsertFromClerk = internalMutation({
     if (user === null) {
       await ctx.db.insert("users", userAttributes);
 
-      await ctx.runMutation(internal.projects.createDefaultProject, {
-        userId: data.id,
-        username: data.username!,
-        data: gettingStartedData,
-      });
+      await ctx.runMutation(
+        internal.projects_internal_mutations.createDefaultProject,
+        {
+          userId: data.id,
+          username: data.username!,
+          data: gettingStartedData,
+        }
+      );
     } else {
       await ctx.db.patch(user._id, userAttributes);
     }

@@ -2,7 +2,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { getLucideIcon } from "@/utils/components/getLucideIcon";
-import { useConvexAuth, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import {
   FolderIcon,
   Globe,
@@ -12,16 +12,14 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const SidebarContent = () => {
-  const { isLoading, isAuthenticated } = useConvexAuth();
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({
     Projects: true,
   });
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     if (pathname.startsWith("/projects")) {
@@ -46,10 +44,6 @@ const SidebarContent = () => {
   const isActive = (path: string, strict = false) => {
     return strict ? pathname === path : pathname.startsWith(path);
   };
-
-  if (isLoading) return null;
-
-  if (!isAuthenticated && !isLoading) router.push("/landing");
 
   return (
     <nav className="space-y-2 p-3 w-full">
@@ -90,34 +84,37 @@ const SidebarContent = () => {
           </span>
         </button>
 
-        {expandedItems["Projects"] &&
-          (isLoading || (projects && projects.length > 0)) && (
-            <div className="mt-2 space-y-2 text-center">
-              {isLoading
-                ? [1, 2, 3, 4, 5].map((i) => (
-                    <Skeleton
-                      key={i}
-                      className="h-6 w-full rounded-md bg-muted-foreground/30 dark:bg-muted-foreground/30"
-                    />
-                  ))
-                : projects?.map((project) => (
-                    <Link
-                      key={project._id}
-                      href={`/projects/${project._id}/${project.slug}`}
-                      className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${
-                        isProjectActive(project._id)
-                          ? "bg-muted-foreground/20"
-                          : ""
-                      }`}
-                    >
-                      <div className="flex gap-2 pl-4 truncate">
-                        {getLucideIcon(project.iconName)}
-                        <span>{project.title}</span>
-                      </div>
-                    </Link>
-                  ))}
-            </div>
-          )}
+        {expandedItems["Projects"] && (
+          <div className="mt-2 space-y-2 text-center">
+            {projects === undefined ? (
+              [1, 2, 3, 4, 5].map((i) => (
+                <Skeleton
+                  key={i}
+                  className="h-8 w-full rounded-md bg-muted-foreground/30 dark:bg-muted-foreground/30"
+                />
+              ))
+            ) : projects.length === 0 ? (
+              <div className="text-sm text-muted-foreground">
+                No projects found.
+              </div>
+            ) : (
+              projects.map((project) => (
+                <Link
+                  key={project._id}
+                  href={`/projects/${project._id}/${project.slug}`}
+                  className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${
+                    isProjectActive(project._id) ? "bg-muted-foreground/20" : ""
+                  }`}
+                >
+                  <div className="flex gap-2 pl-4 truncate">
+                    {getLucideIcon(project.iconName)}
+                    <span>{project.title}</span>
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
+        )}
       </div>
 
       {/* Trash */}

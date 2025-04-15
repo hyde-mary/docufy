@@ -11,9 +11,11 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
+
 import { getLucideIcon } from "@/utils/components/getLucideIcon";
-import { TooltipTrigger } from "@radix-ui/react-tooltip";
+
 import { Bookmark, ChevronRight, InfoIcon, Lock } from "lucide-react";
 
 type ProjectCardProps = {
@@ -25,7 +27,7 @@ type ProjectCardProps = {
   _creationTime: number;
 };
 
-export const ProjectsViewCard = ({
+export const ProjectsCard = ({
   title,
   description,
   iconName,

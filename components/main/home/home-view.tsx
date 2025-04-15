@@ -1,14 +1,16 @@
-import { ProjectsViewCard } from "./projects-view-card";
-import Link from "next/link";
 import { Doc } from "@/convex/_generated/dataModel";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+import { ProjectsCard } from "@/components/main/projects-card";
+
+import Link from "next/link";
 
 interface ProjectsViewProps {
   projects: Doc<"projects">[];
 }
 
-const ProjectsView = ({ projects }: ProjectsViewProps) => {
+const HomeView = ({ projects }: ProjectsViewProps) => {
   if (!projects)
     return (
       <div className="flex items-center justify-start py-4 gap-8 flex-wrap">
@@ -32,7 +34,7 @@ const ProjectsView = ({ projects }: ProjectsViewProps) => {
           key={project._id}
           href={`/projects/${project._id}/${project.slug}`}
         >
-          <ProjectsViewCard
+          <ProjectsCard
             iconName={project.iconName}
             title={project.title}
             status={project.status}
@@ -46,4 +48,4 @@ const ProjectsView = ({ projects }: ProjectsViewProps) => {
   );
 };
 
-export default ProjectsView;
+export default HomeView;

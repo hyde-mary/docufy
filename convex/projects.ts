@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
 
 const defaultData = {
   title: "",
@@ -21,24 +21,19 @@ const defaultData = {
   pages: [],
 };
 
-export const createDefaultProject = mutation({
+export const createDefaultProject = internalMutation({
   args: {
     userId: v.string(),
+    username: v.string(),
     data: v.any(),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) {
-      throw new Error("Unauthenticated!");
-    }
-
     const projectId = await ctx.db.insert("projects", {
-      title: "Getting Started",
       userId: args.userId,
+      username: args.username,
+      title: "Getting Started",
       iconName: "Rocket",
       slug: "getting-started",
-      username: identity.nickname!,
       description:
         "Welcome to your first project! This space is designed to help you explore the features and workflow of the platform.",
       template: "Default",
@@ -133,7 +128,7 @@ export const getProjectByUsernameAndSlug = query({
         q.and(
           q.eq(q.field("username"), args.username),
           q.eq(q.field("slug"), args.slug),
-          q.eq(q.field("status"), "Publish")
+          q.eq(q.field("status"), "Public")
         )
       )
       .first();
@@ -199,7 +194,7 @@ export const getUserPublishProjects = query({
       .query("projects")
       .filter((q) =>
         q.and(
-          q.eq(q.field("status"), "Publish"),
+          q.eq(q.field("status"), "Public"),
           q.eq(q.field("userId"), args.userId)
         )
       )

@@ -3,7 +3,7 @@ import { useEditorStore } from "@/stores/editor-store";
 import { useParams, useRouter } from "next/navigation";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useAllEditorHrefs } from "@/hooks/useAllEditorHrefs";
-import { getMarkdownHeadings } from "@/utils/getMarkdownHeadings";
+import { getMarkdownHeadings } from "@/utils/get-markdown-headings";
 import MarkdownPreview from "@/components/editor/markdown-preview";
 
 const EditorPageDynamic = () => {

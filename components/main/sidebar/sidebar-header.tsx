@@ -63,11 +63,6 @@ const HeaderSidebar = () => {
           <span>Profile</span>
         </DropdownMenuItem>
 
-        <DropdownMenuItem className="px-2 py-1.5 rounded-md text-sm focus:bg-accent focus:text-accent-foreground transition-colors hover:cursor-pointer">
-          <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
-        </DropdownMenuItem>
-
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="px-2 py-1.5 rounded-md text-sm focus:bg-accent focus:text-accent-foreground transition-colors hover:cursor-pointer">
             <Sun className="mr-4 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

@@ -222,3 +222,73 @@ export const deleteProject = mutation({
     await ctx.db.delete(args.projectId);
   },
 });
+
+export const updateProjectTitle = mutation({
+  args: {
+    id: v.id("projects"),
+    title: v.string(),
+    slug: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const userId = identity.subject;
+
+    const existingProject = await ctx.db.get(args.id);
+
+    if (!existingProject) {
+      throw new Error("Project not found");
+    }
+
+    if (existingProject.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    await ctx.db.patch(args.id, {
+      title: args.title,
+      slug: args.slug,
+    });
+  },
+});
+
+export const updateProjectIcon = mutation({
+  args: {
+    id: v.id("projects"),
+    iconName: v.union(
+      v.literal("Rocket"),
+      v.literal("Book"),
+      v.literal("Code"),
+      v.literal("File"),
+      v.literal("Presentation"),
+      v.literal("None")
+    ),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const userId = identity.subject;
+
+    const existingProject = await ctx.db.get(args.id);
+
+    if (!existingProject) {
+      throw new Error("Project not found");
+    }
+
+    if (existingProject.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    const updatedProject = await ctx.db.patch(args.id, {
+      iconName: args.iconName,
+    });
+
+    return updatedProject;
+  },
+});

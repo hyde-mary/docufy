@@ -123,7 +123,7 @@ const SidebarContent = () => {
                     isProjectActive(project._id) ? "bg-muted-foreground/20" : ""
                   }`}
                 >
-                  <div className="flex gap-2 pl-4 truncate">
+                  <div className="flex gap-2 pl-6 truncate">
                     {getLucideIcon(project.iconName)}
                     <span>{project.title}</span>
                   </div>
@@ -134,10 +134,10 @@ const SidebarContent = () => {
         )}
       </div>
 
-      {/* Trash */}
+      {/* archived */}
       <Link
         href="/archived"
-        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/trash") ? "bg-muted-foreground/20" : ""}`}
+        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/archived") ? "bg-muted-foreground/20" : ""}`}
       >
         <Archive size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
@@ -148,7 +148,7 @@ const SidebarContent = () => {
       {/* Publish */}
       <Link
         href="/published"
-        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/publish") ? "bg-muted-foreground/20" : ""}`}
+        className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/published") ? "bg-muted-foreground/20" : ""}`}
       >
         <Globe size={18} className="text-gray-800 dark:text-gray-200" />
         <span className="text-sm font-medium text-gray-800 dark:text-gray-200">

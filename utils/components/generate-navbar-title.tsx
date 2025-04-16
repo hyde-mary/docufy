@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Loader } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const generateNavbarTitle = (pathname: string) => {
@@ -39,27 +39,17 @@ export const generateNavbarTitle = (pathname: string) => {
     );
   }
 
-  if (pathname === "/drafts") {
+  if (pathname === "/archived") {
     return (
       <div className="flex items-center justify-center space-x-2 text-sm">
         <span>Docufy</span>
         <ChevronRight size={18} />
-        <span>Drafts</span>
+        <span>Archived</span>
       </div>
     );
   }
 
-  if (pathname === "/archive") {
-    return (
-      <div className="flex items-center justify-center space-x-2 text-sm">
-        <span>Docufy</span>
-        <ChevronRight size={18} />
-        <span>Archive</span>
-      </div>
-    );
-  }
-
-  if (pathname.startsWith("/archive/")) {
+  if (pathname.startsWith("/archived/")) {
     const parts = pathname.split("/");
     const slug = parts[3];
 
@@ -67,24 +57,24 @@ export const generateNavbarTitle = (pathname: string) => {
       <div className="flex items-center justify-center space-x-2 text-sm">
         <span>Docufy</span>
         <ChevronRight size={18} />
-        <span>Archive</span>
+        <span>Archived</span>
         <ChevronRight size={18} />
         <span>{slug || <Skeleton className="w-32 h-4" />}</span>
       </div>
     );
   }
 
-  if (pathname === "/publish") {
+  if (pathname === "/published") {
     return (
       <div className="flex items-center justify-center space-x-2 text-sm">
         <span>Docufy</span>
         <ChevronRight size={18} />
-        <span>Publish</span>
+        <span>Published</span>
       </div>
     );
   }
 
-  if (pathname.startsWith("/publish/")) {
+  if (pathname.startsWith("/published/")) {
     const parts = pathname.split("/");
     const slug = parts[3];
 
@@ -101,7 +91,10 @@ export const generateNavbarTitle = (pathname: string) => {
 
   return (
     <div className="flex items-center justify-center space-x-2 text-sm">
+      <span>Docufy</span>
+      <ChevronRight size={18} />
       <span>Unknown Page</span>
+      <Loader size={18} />
     </div>
   );
 };

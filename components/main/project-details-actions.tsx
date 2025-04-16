@@ -27,6 +27,7 @@ import {
 import { useState } from "react";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface ProjectDetailsActionsProps {
   visibility: "Private" | "Public";
@@ -49,6 +50,8 @@ const ProjectDetailsActions = ({
 
   const [isLoading, setIsLoading] = useState(false); // global loading state for all mutations
 
+  const router = useRouter();
+
   // archive functions
   const onArchive = () => {
     setIsLoading(true);
@@ -56,6 +59,8 @@ const ProjectDetailsActions = ({
     const promise = archiveProject({ projectId }).finally(() =>
       setIsLoading(false)
     );
+
+    router.push(`/archived/${projectId}/${slug}`);
 
     toast.promise(promise, {
       success: "Project archived successfully.",
@@ -69,6 +74,8 @@ const ProjectDetailsActions = ({
     const promise = unarchiveProject({ projectId }).finally(() =>
       setIsLoading(false)
     );
+
+    router.push(`/projects/${projectId}/${slug}`);
 
     toast.promise(promise, {
       success: "Project unarchived successfully.",
@@ -84,6 +91,8 @@ const ProjectDetailsActions = ({
       setIsLoading(false)
     );
 
+    router.push(`/published/${projectId}/${slug}`);
+
     toast.promise(promise, {
       success: "Project published successfully.",
       error: "Project publish failed.",
@@ -96,6 +105,8 @@ const ProjectDetailsActions = ({
     const promise = unpublishProject({ projectId }).finally(() =>
       setIsLoading(false)
     );
+
+    router.push(`/projects/${projectId}/${slug}`);
 
     toast.promise(promise, {
       success: "Project unpublished successfully.",
@@ -110,6 +121,8 @@ const ProjectDetailsActions = ({
     const promise = deleteProject({ projectId }).finally(() =>
       setIsLoading(false)
     );
+
+    router.push(`/`);
 
     toast.promise(promise, {
       success: "Project deleted successfully.",

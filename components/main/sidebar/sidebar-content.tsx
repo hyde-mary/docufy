@@ -45,6 +45,23 @@ const SidebarContent = () => {
     return strict ? pathname === path : pathname.startsWith(path);
   };
 
+  const getProjectLink = (project: {
+    status: string;
+    visibility: string;
+    _id: string;
+    slug: string;
+  }) => {
+    let basePath = "/projects";
+
+    if (project.status === "Inactive") {
+      basePath = "/archived";
+    } else if (project.status === "Active" && project.visibility === "Public") {
+      basePath = "/published";
+    }
+
+    return `${basePath}/${project._id}/${project.slug}`;
+  };
+
   return (
     <nav className="space-y-2 p-3 w-full">
       {/* Home */}
@@ -101,7 +118,7 @@ const SidebarContent = () => {
               projects.map((project) => (
                 <Link
                   key={project._id}
-                  href={`/projects/${project._id}/${project.slug}`}
+                  href={getProjectLink(project)}
                   className={`block text-sm p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${
                     isProjectActive(project._id) ? "bg-muted-foreground/20" : ""
                   }`}
@@ -119,7 +136,7 @@ const SidebarContent = () => {
 
       {/* Trash */}
       <Link
-        href="/archive"
+        href="/archived"
         className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/trash") ? "bg-muted-foreground/20" : ""}`}
       >
         <Archive size={18} className="text-gray-800 dark:text-gray-200" />
@@ -130,7 +147,7 @@ const SidebarContent = () => {
 
       {/* Publish */}
       <Link
-        href="/publish"
+        href="/published"
         className={`flex items-center space-x-3 p-2 rounded-md hover:bg-muted-foreground/15 transition-colors ${isActive("/publish") ? "bg-muted-foreground/20" : ""}`}
       >
         <Globe size={18} className="text-gray-800 dark:text-gray-200" />

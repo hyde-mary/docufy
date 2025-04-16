@@ -1,5 +1,4 @@
 "use client";
-
 import MarkdownPreview from "@/components/editor/markdown-preview";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLiveStore } from "@/stores/live-store";
@@ -8,18 +7,17 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-const EditorPageRoot = () => {
+const LivePageRoot = () => {
   const { data } = useLiveStore();
   const [tocOpen, setTocOpen] = useState(false);
 
   if (!data)
     return (
       <div className="flex flex-1 w-full">
-        <div className="flex-1 px-4 md:px-40 py-8 md:py-12 overflow-auto">
+        <div className="flex-1 min-w-0 px-4 md:px-40 py-8 md:py-12 overflow-auto">
           <Skeleton className="w-full h-64" />
         </div>
-
-        <div className="w-64 hidden md:block">
+        <div className="w-64 flex-shrink-0 hidden md:block">
           <div className="px-8 py-12 flex flex-col space-y-4">
             <Skeleton className="w-full h-48" />
           </div>
@@ -31,12 +29,11 @@ const EditorPageRoot = () => {
 
   return (
     <div className="flex flex-1 w-full">
-      <div className="flex-1 px-4 md:px-40 py-8 md:py-12 overflow-auto">
+      <div className="flex-1 min-w-0 px-4 md:px-40 py-8 md:py-12 overflow-auto">
         <div className="w-full">
           <MarkdownPreview markdown={data.rootPage.markdown} />
-
           {headings.length > 0 && (
-            <div className="md:hidden mt-8 border-t pt-4 mb-8 pb-16">
+            <div className="md:hidden mt-8 border-t pt-4 pb-16">
               <Button
                 variant="outline"
                 className="flex items-center w-full justify-between"
@@ -45,7 +42,6 @@ const EditorPageRoot = () => {
                 <span>On This Page</span>
                 {tocOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </Button>
-
               {tocOpen && (
                 <div className="mt-4 space-y-2 pl-2">
                   {headings.map((heading, index) => (
@@ -65,8 +61,7 @@ const EditorPageRoot = () => {
           )}
         </div>
       </div>
-
-      <div className="w-64 hidden md:block overflow-auto">
+      <div className="w-64 flex-shrink-0 hidden md:block">
         <div className="px-4 py-12 flex flex-col space-y-4 sticky top-0">
           {headings.length > 0 && (
             <p className="text-base font-medium">On This Page</p>
@@ -87,4 +82,4 @@ const EditorPageRoot = () => {
   );
 };
 
-export default EditorPageRoot;
+export default LivePageRoot;

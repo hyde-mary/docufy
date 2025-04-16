@@ -22,9 +22,7 @@ const ProjectDetailsInformation = ({
         <Separator />
         <CardContent className="space-y-4">
           <div className="space-y-6">
-            <h1 className="text-base font-medium text-muted-foreground">
-              Project Description
-            </h1>
+            <h1 className="text-base font-medium">Project Description</h1>
             <p
               className={cn(
                 "text-sm text-justify",
@@ -36,15 +34,32 @@ const ProjectDetailsInformation = ({
           </div>
           <Separator />
           <div className="space-y-6">
-            <h2 className="text-base font-medium text-muted-foreground">
-              Project Slug:
+            <h2 className="text-base font-medium">
+              {project.visibility === "Public" ? (
+                <p>Project Link:</p>
+              ) : (
+                <p>Project Slug:</p>
+              )}
             </h2>
-            <p className="text-sm">
-              Your project will be visible with the following slug:
+            <p className="text-sm text-muted-foreground">
+              {project.visibility === "Public" ? (
+                <p>
+                  Your project will be visible to the public using the link:
+                </p>
+              ) : (
+                <p>Your project will be visible with the following slug:</p>
+              )}
             </p>
-            <code className="px-3 py-1 bg-muted rounded-md text-sm font-mono">
-              {project.slug}
-            </code>
+
+            {project.visibility === "Public" ? (
+              <code className="px-3 py-1 bg-muted rounded-md text-sm font-mono">
+                {`/live/${project.username}/${project.slug}`}
+              </code>
+            ) : (
+              <code className="px-3 py-1 bg-muted rounded-md text-sm font-mono">
+                {project.slug}
+              </code>
+            )}
           </div>
         </CardContent>
       </Card>

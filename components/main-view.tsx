@@ -16,7 +16,7 @@ const MainView = ({ projects }: MainViewProps) => {
         let basePath = "/project"; // default path
 
         if (project.status === "Inactive") {
-          basePath = "/archiveed";
+          basePath = "/archived";
         } else if (
           project.status === "Active" &&
           project.visibility === "Public"

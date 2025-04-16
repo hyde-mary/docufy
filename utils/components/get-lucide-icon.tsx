@@ -17,6 +17,8 @@ export const getLucideIcon = (
 ) => {
   if (!iconName) return fallbackIcon;
 
+  if (iconName === "None") return;
+
   const icons = LucideIcons as LucideIconsType;
   const IconComponent = icons[iconName];
 

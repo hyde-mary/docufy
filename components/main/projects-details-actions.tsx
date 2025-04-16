@@ -167,15 +167,6 @@ const ProjectDetailsActions = ({
 
       {visibility !== "Public" && status === "Inactive" && (
         <div className="flex items-center justify-center gap-x-4">
-          <Button
-            className="hover:cursor-pointer"
-            variant={"default"}
-            onClick={onUnarchive}
-            disabled={isLoading}
-          >
-            <RefreshCcw className="w-4 h-4" />
-            Unarchive Project
-          </Button>
           <Dialog>
             <DialogTrigger asChild>
               <Button className="hover:cursor-pointer" variant={"destructive"}>
@@ -203,6 +194,21 @@ const ProjectDetailsActions = ({
               </DialogFooter>
             </DialogContent>
           </Dialog>
+          <Button
+            className="hover:cursor-pointer"
+            variant={"default"}
+            onClick={onUnarchive}
+            disabled={isLoading}
+          >
+            <RefreshCcw className="w-4 h-4" />
+            Unarchive Project
+          </Button>
+          <Link href={`/editor/${projectId}/${slug}`}>
+            <Button variant="outline" className="hover:cursor-pointer">
+              Go to editor
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
         </div>
       )}
 
@@ -226,6 +232,12 @@ const ProjectDetailsActions = ({
             <Globe className="w-4 h-4" />
             Visit Live Site
           </Button>
+          <Link href={`/editor/${projectId}/${slug}`}>
+            <Button variant="outline" className="hover:cursor-pointer">
+              Go to editor
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
         </div>
       )}
     </>

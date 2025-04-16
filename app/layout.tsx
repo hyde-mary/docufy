@@ -41,7 +41,7 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
-          <Toaster richColors />
+          <Toaster richColors expand={true} closeButton />
         </ConvexClientProvider>
       </body>
     </html>

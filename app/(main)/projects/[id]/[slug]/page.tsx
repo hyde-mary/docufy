@@ -1,4 +1,4 @@
-import ProjectDetails from "@/components/main/project-details";
+import ProjectDetails from "@/components/main/projects-details";
 
 export default function ProjectPage() {
   return (

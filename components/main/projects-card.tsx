@@ -1,4 +1,3 @@
-// components/project-card.tsx
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -14,6 +13,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import { cn } from "@/lib/utils";
 import { getLucideIcon } from "@/utils/components/get-lucide-icon";
 
 import { ChevronRight, Globe, InfoIcon, Lock } from "lucide-react";
@@ -36,7 +36,7 @@ export const ProjectsCard = ({
   _creationTime,
 }: ProjectCardProps) => {
   return (
-    <Card className="w-96 h-64 shadow-sm hover:shadow-md transition-all cursor-pointer rounded-xs!">
+    <Card className="w-96 h-64 max-h-64 max-h-96 border border-muted-foreground/30 hover:border-muted-foreground/40 transition-all cursor-pointer rounded-xs bg-transparent shadow-none hover:shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center justify-center space-x-4">
@@ -47,28 +47,35 @@ export const ProjectsCard = ({
         </div>
       </CardHeader>
       <CardContent className="flex flex-grow">
-        <p className="text-sm text-muted-foreground line-clamp-4">
+        <p className="text-base text-muted-foreground line-clamp-4">
           {description || "No description available."}
         </p>
       </CardContent>
       <CardFooter className="flex items-center justify-between">
         {/* status */}
         <div>
-          <span className="text-xs text-muted-foreground flex items-center justify-center gap-x-2">
+          <span className="text-sm text-muted-foreground flex items-center justify-center gap-x-2">
             {visibility.toLowerCase() === "private" ? (
               <>
-                <Lock className="w-3 h-3" /> {visibility}
+                <Lock className="w-4 h-4" /> {visibility}
               </>
             ) : (
               <>
-                <Globe className="w-3 h-3" /> {visibility}
+                <Globe className="w-4 h-4" /> {visibility}
               </>
             )}
           </span>
         </div>
-        <div className="flex items-center justify-center gap-x-2">
+        <div className="flex items-center justify-center gap-x-4">
           <div className="flex items-center gap-2 text-xs">
-            <Badge variant={"success"}>{status}</Badge>
+            <Badge
+              className={cn(
+                "w-fit text-sm",
+                status === "Active" ? "bg-green-600" : "bg-muted-foreground"
+              )}
+            >
+              {status}
+            </Badge>
           </div>
           <TooltipProvider>
             <Tooltip>

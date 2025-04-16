@@ -8,11 +8,11 @@ import { getLucideIcon } from "@/utils/components/get-lucide-icon";
 import { useQuery } from "convex/react";
 
 import { useParams } from "next/navigation";
-import ProjectDetailsContent from "./project-details-content";
+import ProjectDetailsContent from "./projects-details-content";
 import { reorderProjectData } from "@/utils/reorder-project-data";
 
-import ProjectDetailsInformation from "@/components/main/project-details-information";
-import ProjectDetailsActions from "./project-details-actions";
+import ProjectDetailsInformation from "@/components/main/projects-details-information";
+import ProjectDetailsActions from "./projects-details-actions";
 
 const ProjectDetails = () => {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 "use client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
-import { getLucideIcon } from "@/utils/components/getLucideIcon";
+import { getLucideIcon } from "@/utils/components/get-lucide-icon";
 import { useQuery } from "convex/react";
 import {
   FolderIcon,

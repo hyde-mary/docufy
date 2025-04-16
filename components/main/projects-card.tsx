@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { getLucideIcon } from "@/utils/components/getLucideIcon";
+import { getLucideIcon } from "@/utils/components/get-lucide-icon";
 
 import { ChevronRight, Globe, InfoIcon, Lock } from "lucide-react";
 

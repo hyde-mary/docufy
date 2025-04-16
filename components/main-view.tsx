@@ -8,24 +8,26 @@ import { usePathname } from "next/navigation";
 
 interface MainViewProps {
   projects: Doc<"projects">[];
+  isEmpty?: boolean;
+  showCreateCard?: boolean;
 }
 
-const MainView = ({ projects }: MainViewProps) => {
+const MainView = ({ projects, isEmpty, showCreateCard }: MainViewProps) => {
   const pathname = usePathname();
 
   if (!projects) return <MainViewSkeleton />;
 
-  if (projects.length === 0) {
+  if (projects.length === 0 && isEmpty) {
     return (
       <div className="flex items-center justify-center w-full">
-        <MainViewEmpty />
+        <MainViewEmpty pathname={pathname} />
       </div>
     );
   }
 
   return (
     <div className="flex flex-wrap items-start gap-6 py-4">
-      {pathname !== "/archived" && <ProjectsCreateCard />}
+      {showCreateCard && pathname !== "/archived" && <ProjectsCreateCard />}
       {projects.map((project) => {
         let basePath = "/projects"; // default path
 

@@ -1,6 +1,27 @@
 import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 
+// default data for project creation:
+const defaultData = {
+  title: "",
+  navLinks: [],
+  theme_toggle: false,
+  socials: [
+    { platform: "github", href: "" },
+    { platform: "facebook", href: "" },
+    { platform: "twitter", href: "" },
+  ],
+  sections: [],
+  params: {
+    id: "",
+    slug: "",
+  },
+  rootPage: {
+    markdown: "",
+  },
+  pages: [],
+};
+
 export const archiveProject = mutation({
   args: {
     projectId: v.id("projects"),
@@ -107,6 +128,73 @@ export const unpublishProject = mutation({
     await ctx.db.patch(args.projectId, {
       visibility: "Private",
     });
+  },
+});
+
+export const createProject = mutation({
+  args: {
+    title: v.string(),
+    slug: v.string(),
+    iconName: v.union(
+      v.literal("Rocket"),
+      v.literal("Book"),
+      v.literal("Code"),
+      v.literal("File"),
+      v.literal("Presentation"),
+      v.literal("None")
+    ),
+    description: v.optional(v.string()),
+    template: v.union(v.literal("Default")),
+    visibility: v.union(v.literal("Private"), v.literal("Public")),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+
+    const userId = identity.subject;
+
+    const userProjects = await ctx.db
+      .query("projects")
+      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .collect();
+
+    const slugExists = userProjects.some(
+      (project) => project.slug.toLowerCase() === args.slug.toLowerCase()
+    );
+
+    if (slugExists) {
+      throw new Error("Duplicate Project Title and Slug");
+    }
+
+    const projectId = await ctx.db.insert("projects", {
+      title: args.title,
+      userId: userId,
+      username: identity.nickname!,
+      slug: args.slug,
+      iconName: args.iconName,
+      description: args.description,
+      template: args.template,
+      status: "Active",
+      visibility: args.visibility,
+      data: {},
+    });
+
+    const newData = {
+      ...defaultData,
+      params: {
+        id: projectId,
+        slug: args.slug,
+      },
+    };
+
+    await ctx.db.patch(projectId, {
+      data: newData,
+    });
+
+    return projectId;
   },
 });
 

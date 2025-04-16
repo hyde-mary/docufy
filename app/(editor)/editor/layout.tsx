@@ -1,25 +1,59 @@
 "use client";
 
-import { Fragment, useState } from "react";
-import EditorToolbar from "@/components/editor/editor-toolbar";
-import { ChevronLeft, FileJson, Menu } from "lucide-react";
+import { useConvexAuth, useQuery } from "convex/react";
+
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import LivePageHeader from "@/components/live/live-page-header";
-import LivePageSidebar from "@/components/live/live-page-sidebar";
+
+import { Loader } from "@/components/loader";
+import EditorPageSidebar from "@/components/editor/page/editor-page-sidebar";
+import EditorPageHeader from "@/components/editor/page/editor-page-header";
+import EditorToolbar from "@/components/editor/editor-toolbar";
 import EditorJsonViewer from "@/components/editor/editor-json-viewer";
-import { useRouter } from "next/navigation";
+
+import { useParams, useRouter } from "next/navigation";
+
+import { ChevronLeft, FileJson, Menu } from "lucide-react";
+
+import { Fragment, useEffect, useState } from "react";
+
+import { cn } from "@/lib/utils";
+import { api } from "@/convex/_generated/api";
+import { useEditorStore } from "@/stores/editor-store";
+import { Id } from "@/convex/_generated/dataModel";
 
 export default function EditorLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isToolbarOpen, setIsToolbarOpen] = useState(true);
+  const { id } = useParams();
+  const { isLoading, isAuthenticated } = useConvexAuth();
+  const { setData } = useEditorStore();
+
+  const editorData = useQuery(
+    api.editor_queries.getEditorData,
+    !isLoading && isAuthenticated && id
+      ? { projectId: id as Id<"projects"> }
+      : "skip"
+  );
+
+  useEffect(() => {
+    if (editorData) {
+      setData(editorData);
+    }
+  }, [editorData, setData]);
+
+  const [isToolbarOpen, setIsToolbarOpen] = useState(false);
   const [isToolbarLeft, setIsToolbarLeft] = useState(true);
   const [isJsonOpen, setIsJsonOpen] = useState(false);
   const [isSplit, setIsSplit] = useState(false);
   const router = useRouter();
+
+  if (isLoading) return <Loader />;
+
+  if (!isLoading && !editorData) return <Loader />;
+
+  if (!isAuthenticated && !isLoading) router.push("/landing");
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -104,11 +138,11 @@ export default function EditorLayout({
           <div className="h-full flex justify-center">
             <div className="container flex flex-col border-l border-r">
               <div className="h-16 border-b flex items-center justify-between px-8">
-                <LivePageHeader />
+                <EditorPageHeader />
               </div>
               <div className="flex flex-1 overflow-hidden">
                 <div className="w-64 border-r px-4 py-12 space-y-2 overflow-auto">
-                  <LivePageSidebar />
+                  <EditorPageSidebar />
                 </div>
                 {children}
               </div>

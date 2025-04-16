@@ -8,10 +8,13 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 const EditorPageRoot = () => {
   const params = useParams<{ id: string; slug: string }>();
+
   const { data, setParams } = useEditorStore();
+
   const previewRef = useRef<HTMLDivElement>(null);
-  const [initialLoad, setInitialLoad] = useState(true);
   const prevMarkdownLength = useRef(data.rootPage.markdown?.length || 0);
+
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const headings = getMarkdownHeadings(data.rootPage.markdown);
 

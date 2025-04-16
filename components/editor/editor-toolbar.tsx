@@ -13,11 +13,11 @@ import { Button } from "../ui/button";
 import { ThemeToggleClick } from "../theme-toggle-click";
 
 import EditorToolbarHeader from "./toolbar/editor-toolbar-header";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import EditorToolbarSidebar from "./toolbar/editor-toolbar-sidebar";
 import EditorToolbarPathDropdown from "./toolbar/editor-toolbar-path-dropdown";
 import EditorToolbarMainContent from "./toolbar/editor-toolbar-main-content";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
 import { useEditorStore } from "@/stores/editor-store";
@@ -38,44 +38,30 @@ const EditorToolbar = ({
   isSplit,
   setIsSplit,
 }: EditorToolbarProps) => {
-  const params = useParams<{ id: string }>();
-  const { data, setData } = useEditorStore();
+  const { id } = useParams<{ id: Id<"projects"> }>();
+
+  const saveEditorData = useMutation(api.editor_mutations.saveEditorData);
+
+  const { data } = useEditorStore();
 
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [isMainContentExpanded, setIsMainContentExpanded] = useState(false);
 
-  const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const saveEditorData = useMutation(api.editor.saveEditorData);
+  const onSave = () => {
+    setIsLoading(true);
 
-  const editorData = useQuery(api.editor.getEditorData, {
-    projectId: params.id as Id<"projects">,
-  });
+    const promise = saveEditorData({
+      projectId: id,
+      data,
+    }).finally(() => setIsLoading(false));
 
-  useEffect(() => {
-    if (editorData) {
-      setData(editorData.data);
-    }
-  }, [editorData, setData]);
-
-  const handleSave = () => {
-    setIsSaving(true);
-    try {
-      if (!params.id) return;
-
-      const projectId = params.id as Id<"projects">;
-
-      saveEditorData({ projectId, editorData: data });
-
-      toast("Data has been successfully saved!");
-    } catch (error) {
-      toast.error("Data saving has failed", {
-        description: error as string,
-      });
-    } finally {
-      setIsSaving(false);
-    }
+    toast.promise(promise, {
+      success: "Project data saved successfully.",
+      error: "Project data saving failed.",
+    });
   };
 
   return (
@@ -90,15 +76,12 @@ const EditorToolbar = ({
           </div>
           <Button
             size={"sm"}
-            className={cn(
-              "text-sm hover:cursor-pointer",
-              isSaving && "bg-gray-500"
-            )}
-            onClick={() => handleSave()}
-            disabled={isSaving}
+            className={cn("text-sm hover:cursor-pointer")}
+            onClick={onSave}
+            disabled={isLoading}
           >
             <Save className="w-4 h-4" />
-            {isSaving ? "Saving" : "Save"}
+            Save
           </Button>
         </div>
       </CardHeader>

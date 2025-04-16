@@ -5,7 +5,7 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { EditorData } from "@/types/editor";
+import { ProjectData } from "@/types/project-data";
 import { reorderProjectData } from "@/utils/reorder-project-data";
 
 interface EditorJsonViewerProps {
@@ -23,7 +23,7 @@ const EditorJsonViewer = ({
 }: EditorJsonViewerProps) => {
   const { data } = useEditorStore();
 
-  const reorderData: EditorData = reorderProjectData(data);
+  const reorderData: ProjectData = reorderProjectData(data);
 
   return (
     <Card className="flex h-full w-full !rounded-none border border-muted-foreground/15">

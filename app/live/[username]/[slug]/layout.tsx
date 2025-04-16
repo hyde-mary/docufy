@@ -5,7 +5,7 @@ import LivePageSidebar from "@/components/live/live-page-sidebar";
 import { Loader } from "@/components/loader";
 import { api } from "@/convex/_generated/api";
 import { useLiveStore } from "@/stores/live-store";
-import { LinkSection, LiveData, Page, Section } from "@/types/live";
+import { LinkSection, ProjectData, Page, Section } from "@/types/project-data";
 import { useQuery } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -45,7 +45,7 @@ export default function LiveLayout({
     }
   }, [project?.data, setData, slug, username]);
 
-  function updateHrefs(data: LiveData, username: string, slug: string) {
+  function updateHrefs(data: ProjectData, username: string, slug: string) {
     const basePath = `/live/${username}/${slug}`;
     const newData = JSON.parse(JSON.stringify(data)); // Deep clone
 

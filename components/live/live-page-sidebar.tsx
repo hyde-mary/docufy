@@ -1,5 +1,5 @@
 import { useLiveStore } from "@/stores/live-store";
-import { Section } from "@/types/live";
+import { Section } from "@/types/project-data";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";

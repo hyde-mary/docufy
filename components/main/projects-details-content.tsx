@@ -5,13 +5,13 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { EditorData } from "@/types/editor";
+import { ProjectData } from "@/types/project-data";
 import React from "react";
 
 const ProjectDetailsContent = ({
   reorderData,
 }: {
-  reorderData: EditorData;
+  reorderData: ProjectData;
 }) => {
   return (
     <Card className="rounded-none w-full">

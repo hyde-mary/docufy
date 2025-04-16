@@ -19,7 +19,7 @@ export const generateNavbarTitle = (pathname: string) => {
         <ChevronRight size={18} />
         <span>Projects</span>
         <ChevronRight size={18} />
-        <span>Create a new project</span>
+        <span>New Project</span>
       </div>
     );
   }

@@ -13,13 +13,22 @@ import { reorderProjectData } from "@/utils/reorder-project-data";
 
 import ProjectDetailsInformation from "@/components/main/projects-details-information";
 import ProjectDetailsActions from "./projects-details-actions";
+import { useEditorStore } from "@/stores/editor-store";
+import { useEffect } from "react";
 
 const ProjectDetails = () => {
   const { id } = useParams();
+  const { setData } = useEditorStore();
 
   const project = useQuery(api.projects_queries.getProjectById, {
     id: id as Id<"projects">,
   });
+
+  useEffect(() => {
+    if (project?.data) {
+      setData(project?.data);
+    }
+  }, [project?.data, setData]);
 
   if (!project) {
     return (

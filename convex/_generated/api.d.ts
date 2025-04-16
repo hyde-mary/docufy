@@ -14,7 +14,8 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as data_default from "../data/default.js";
-import type * as editor from "../editor.js";
+import type * as editor_mutations from "../editor_mutations.js";
+import type * as editor_queries from "../editor_queries.js";
 import type * as http from "../http.js";
 import type * as projects_internal_mutations from "../projects_internal_mutations.js";
 import type * as projects_mutations from "../projects_mutations.js";
@@ -31,7 +32,8 @@ import type * as users from "../users.js";
  */
 declare const fullApi: ApiFromModules<{
   "data/default": typeof data_default;
-  editor: typeof editor;
+  editor_mutations: typeof editor_mutations;
+  editor_queries: typeof editor_queries;
   http: typeof http;
   projects_internal_mutations: typeof projects_internal_mutations;
   projects_mutations: typeof projects_mutations;

@@ -18,7 +18,7 @@ export const ICON_OPTIONS = [
   "None",
 ] as const;
 
-export const newProjectSchema = z.object({
+export const createProjectSchema = z.object({
   title: shortString(5, 50)
     .describe("The project's display name")
     .refine((val) => val.trim().length > 0, {

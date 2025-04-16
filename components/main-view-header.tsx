@@ -14,7 +14,7 @@ const MainViewHeader = ({ viewType, setSearchQuery }: MainViewHeaderProps) => {
   return (
     <div className="flex items-center justify-center space-x-4">
       {viewType === "project" && (
-        <Link href={"/projects/new/"}>
+        <Link href={"/projects/create/"}>
           <Button variant={"outline"} className="hover:cursor-pointer">
             <Plus className="w-4 h-4" />
             <span className="text-xs">New project</span>

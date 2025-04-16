@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const ProjectsCreateCard = () => {
   return (
-    <Link href="/projects/new">
+    <Link href="/projects/create">
       <Card className="w-96 h-64 border-2 border-dashed border-muted-foreground/30 hover:border-primary/50 transition-all cursor-pointer rounded-xs bg-transparent shadow-none hover:shadow-sm">
         <CardContent className="flex flex-col items-center justify-center h-full">
           <div className="flex flex-col items-center justify-center gap-2 gap-y-6 text-muted-foreground hover:text-primary transition-colors">

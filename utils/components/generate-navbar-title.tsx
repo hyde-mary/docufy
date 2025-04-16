@@ -12,14 +12,14 @@ export const generateNavbarTitle = (pathname: string) => {
     );
   }
 
-  if (pathname === "/projects/new") {
+  if (pathname === "/projects/create") {
     return (
       <div className="flex items-center justify-cnter space-x-2 text-sm">
         <span>Docufy</span>
         <ChevronRight size={18} />
         <span>Projects</span>
         <ChevronRight size={18} />
-        <span>New Project</span>
+        <span>Create Project</span>
       </div>
     );
   }

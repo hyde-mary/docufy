@@ -8,11 +8,13 @@ export default function Home() {
   const projects = useQuery(api.projects_queries.getActiveProjects);
 
   return (
-    <div className="flex flex-col items-start justify-start p-6 space-y-4">
+    <div className="flex flex-col items-start justify-start p-6 space-y-4 h-full">
       <MainViewHeader viewType="project" />
-      <div className="w-full py-4 space-y-4">
+      <div className="w-full py-4 space-y-4 h-full flex flex-col">
         <h1 className="text-xl font-bold">Projects</h1>
-        <MainView projects={projects!} />
+        <div className="flex flex-1">
+          <MainView projects={projects!} />
+        </div>
       </div>
     </div>
   );

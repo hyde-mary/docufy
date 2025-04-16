@@ -2,6 +2,8 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { ProjectsCard } from "@/components/main/projects-card";
 import Link from "next/link";
 import MainViewSkeleton from "./main-view-skeleton";
+import MainViewEmpty from "./main-view-empty";
+import { ProjectsCreateCard } from "./main/projects-create-card";
 
 interface MainViewProps {
   projects: Doc<"projects">[];
@@ -10,10 +12,19 @@ interface MainViewProps {
 const MainView = ({ projects }: MainViewProps) => {
   if (!projects) return <MainViewSkeleton />;
 
+  if (projects.length === 0) {
+    return (
+      <div className="flex items-center justify-center w-full">
+        <MainViewEmpty />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-wrap items-start gap-6 py-4">
+      <ProjectsCreateCard />
       {projects.map((project) => {
-        let basePath = "/project"; // default path
+        let basePath = "/projects"; // default path
 
         if (project.status === "Inactive") {
           basePath = "/archived";

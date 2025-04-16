@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { getMarkdownHeadings } from "@/utils/getMarkdownHeadings";
+import { getMarkdownHeadings } from "@/utils/get-markdown-headings";
 import MarkdownPreview from "@/components/editor/markdown-preview";
 import { useLiveStore } from "@/stores/live-store";
 import { ChevronDown, ChevronUp } from "lucide-react";

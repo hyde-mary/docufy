@@ -2,7 +2,7 @@
 import MarkdownPreview from "@/components/editor/markdown-preview";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLiveStore } from "@/stores/live-store";
-import { getMarkdownHeadings } from "@/utils/getMarkdownHeadings";
+import { getMarkdownHeadings } from "@/utils/get-markdown-headings";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";

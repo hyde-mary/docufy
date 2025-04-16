@@ -24,6 +24,7 @@ export const archiveProject = mutation({
 
     await ctx.db.patch(args.projectId, {
       status: "Inactive",
+      visibility: "Private", // idk, just an extra layer of security to make it private
     });
   },
 });

@@ -7,15 +7,24 @@ import { ProjectsCreateCard } from "./main/projects-create-card";
 import { usePathname } from "next/navigation";
 
 interface MainViewProps {
-  projects: Doc<"projects">[];
+  projects: Doc<"projects">[] | undefined;
   isEmpty?: boolean;
   showCreateCard?: boolean;
 }
 
+const getProjectBasePath = (project: Doc<"projects">) => {
+  if (project.status === "Inactive") return "/archived";
+  if (project.status === "Active" && project.visibility === "Public")
+    return "/published";
+  return "/projects";
+};
+
 const MainView = ({ projects, isEmpty, showCreateCard }: MainViewProps) => {
   const pathname = usePathname();
 
-  if (!projects) return <MainViewSkeleton />;
+  if (!projects) {
+    return <MainViewSkeleton />;
+  }
 
   if (projects.length === 0 && isEmpty) {
     return (
@@ -29,17 +38,7 @@ const MainView = ({ projects, isEmpty, showCreateCard }: MainViewProps) => {
     <div className="flex flex-wrap items-start gap-6 py-4">
       {showCreateCard && pathname !== "/archived" && <ProjectsCreateCard />}
       {projects.map((project) => {
-        let basePath = "/projects"; // default path
-
-        if (project.status === "Inactive") {
-          basePath = "/archived";
-        } else if (
-          project.status === "Active" &&
-          project.visibility === "Public"
-        ) {
-          basePath = "/published";
-        }
-
+        const basePath = getProjectBasePath(project);
         return (
           <Link
             key={project._id}

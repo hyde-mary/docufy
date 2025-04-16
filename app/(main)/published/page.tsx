@@ -9,14 +9,17 @@ import MainViewHeader from "@/components/main-view-header";
 import { useState } from "react";
 
 export default function PublishedPage() {
-  const projects = useQuery(api.projects_queries.getPublishedProjects);
+  const projects = useQuery(api.projects_queries.getProjects);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredProjects = projects?.filter((project) =>
-    project.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProjects = projects?.filter((project) => {
+    return (
+      project.visibility === "Public" &&
+      project.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
-  const isEmpty = (projects?.length ?? 0) === 0;
+  const isEmpty = (filteredProjects?.length ?? 0) === 0;
 
   return (
     <div className="flex flex-col items-start justify-start p-6 space-y-4 h-full">

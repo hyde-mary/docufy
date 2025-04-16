@@ -7,26 +7,26 @@ import { useQuery } from "convex/react";
 import { useState } from "react";
 
 export default function Home() {
-  const projects = useQuery(api.projects_queries.getActiveProjects);
-  const [searchQuery, setSearchQuery] = useState(""); // pass to the main-view-header to filter projects
+  const projects = useQuery(api.projects_queries.getProjects);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // private and public projects filter. Only for home view
-  const privateProjects = projects?.filter(
-    (project) => project.visibility === "Private"
-  );
-  const publicProjects = projects?.filter(
-    (project) => project.visibility === "Public"
-  );
-
-  // search filter
-  const filteredPrivateProjects = privateProjects?.filter((project) =>
-    project.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  const filteredPublicProjects = publicProjects?.filter((project) =>
-    project.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPrivateProjects = projects?.filter(
+    (project) =>
+      project.status === "Active" &&
+      project.visibility === "Private" &&
+      project.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const isEmpty = (projects?.length ?? 0) === 0;
+  const filteredPublicProjects = projects?.filter(
+    (project) =>
+      project.status === "Active" &&
+      project.visibility === "Public" &&
+      project.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const isEmpty =
+    (filteredPrivateProjects?.length ?? 0) === 0 &&
+    (filteredPublicProjects?.length ?? 0) === 0;
 
   return (
     <div className="flex flex-col items-start justify-start p-6 space-y-4 h-full">
@@ -42,7 +42,7 @@ export default function Home() {
           />
         </div>
 
-        {publicProjects && publicProjects.length > 0 && (
+        {filteredPublicProjects && filteredPublicProjects.length > 0 && (
           <>
             <Separator />
 

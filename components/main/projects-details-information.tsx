@@ -36,18 +36,20 @@ const ProjectDetailsInformation = ({
           <div className="space-y-6">
             <h2 className="text-base font-medium">
               {project.visibility === "Public" ? (
-                <p>Project Link:</p>
+                <span>Project Link:</span>
               ) : (
-                <p>Project Slug:</p>
+                <span>Project Slug:</span>
               )}
             </h2>
             <p className="text-sm text-muted-foreground">
               {project.visibility === "Public" ? (
-                <p>
+                <span>
                   Your project will be visible to the public using the link:
-                </p>
+                </span>
               ) : (
-                <p>Your project will be visible with the following slug:</p>
+                <span>
+                  Your project will be visible with the following slug:
+                </span>
               )}
             </p>
 

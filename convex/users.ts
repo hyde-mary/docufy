@@ -51,7 +51,7 @@ export const deleteFromClerk = internalMutation({
       // let use delete user's projects
       const projects = await ctx.db
         .query("projects")
-        .withIndex("by_userId", (q) => q.eq("userId", user._id))
+        .withIndex("by_userId", (q) => q.eq("userId", clerkUserId))
         .collect();
 
       for (const project of projects) {

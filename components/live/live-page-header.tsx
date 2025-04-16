@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { JSX, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { NavLink, Social } from "@/types/live";
+import { NavLink, Social } from "@/types/project-data";
 import { useLiveStore } from "@/stores/live-store";
 
 const socialsIcons: Record<string, JSX.Element> = {

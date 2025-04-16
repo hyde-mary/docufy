@@ -2,24 +2,24 @@ import { create } from "zustand";
 
 import {
   DropdownSection,
-  EditorData,
+  ProjectData,
   LinkSection,
   NavLink,
   Social,
   TextSection,
-} from "@/types/editor";
+} from "@/types/project-data";
 
 type EditorStore = {
   // data
-  data: EditorData;
+  data: ProjectData;
 
   // set data method
-  setData: (editorData: EditorData) => void;
+  setData: (editorData: ProjectData) => void;
 
   // update field used for title
-  updateField: <K extends keyof EditorData>(
+  updateField: <K extends keyof ProjectData>(
     key: K,
-    value: EditorData[K]
+    value: ProjectData[K]
   ) => void;
 
   // set params, we store the params for dynamic routing
@@ -86,7 +86,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
     pages: [],
   },
 
-  setData: (editorData: EditorData) => set({ data: editorData }),
+  setData: (editorData: ProjectData) => set({ data: editorData }),
 
   updateField: (key, value) =>
     set((state) => ({

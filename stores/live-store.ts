@@ -1,8 +1,8 @@
-import { LiveData } from "@/types/live";
+import { ProjectData } from "@/types/project-data";
 import { create } from "zustand";
 
 interface LiveStore {
-  data: LiveData | null;
+  data: ProjectData | null;
   setData: (data: LiveStore["data"]) => void;
 }
 

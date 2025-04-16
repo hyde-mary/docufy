@@ -52,6 +52,7 @@ const ProjectDetails = () => {
         </div>
 
         <ProjectDetailsActions
+          username={project.username}
           visibility={project.visibility}
           status={project.status}
           projectId={project._id}

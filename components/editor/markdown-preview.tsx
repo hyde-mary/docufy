@@ -117,10 +117,15 @@ const MarkdownPreview = ({
 
           // Block Code
           pre: ({ children, ...props }) => (
-            <div className="max-w-full overflow-hidden">
+            <div className="relative max-w-full">
               <pre
-                className="bg-gray-900 p-2 md:p-4 overflow-x-auto max-w-full"
-                style={{ WebkitOverflowScrolling: "touch" }}
+                className="bg-gray-900 p-2 md:p-4 overflow-x-auto max-w-full rounded-md"
+                style={{
+                  WebkitOverflowScrolling: "touch",
+                  maxWidth: "100%",
+                  width: "100%",
+                  overflow: "auto",
+                }}
                 {...props}
               >
                 {children}

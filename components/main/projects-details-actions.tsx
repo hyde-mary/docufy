@@ -30,6 +30,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface ProjectDetailsActionsProps {
+  username: string;
   visibility: "Private" | "Public";
   status: "Active" | "Inactive";
   projectId: Id<"projects">;
@@ -37,6 +38,7 @@ interface ProjectDetailsActionsProps {
 }
 
 const ProjectDetailsActions = ({
+  username,
   visibility,
   status,
   projectId,
@@ -214,6 +216,15 @@ const ProjectDetailsActions = ({
           >
             <Lock className="w-4 h-4" />
             Unpublish Project
+          </Button>
+          <Button
+            className="hover:cursor-pointer"
+            variant={"default"}
+            onClick={() => router.push(`/live/${username}/${slug}`)}
+            disabled={isLoading}
+          >
+            <Globe className="w-4 h-4" />
+            Visit Live Site
           </Button>
         </div>
       )}

@@ -36,5 +36,7 @@ export default defineSchema({
     visibility: v.union(v.literal("Private"), v.literal("Public")),
 
     data: v.optional(v.any()),
-  }).index("by_userId", ["userId"]),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_username_slug_visibility", ["username", "slug", "visibility"]),
 });

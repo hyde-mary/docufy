@@ -17,26 +17,33 @@ export default function LiveLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const params = useParams();
+  const { username, slug } = useParams();
   const { setData } = useLiveStore();
+
   const router = useRouter();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const project = useQuery(api.projects.getProjectByUsernameAndSlug, {
-    username: params.username as string,
-    slug: params.slug as string,
-  });
+  const project = useQuery(
+    api.live_queries.getProjectByUsernameAndSlug,
+    username && slug
+      ? {
+          username: username as string,
+          slug: slug as string,
+        }
+      : "skip"
+  );
 
   useEffect(() => {
     if (project?.data) {
       const updatedData = updateHrefs(
         project.data,
-        params.username as string,
-        params.slug as string
+        username as string,
+        slug as string
       );
       setData(updatedData);
     }
-  }, [project, setData, params.username, params.slug, router]);
+  }, [project?.data, setData, slug, username]);
 
   function updateHrefs(data: LiveData, username: string, slug: string) {
     const basePath = `/live/${username}/${slug}`;
@@ -87,6 +94,7 @@ export default function LiveLayout({
   }
 
   if (project === null) router.push("/404");
+
   if (!project?.data) return <Loader />;
 
   const toggleSidebar = () => {

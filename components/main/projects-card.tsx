@@ -36,7 +36,13 @@ export const ProjectsCard = ({
   _creationTime,
 }: ProjectCardProps) => {
   return (
-    <Card className="w-96 h-64 max-h-64 max-w-96 border border-muted-foreground/30 hover:border-muted-foreground/40 transition-all cursor-pointer rounded-xs bg-transparent shadow-none hover:shadow-sm">
+    <Card
+      className={cn(
+        "w-96 h-64 max-h-64 max-w-96 border border-muted-foreground/30 hover:border-muted-foreground/40 transition-all cursor-pointer rounded-xs bg-transparent shadow-none hover:shadow-sm",
+        status === "Inactive" && "bg-muted-foreground/10",
+        visibility === "Public" && "bg-blue-800/10"
+      )}
+    >
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center justify-center space-x-4">

@@ -46,7 +46,7 @@ import {
 } from "lucide-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { newProjectSchema } from "@/lib/schemas/new-project-schema";
+import { createProjectSchema } from "@/lib/schemas/create-project-schema";
 import { z } from "zod";
 
 import { useForm } from "react-hook-form";
@@ -64,8 +64,8 @@ const NewProjectForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof newProjectSchema>>({
-    resolver: zodResolver(newProjectSchema),
+  const form = useForm<z.infer<typeof createProjectSchema>>({
+    resolver: zodResolver(createProjectSchema),
     defaultValues: {
       title: "",
       slug: "",
@@ -91,7 +91,7 @@ const NewProjectForm = () => {
     form.setValue("slug", newSlug);
   }, [title, form]);
 
-  const onCreate = (values: z.infer<typeof newProjectSchema>) => {
+  const onCreate = (values: z.infer<typeof createProjectSchema>) => {
     setIsLoading(true);
 
     const promise = createProject(values)

@@ -40,7 +40,7 @@ export default function MainViewEmpty({ pathname }: MainViewEmptyProps) {
       {pathname !== "/archived" && (
         <div className="flex gap-4">
           <Button asChild variant="default" size="lg">
-            <Link href="/projects/new">
+            <Link href="/projects/create">
               <Rocket className="mr-2 h-4 w-4" />
               Create First Project
             </Link>

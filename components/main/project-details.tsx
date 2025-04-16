@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { getLucideIcon } from "@/utils/components/getLucideIcon";
+import { getLucideIcon } from "@/utils/components/get-lucide-icon";
 import { useQuery } from "convex/react";
 
 import { useParams } from "next/navigation";

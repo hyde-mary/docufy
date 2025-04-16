@@ -4,12 +4,15 @@ import Link from "next/link";
 import MainViewSkeleton from "./main-view-skeleton";
 import MainViewEmpty from "./main-view-empty";
 import { ProjectsCreateCard } from "./main/projects-create-card";
+import { usePathname } from "next/navigation";
 
 interface MainViewProps {
   projects: Doc<"projects">[];
 }
 
 const MainView = ({ projects }: MainViewProps) => {
+  const pathname = usePathname();
+
   if (!projects) return <MainViewSkeleton />;
 
   if (projects.length === 0) {
@@ -22,7 +25,7 @@ const MainView = ({ projects }: MainViewProps) => {
 
   return (
     <div className="flex flex-wrap items-start gap-6 py-4">
-      <ProjectsCreateCard />
+      {pathname !== "/archived" && <ProjectsCreateCard />}
       {projects.map((project) => {
         let basePath = "/projects"; // default path
 

@@ -12,6 +12,18 @@ const isProtectedRoute = createRouteMatcher([
 export default clerkMiddleware(async (auth, req) => {
   const url = new URL(req.nextUrl);
   const { userId } = await auth();
+  const userAgent = req.headers.get("user-agent") || "";
+
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      userAgent
+    );
+
+  const isEditorPath = req.nextUrl.pathname.startsWith("/editor");
+
+  if (isMobile && isEditorPath) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
 
   if (req.nextUrl.pathname === "/" && !userId) {
     return NextResponse.redirect(new URL("/landing", url.origin));
@@ -25,5 +37,9 @@ export default clerkMiddleware(async (auth, req) => {
 });
 
 export const config = {
-  matcher: ["/((?!_next|static|favicon.ico|landing).*)", "/(api|trpc)(.*)"],
+  matcher: [
+    "/((?!_next|static|favicon.ico|landing).*)",
+    "/(api|trpc)(.*)",
+    "/editor/:path*",
+  ],
 };

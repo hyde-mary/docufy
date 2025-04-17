@@ -192,7 +192,7 @@ const ProjectDetailsActions = ({
           </>
         )}
 
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild disabled>
           <Link href={`/editor/${projectId}/${slug}`}>
             <ArrowRight className="mr-2 h-4 w-4" />
             Go to editor

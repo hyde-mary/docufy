@@ -52,28 +52,41 @@ const ProjectDetails = () => {
   return (
     <div className="flex flex-col gap-y-6">
       {/* Header Section */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-x-4">
-          {project.iconName !== "None" && (
-            <EditableProjectIcon
-              initialIcon={project.iconName}
-              projectId={project._id}
-            />
+      <div className="flex justify-between items-end">
+        <div className="flex flex-col gap-y-2">
+          {project.iconName === "None" && (
+            <div>
+              <EditableProjectIcon
+                initialIcon={project.iconName}
+                projectId={project._id}
+              />
+            </div>
           )}
-          <h1 className="text-3xl font-semibold">
-            <EditableProjectTitle
-              initialTitle={project.title}
-              projectId={project._id}
-            />
-          </h1>
+          <div className="flex items-center gap-x-4">
+            {project.iconName !== "None" && (
+              <EditableProjectIcon
+                initialIcon={project.iconName}
+                projectId={project._id}
+              />
+            )}
+            <h1 className="text-3xl font-semibold">
+              <EditableProjectTitle
+                initialTitle={project.title}
+                projectId={project._id}
+              />
+            </h1>
+          </div>
         </div>
-        <ProjectDetailsActions
-          username={project.username}
-          visibility={project.visibility}
-          status={project.status}
-          projectId={project._id}
-          slug={project.slug}
-        />
+
+        <div className="flex items-end">
+          <ProjectDetailsActions
+            username={project.username}
+            visibility={project.visibility}
+            status={project.status}
+            projectId={project._id}
+            slug={project.slug}
+          />
+        </div>
       </div>
 
       <Separator />

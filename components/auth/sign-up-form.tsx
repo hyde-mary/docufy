@@ -4,7 +4,7 @@ import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { OAuthStrategy } from "@clerk/types";
 import { useSignIn, useSignUp } from "@clerk/nextjs";
 
-import { signUpSchema, verifySchema } from "@/lib/schemas/authSchema";
+import { signUpSchema, verifySchema } from "@/lib/schemas/auth-schema";
 import { cn } from "@/lib/utils";
 
 import { useForm } from "react-hook-form";

@@ -27,7 +27,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { signInSchema } from "@/lib/schemas/authSchema";
+import { signInSchema } from "@/lib/schemas/auth-schema";
 
 const SignInForm = () => {
   const { signIn, isLoaded, setActive } = useSignIn();

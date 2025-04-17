@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAllEditorHrefs } from "@/hooks/useAllEditorHrefs";
+import { useAllEditorHrefs } from "@/hooks/use-all-editor-hrefs";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Label } from "@/components/ui/label";

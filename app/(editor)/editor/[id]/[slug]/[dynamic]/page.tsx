@@ -2,7 +2,7 @@
 import { useEditorStore } from "@/stores/editor-store/index";
 import { useParams, useRouter } from "next/navigation";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { useAllEditorHrefs } from "@/hooks/useAllEditorHrefs";
+import { useAllEditorHrefs } from "@/hooks/use-all-editor-hrefs";
 import { getMarkdownHeadings } from "@/utils/get-markdown-headings";
 import MarkdownPreview from "@/components/editor/markdown-preview";
 

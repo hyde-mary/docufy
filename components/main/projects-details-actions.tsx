@@ -20,6 +20,7 @@ import {
   ArrowRight,
   Globe,
   Lock,
+  MoreHorizontal,
   RefreshCcw,
   Trash,
 } from "lucide-react";
@@ -28,6 +29,12 @@ import { useState } from "react";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface ProjectDetailsActionsProps {
   username: string;
@@ -50,11 +57,11 @@ const ProjectDetailsActions = ({
   const unpublishProject = useMutation(api.projects_mutations.unpublishProject);
   const deleteProject = useMutation(api.projects_mutations.deleteProject);
 
-  const [isLoading, setIsLoading] = useState(false); // global loading state for all mutations
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const router = useRouter();
 
-  // archive functions
   const onArchive = () => {
     setIsLoading(true);
 
@@ -85,7 +92,6 @@ const ProjectDetailsActions = ({
     });
   };
 
-  // publish functions
   const onPublish = () => {
     setIsLoading(true);
 
@@ -116,13 +122,13 @@ const ProjectDetailsActions = ({
     });
   };
 
-  // delete functions
   const onDelete = () => {
     setIsLoading(true);
 
-    const promise = deleteProject({ projectId }).finally(() =>
-      setIsLoading(false)
-    );
+    const promise = deleteProject({ projectId }).finally(() => {
+      setIsLoading(false);
+      setIsDeleteDialogOpen(false);
+    });
 
     router.push(`/`);
 
@@ -132,113 +138,214 @@ const ProjectDetailsActions = ({
     });
   };
 
+  const MobileDropdown = () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon" className="h-8 w-8">
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        {visibility !== "Public" && status === "Active" && (
+          <>
+            <DropdownMenuItem onClick={onArchive} disabled={isLoading}>
+              <Archive className="mr-2 h-4 w-4" />
+              Archive Project
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onPublish} disabled={isLoading}>
+              <Globe className="mr-2 h-4 w-4" />
+              Publish Project
+            </DropdownMenuItem>
+          </>
+        )}
+
+        {visibility !== "Public" && status === "Inactive" && (
+          <>
+            <DropdownMenuItem
+              onClick={() => setIsDeleteDialogOpen(true)}
+              disabled={isLoading}
+              className="text-red-600"
+            >
+              <Trash className="mr-2 h-4 w-4" />
+              Delete Project
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onUnarchive} disabled={isLoading}>
+              <RefreshCcw className="mr-2 h-4 w-4" />
+              Unarchive Project
+            </DropdownMenuItem>
+          </>
+        )}
+
+        {visibility === "Public" && (
+          <>
+            <DropdownMenuItem onClick={onUnpublish} disabled={isLoading}>
+              <Lock className="mr-2 h-4 w-4" />
+              Unpublish Project
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push(`/live/${username}/${slug}`)}
+              disabled={isLoading}
+            >
+              <Globe className="mr-2 h-4 w-4" />
+              Visit Live Site
+            </DropdownMenuItem>
+          </>
+        )}
+
+        <DropdownMenuItem asChild>
+          <Link href={`/editor/${projectId}/${slug}`}>
+            <ArrowRight className="mr-2 h-4 w-4" />
+            Go to editor
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   return (
     <>
-      {visibility !== "Public" && status === "Active" && (
-        <div className="flex items-center gap-x-4">
-          <Button
-            className="hover:cursor-pointer"
-            variant={"secondary"}
-            onClick={onArchive}
-            disabled={isLoading}
-          >
-            <Archive className="w-4 h-4" />
-            Archive Project
-          </Button>
+      <div className="sm:hidden">
+        <MobileDropdown />
+      </div>
 
-          <Button
-            className="hover:cursor-pointer"
-            variant={"default"}
-            onClick={onPublish}
-            disabled={isLoading}
-          >
-            <Globe className="w-4 h-4" />
-            Publish Project
-          </Button>
-
-          <Link href={`/editor/${projectId}/${slug}`}>
-            <Button variant="outline" className="hover:cursor-pointer">
-              Go to editor
-              <ArrowRight className="w-4 h-4" />
+      <div className="hidden sm:block">
+        {visibility !== "Public" && status === "Active" && (
+          <div className="flex items-center gap-x-4">
+            <Button
+              className="hover:cursor-pointer"
+              variant="secondary"
+              onClick={onArchive}
+              disabled={isLoading}
+            >
+              <Archive className="w-4 h-4 mr-2" />
+              Archive
             </Button>
-          </Link>
-        </div>
-      )}
 
-      {visibility !== "Public" && status === "Inactive" && (
-        <div className="flex items-center justify-center gap-x-4">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="hover:cursor-pointer" variant={"destructive"}>
-                <Trash className="w-4 h-4" />
+            <Button
+              className="hover:cursor-pointer"
+              variant="default"
+              onClick={onPublish}
+              disabled={isLoading}
+            >
+              <Globe className="w-4 h-4 mr-2" />
+              Publish
+            </Button>
+
+            <Link href={`/editor/${projectId}/${slug}`}>
+              <Button variant="outline" className="hover:cursor-pointer">
+                Editor
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        )}
+
+        {visibility !== "Public" && status === "Inactive" && (
+          <div className="flex items-center gap-x-4">
+            <Dialog
+              open={isDeleteDialogOpen}
+              onOpenChange={setIsDeleteDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <Button className="hover:cursor-pointer" variant="destructive">
+                  <Trash className="w-4 h-4 mr-2" />
+                  Delete
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogTitle>Delete Project?</DialogTitle>
+                <DialogDescription>
+                  Are you really sure you want to delete the project? This will
+                  delete this project in our servers.{" "}
+                  <span className="text-red-500">This cannot be undone</span>
+                </DialogDescription>
+                <DialogFooter>
+                  <Button
+                    className="hover:cursor-pointer"
+                    variant="destructive"
+                    onClick={onDelete}
+                    disabled={isLoading}
+                  >
+                    <Trash className="w-4 h-4 mr-2" />
+                    Delete Project
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
+            <Button
+              className="hover:cursor-pointer"
+              variant="default"
+              onClick={onUnarchive}
+              disabled={isLoading}
+            >
+              <RefreshCcw className="w-4 h-4 mr-2" />
+              Unarchive
+            </Button>
+
+            <Link href={`/editor/${projectId}/${slug}`}>
+              <Button variant="outline" className="hover:cursor-pointer">
+                Editor
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        )}
+
+        {visibility === "Public" && (
+          <div className="flex items-center gap-x-4">
+            <Button
+              className="hover:cursor-pointer"
+              variant="secondary"
+              onClick={onUnpublish}
+              disabled={isLoading}
+            >
+              <Lock className="w-4 h-4 mr-2" />
+              Unpublish
+            </Button>
+
+            <Button
+              className="hover:cursor-pointer"
+              variant="default"
+              onClick={() => router.push(`/live/${username}/${slug}`)}
+              disabled={isLoading}
+            >
+              <Globe className="w-4 h-4 mr-2" />
+              Visit Live
+            </Button>
+
+            <Link href={`/editor/${projectId}/${slug}`}>
+              <Button variant="outline" className="hover:cursor-pointer">
+                Editor
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {isDeleteDialogOpen && (
+        <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+          <DialogContent>
+            <DialogTitle>Delete Project?</DialogTitle>
+            <DialogDescription>
+              Are you really sure you want to delete the project? This will
+              delete this project in our servers.{" "}
+              <span className="text-red-500">This cannot be undone</span>
+            </DialogDescription>
+            <DialogFooter>
+              <Button
+                className="hover:cursor-pointer"
+                variant="destructive"
+                onClick={onDelete}
+                disabled={isLoading}
+              >
+                <Trash className="w-4 h-4 mr-2" />
                 Delete Project
               </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogTitle>Delete Project?</DialogTitle>
-              <DialogDescription>
-                Are you really sure you want to delete the project? This will
-                delete this project in our servers.{" "}
-                <span className="text-red-500">This cannot be undone</span>
-              </DialogDescription>
-              <DialogFooter>
-                <Button
-                  className="hover:cursor-pointer"
-                  variant={"destructive"}
-                  onClick={onDelete}
-                  disabled={isLoading}
-                >
-                  <Trash />
-                  Delete Project
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-          <Button
-            className="hover:cursor-pointer"
-            variant={"default"}
-            onClick={onUnarchive}
-            disabled={isLoading}
-          >
-            <RefreshCcw className="w-4 h-4" />
-            Unarchive Project
-          </Button>
-          <Link href={`/editor/${projectId}/${slug}`}>
-            <Button variant="outline" className="hover:cursor-pointer">
-              Go to editor
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
-        </div>
-      )}
-
-      {visibility === "Public" && (
-        <div className="flex items-center justify-center gap-x-4">
-          <Button
-            className="hover:cursor-pointer"
-            variant={"secondary"}
-            onClick={onUnpublish}
-            disabled={isLoading}
-          >
-            <Lock className="w-4 h-4" />
-            Unpublish Project
-          </Button>
-          <Button
-            className="hover:cursor-pointer"
-            variant={"default"}
-            onClick={() => router.push(`/live/${username}/${slug}`)}
-            disabled={isLoading}
-          >
-            <Globe className="w-4 h-4" />
-            Visit Live Site
-          </Button>
-          <Link href={`/editor/${projectId}/${slug}`}>
-            <Button variant="outline" className="hover:cursor-pointer">
-              Go to editor
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
-        </div>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       )}
     </>
   );

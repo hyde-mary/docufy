@@ -51,47 +51,50 @@ const ProjectDetails = () => {
 
   return (
     <div className="flex flex-col gap-y-6">
-      {/* Header Section */}
-      <div className="flex justify-between items-end">
-        <div className="flex flex-col gap-y-2">
-          {project.iconName === "None" && (
-            <div>
-              <EditableProjectIcon
-                initialIcon={project.iconName}
-                projectId={project._id}
-              />
-            </div>
-          )}
-          <div className="flex items-center gap-x-4">
+      {/* Header */}
+      <div className="w-full">
+        {project.iconName === "None" && (
+          <div className="mb-2 flex justify-start">
+            <EditableProjectIcon
+              initialIcon={project.iconName}
+              projectId={project._id}
+            />
+          </div>
+        )}
+
+        <div className="flex justify-between items-center w-full">
+          <div className="flex items-center gap-x-2 flex-shrink min-w-0">
             {project.iconName !== "None" && (
               <EditableProjectIcon
                 initialIcon={project.iconName}
                 projectId={project._id}
               />
             )}
-            <h1 className="text-3xl font-semibold">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold truncate max-w-[180px] sm:max-w-xs md:max-w-md">
               <EditableProjectTitle
                 initialTitle={project.title}
                 projectId={project._id}
               />
             </h1>
           </div>
-        </div>
 
-        <div className="flex items-end">
-          <ProjectDetailsActions
-            username={project.username}
-            visibility={project.visibility}
-            status={project.status}
-            projectId={project._id}
-            slug={project.slug}
-          />
+          <div className="flex-shrink-0">
+            {slug && project && (
+              <ProjectDetailsActions
+                username={project.username}
+                visibility={project.visibility}
+                status={project.status}
+                projectId={project._id}
+                slug={project.slug}
+              />
+            )}
+          </div>
         </div>
       </div>
 
       <Separator />
 
-      {/* Main Content Grid */}
+      {/* Project details information */}
       <ProjectDetailsInformation project={project} />
 
       {/* JSON Content */}

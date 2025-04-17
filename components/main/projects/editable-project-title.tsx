@@ -88,18 +88,18 @@ const EditableProjectTitle = ({
       }}
       onKeyDown={handleKeyDown}
       disabled={loading}
-      className="text-3xl font-semibold w-full max-w-md"
+      className="text-xl md:text-3xl font-semibold w-full max-w-[200px] sm:max-w-xs md:max-w-md"
       autoFocus
     />
   ) : (
     <button
       onClick={() => setIsEditing(true)}
       className={cn(
-        "text-3xl font-semibold hover:underline flex items-center gap-4 hover:cursor-pointer group"
+        "text-xl md:text-3xl font-semibold hover:underline flex items-center gap-2 hover:cursor-pointer group truncate"
       )}
     >
       {title}
-      <Pencil className="w-4 h-4 opacity-0 group-hover:opacity-70 transition-opacity duration-200" />
+      <Pencil className="w-4 h-4 opacity-0 group-hover:opacity-70 transition-opacity duration-200 flex-shrink-0" />
     </button>
   );
 };

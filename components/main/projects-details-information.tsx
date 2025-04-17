@@ -1,9 +1,7 @@
 import { Doc } from "@/convex/_generated/dataModel";
-
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-
 import { cn } from "@/lib/utils";
 import { Clock, Globe, Layout, Lock } from "lucide-react";
 
@@ -13,9 +11,9 @@ const ProjectDetailsInformation = ({
   project: Doc<"projects">;
 }) => {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       {/* Project Details Information Part */}
-      <Card className="col-span-2 row-span-1 rounded-none">
+      <Card className="col-span-1 md:col-span-2 md:row-span-1 rounded-none">
         <CardHeader className="text-lg font-bold">
           Project Information
         </CardHeader>
@@ -54,11 +52,11 @@ const ProjectDetailsInformation = ({
             </p>
 
             {project.visibility === "Public" ? (
-              <code className="px-3 py-1 bg-muted rounded-md text-sm font-mono">
+              <code className="px-3 py-1 bg-muted rounded-md text-sm font-mono break-all">
                 {`/live/${project.username}/${project.slug}`}
               </code>
             ) : (
-              <code className="px-3 py-1 bg-muted rounded-md text-sm font-mono">
+              <code className="px-3 py-1 bg-muted rounded-md text-sm font-mono break-all">
                 {project.slug}
               </code>
             )}
@@ -66,7 +64,7 @@ const ProjectDetailsInformation = ({
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-2 col-span-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 col-span-1 md:col-span-2 gap-4">
         {/* Project Status */}
         <Card className="rounded-none col-span-1">
           <CardHeader className="text-lg font-bold">Project Status</CardHeader>

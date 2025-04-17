@@ -2,12 +2,9 @@
 
 import { Label } from "@/components/ui/label";
 import { useEditorStore } from "@/stores/editor-store/index";
-import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-
-const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
-  ssr: false,
-});
+import MarkdownEditor from "@uiw/react-markdown-editor";
+import { EditorView } from "@codemirror/view";
 
 const EditorToolbarMainContent = () => {
   const { data, updateRootPageMarkdown, updatePageMarkdown } = useEditorStore();
@@ -50,11 +47,13 @@ const EditorToolbarMainContent = () => {
           {isRootPage ? "Main Page Markdown" : "Page Markdown"}
         </Label>
         <div className="flex-grow min-h-0 flex flex-col">
-          <MDEditor
+          <MarkdownEditor
             value={markdown}
             onChange={handleMarkdownChange}
-            height={700}
-            preview="edit"
+            height="700px"
+            renderPreview={() => null}
+            enablePreview={false}
+            extensions={[EditorView.lineWrapping]}
           />
           <p className="text-xs text-muted-foreground pt-2">
             {isRootPage

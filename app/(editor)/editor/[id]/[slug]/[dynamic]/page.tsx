@@ -1,7 +1,7 @@
 "use client";
 import { useEditorStore } from "@/stores/editor-store/index";
 import { useParams, useRouter } from "next/navigation";
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef } from "react";
 import { useAllEditorHrefs } from "@/hooks/use-all-editor-hrefs";
 import { getMarkdownHeadings } from "@/utils/get-markdown-headings";
 import MarkdownPreview from "@/components/editor/markdown-preview";
@@ -15,7 +15,7 @@ const EditorPageDynamic = () => {
   const isValidPath = validHrefs.some(({ href }) => href === fullPath);
   const prevPathRef = useRef(fullPath);
   const previewRef = useRef<HTMLDivElement>(null);
-  const [initialLoad, setInitialLoad] = useState(true);
+  // const [initialLoad, setInitialLoad] = useState(true);
 
   const page = useMemo(() => {
     return data.pages.find((p) => p.href === fullPath);
@@ -25,7 +25,7 @@ const EditorPageDynamic = () => {
     return prevPathRef.current !== fullPath;
   }, [fullPath]);
 
-  const prevMarkdownLength = useRef(page?.markdown?.length || 0);
+  // const prevMarkdownLength = useRef(page?.markdown?.length || 0);
 
   useEffect(() => {
     if (params.id && params.slug) {
@@ -40,21 +40,21 @@ const EditorPageDynamic = () => {
     prevPathRef.current = fullPath;
   }, [fullPath]);
 
-  useEffect(() => {
-    if (initialLoad) {
-      setInitialLoad(false);
-      return;
-    }
+  // useEffect(() => {
+  //   if (initialLoad) {
+  //     setInitialLoad(false);
+  //     return;
+  //   }
 
-    const currentLength = page?.markdown.length || 0;
-    if (currentLength > prevMarkdownLength.current && previewRef.current) {
-      previewRef.current.scrollTo({
-        top: previewRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-    prevMarkdownLength.current = currentLength;
-  }, [page?.markdown, initialLoad]);
+  //   const currentLength = page?.markdown.length || 0;
+  //   if (currentLength > prevMarkdownLength.current && previewRef.current) {
+  //     previewRef.current.scrollTo({
+  //       top: previewRef.current.scrollHeight,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  //   prevMarkdownLength.current = currentLength;
+  // }, [page?.markdown, initialLoad]);
 
   if (!isValidPath || !page) return null;
 

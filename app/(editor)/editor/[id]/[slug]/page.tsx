@@ -4,7 +4,7 @@ import MarkdownPreview from "@/components/editor/markdown-preview";
 import { useEditorStore } from "@/stores/editor-store/index";
 import { getMarkdownHeadings } from "@/utils/get-markdown-headings";
 import { useParams } from "next/navigation";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef } from "react";
 
 const EditorPageRoot = () => {
   const params = useParams<{ id: string; slug: string }>();
@@ -12,9 +12,9 @@ const EditorPageRoot = () => {
   const { data, setParams } = useEditorStore();
 
   const previewRef = useRef<HTMLDivElement>(null);
-  const prevMarkdownLength = useRef(data.rootPage.markdown?.length || 0);
+  // const prevMarkdownLength = useRef(data.rootPage.markdown?.length || 0);
 
-  const [initialLoad, setInitialLoad] = useState(true);
+  // const [initialLoad, setInitialLoad] = useState(true);
 
   const headings = getMarkdownHeadings(data.rootPage.markdown);
 
@@ -24,21 +24,21 @@ const EditorPageRoot = () => {
     }
   }, [params, setParams]);
 
-  useEffect(() => {
-    if (initialLoad) {
-      setInitialLoad(false);
-      return;
-    }
+  // useEffect(() => {
+  //   if (initialLoad) {
+  //     setInitialLoad(false);
+  //     return;
+  //   }
 
-    const currentLength = data.rootPage.markdown?.length || 0;
-    if (currentLength > prevMarkdownLength.current && previewRef.current) {
-      previewRef.current.scrollTo({
-        top: previewRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-    prevMarkdownLength.current = currentLength;
-  }, [data.rootPage.markdown, initialLoad]);
+  //   const currentLength = data.rootPage.markdown?.length || 0;
+  //   if (currentLength > prevMarkdownLength.current && previewRef.current) {
+  //     previewRef.current.scrollTo({
+  //       top: previewRef.current.scrollHeight,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  //   prevMarkdownLength.current = currentLength;
+  // }, [data.rootPage.markdown, initialLoad]);
 
   return (
     <Fragment>

@@ -154,7 +154,7 @@ const SignInForm = () => {
             disabled={loading}
           >
             <Mail className="w-5 h-5" />
-            {loading ? "Signing in..." : "Sign in using Email"}
+            {loading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
       </Form>

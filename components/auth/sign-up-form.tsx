@@ -23,6 +23,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
 import { ArrowLeftCircle, Eye, EyeOff, Mail } from "lucide-react";
@@ -150,7 +152,20 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel className="text-lg">Code</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter 6-digit code" {...field} />
+                    <InputOTP
+                      maxLength={6}
+                      {...field}
+                      pattern={REGEXP_ONLY_DIGITS}
+                    >
+                      <InputOTPGroup className="w-full items-center justify-center">
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                      </InputOTPGroup>
+                    </InputOTP>
                   </FormControl>
                   <FormDescription>
                     Enter the 6 digit Code we sent to your email.

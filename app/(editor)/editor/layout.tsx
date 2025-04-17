@@ -18,7 +18,7 @@ import { Fragment, useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { api } from "@/convex/_generated/api";
-import { useEditorStore } from "@/stores/editor-store";
+import { useEditorStore } from "@/stores/editor-store/index";
 import { Id } from "@/convex/_generated/dataModel";
 
 export default function EditorLayout({

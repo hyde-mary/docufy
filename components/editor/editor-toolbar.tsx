@@ -20,7 +20,7 @@ import EditorToolbarMainContent from "./toolbar/editor-toolbar-main-content";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
-import { useEditorStore } from "@/stores/editor-store";
+import { useEditorStore } from "@/stores/editor-store/index";
 import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";

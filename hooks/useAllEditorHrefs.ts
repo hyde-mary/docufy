@@ -1,4 +1,4 @@
-import { useEditorStore } from "@/stores/editor-store";
+import { useEditorStore } from "@/stores/editor-store/index";
 
 export function useAllEditorHrefs() {
   const sections = useEditorStore((state) => state.data.sections);

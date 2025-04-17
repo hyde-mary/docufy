@@ -1,4 +1,4 @@
-import { useEditorStore } from "@/stores/editor-store";
+import { useEditorStore } from "@/stores/editor-store/index";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";

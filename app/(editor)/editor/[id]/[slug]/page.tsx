@@ -1,7 +1,7 @@
 "use client";
 
 import MarkdownPreview from "@/components/editor/markdown-preview";
-import { useEditorStore } from "@/stores/editor-store";
+import { useEditorStore } from "@/stores/editor-store/index";
 import { getMarkdownHeadings } from "@/utils/get-markdown-headings";
 import { useParams } from "next/navigation";
 import { Fragment, useEffect, useRef, useState } from "react";

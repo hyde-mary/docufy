@@ -1,5 +1,5 @@
 "use client";
-import { useEditorStore } from "@/stores/editor-store";
+import { useEditorStore } from "@/stores/editor-store/index";
 import { useParams, useRouter } from "next/navigation";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useAllEditorHrefs } from "@/hooks/useAllEditorHrefs";

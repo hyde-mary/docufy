@@ -2,7 +2,7 @@
 
 import { ThemeToggleClick } from "@/components/theme-toggle-click";
 import { Button } from "@/components/ui/button";
-import { useEditorStore } from "@/stores/editor-store";
+import { useEditorStore } from "@/stores/editor-store/index";
 import { Facebook, Github, Twitter } from "lucide-react";
 import Link from "next/link";
 import { Fragment, JSX } from "react";

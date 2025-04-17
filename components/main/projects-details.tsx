@@ -9,7 +9,7 @@ import ProjectDetailsContent from "./projects-details-content";
 import { reorderProjectData } from "@/utils/reorder-project-data";
 import ProjectDetailsInformation from "@/components/main/projects-details-information";
 import ProjectDetailsActions from "./projects-details-actions";
-import { useEditorStore } from "@/stores/editor-store";
+import { useEditorStore } from "@/stores/editor-store/index";
 import { useEffect } from "react";
 import EditableProjectTitle from "./projects/editable-project-title";
 import EditableProjectIcon from "./projects/editable-project-icon";

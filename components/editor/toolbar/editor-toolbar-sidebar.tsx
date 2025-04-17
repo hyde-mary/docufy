@@ -77,17 +77,22 @@ const EditorToolbarSidebar = () => {
                   }
                   className="flex-1"
                 />
+
                 <Input
-                  placeholder="Link URL"
+                  placeholder="/Link"
                   value={section.path}
-                  onChange={(e) =>
-                    updateLinkSection(index, {
-                      ...section,
-                      path: e.target.value,
-                    })
-                  }
+                  onChange={(e) => {
+                    let value = e.target.value;
+
+                    if (!value.startsWith("/")) {
+                      value = "/" + value;
+                    }
+
+                    updateLinkSection(index, { ...section, path: value });
+                  }}
                   className="flex-1"
                 />
+
                 <Button
                   variant="ghost"
                   size="icon"
@@ -139,16 +144,24 @@ const EditorToolbarSidebar = () => {
                             })
                           }
                         />
+
                         <Input
-                          placeholder="Item URL"
+                          placeholder="/Link"
                           value={item.path}
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            let value = e.target.value;
+
+                            if (!value.startsWith("/")) {
+                              value = "/" + value;
+                            }
+
                             updateItemInDropdown(index, itemIndex, {
                               ...item,
-                              path: e.target.value,
-                            })
-                          }
+                              path: value,
+                            });
+                          }}
                         />
+
                         <Button
                           variant="ghost"
                           size="icon"

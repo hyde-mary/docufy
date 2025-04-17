@@ -59,14 +59,23 @@ const EditorToolbarHeader = () => {
               }
               className="flex-1"
             />
+
+            {/* let us enfore the /link format. Enforce it on blur maybe instead of on change as i like it that way */}
             <Input
-              placeholder="Link"
+              placeholder="/Link"
               value={link.path}
-              onChange={(e) =>
-                updateNavLink(index, { ...link, path: e.target.value })
-              }
+              onChange={(e) => {
+                let value = e.target.value;
+
+                if (!value.startsWith("/")) {
+                  value = "/" + value;
+                }
+
+                updateNavLink(index, { ...link, path: value });
+              }}
               className="flex-1"
             />
+
             <Button
               variant="ghost"
               size="icon"

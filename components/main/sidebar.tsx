@@ -1,4 +1,5 @@
 "use client";
+
 import HeaderSidebar from "./sidebar/sidebar-header";
 import SidebarContent from "./sidebar/sidebar-content";
 import SidebarFooter from "./sidebar/sidebar-footer";

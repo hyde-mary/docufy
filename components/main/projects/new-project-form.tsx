@@ -58,6 +58,7 @@ import slugify from "slugify";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
+import { ConvexError } from "convex/values";
 
 const NewProjectForm = () => {
   const createProject = useMutation(api.projects_mutations.createProject);
@@ -98,11 +99,20 @@ const NewProjectForm = () => {
       .then((projectId) => {
         router.push(`/projects/${projectId}/${values.slug}`);
       })
+      .catch((error) => {
+        if (error instanceof ConvexError) {
+          throw new Error(error.data);
+        } else {
+          throw new Error("Something went wrong");
+        }
+      })
       .finally(() => setIsLoading(false));
 
     toast.promise(promise, {
       success: "Project created successfully.",
-      error: "Project creation failed.",
+      error: (err) => {
+        return err.message || "Something went wrong.";
+      },
     });
   };
 

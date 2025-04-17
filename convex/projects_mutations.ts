@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation } from "./_generated/server";
 
 // default data for project creation:
@@ -166,7 +166,7 @@ export const createProject = mutation({
     );
 
     if (slugExists) {
-      throw new Error("Duplicate Project Title and Slug");
+      throw new ConvexError("Duplicate Project Title and Slug");
     }
 
     const projectId = await ctx.db.insert("projects", {

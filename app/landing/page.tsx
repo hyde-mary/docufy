@@ -89,18 +89,19 @@ const LandingPage = () => {
             share your technical docs effortlessly with our intuitive platform.
           </p>
           <div className="pt-4 flex justify-center gap-4">
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-8 hover:cursor-pointer"
-            >
-              Live Demo
-            </Button>
-            <Link href={"/"}>
-              <Button size="lg" className="px-8 hover:cursor-pointer">
-                Get Started
-              </Button>
-            </Link>
+            {!isAuthenticated ? (
+              <SignUpButton>
+                <Button className="px-3 text-sm hover:cursor-pointer font-medium">
+                  Get Started
+                </Button>
+              </SignUpButton>
+            ) : (
+              <Link href="/">
+                <Button className="px-3 text-sm hover:cursor-pointer font-medium">
+                  Go to Dashboard
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
